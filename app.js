@@ -1344,8 +1344,17 @@ function openModal(race) {
     const raceEntries = RACE_ENTRY_LISTS[race.id];
     const hasNamedList = raceEntries && Object.values(raceEntries).some(v => v && v.length > 0);
     const hasCounts    = race.entries && Object.values(race.entries).some(v => v);
+    // Always show if any class in this race has base roster data
+    const hasAnyBase   = (race.classes || []).some(c => {
+      const map = { 'Top Fuel':'tf','Funny Car':'fc','Pro Stock':'ps','Pro Stock Motorcycle':'psm',
+        'Pro Mod':'pm','Top Alcohol Dragster':'tad','Top Alcohol Funny Car':'tafc',
+        'Factory Stock Showdown':'fss','Factory X':'fx','Top Dragster':'td','Top Sportsman':'ts',
+        'Super Comp':'sc','Super Gas':'sg','Super Stock':'ss','Stock Eliminator':'st','Competition Eliminator':'ce' };
+      const k = map[c];
+      return k && ENTRY_LIST_BASE[k] && ENTRY_LIST_BASE[k].length > 0;
+    });
 
-    if (hasNamedList || hasCounts) {
+    if (hasNamedList || hasCounts || hasAnyBase) {
       entrySection.removeAttribute('hidden');
       const badge = document.getElementById('modal-entry-badge');
       if (badge) badge.textContent = hasNamedList ? 'Official' : 'Field Size';
