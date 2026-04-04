@@ -1350,24 +1350,42 @@ function openModal(race) {
       const badge = document.getElementById('modal-entry-badge');
       if (badge) badge.textContent = hasNamedList ? 'Official' : 'Field Size';
 
-      const classMap = [
-        { key:'tf',  label:'Top Fuel',       pill:'pill-tf'  },
-        { key:'fc',  label:'Funny Car',       pill:'pill-fc'  },
-        { key:'ps',  label:'Pro Stock',       pill:'pill-ps'  },
-        { key:'psm', label:'Pro Stock Moto',  pill:'pill-psm' },
-        { key:'pm',  label:'Pro Mod',         pill:'pill-pm'  },
-      ];
+      // Map every class name used in race.classes to an entry key + pill style
+      const CLASS_KEY_MAP = {
+        'Top Fuel':                { key:'tf',   pill:'pill-tf'  },
+        'Funny Car':               { key:'fc',   pill:'pill-fc'  },
+        'Pro Stock':               { key:'ps',   pill:'pill-ps'  },
+        'Pro Stock Motorcycle':    { key:'psm',  pill:'pill-psm' },
+        'Pro Mod':                 { key:'pm',   pill:'pill-pm'  },
+        'Top Alcohol Dragster':    { key:'tad',  pill:'pill-tad' },
+        'Top Alcohol Funny Car':   { key:'tafc', pill:'pill-tafc'},
+        'Factory Stock Showdown':  { key:'fss',  pill:'pill-fss' },
+        'Factory X':               { key:'fx',   pill:'pill-fss' },
+        'Top Dragster':            { key:'td',   pill:'pill-sport'},
+        'Top Sportsman':           { key:'ts',   pill:'pill-sport'},
+        'Super Comp':              { key:'sc',   pill:'pill-sport'},
+        'Super Gas':               { key:'sg',   pill:'pill-sport'},
+        'Super Stock':             { key:'ss',   pill:'pill-sport'},
+        'Stock Eliminator':        { key:'st',   pill:'pill-sport'},
+        'Competition Eliminator':  { key:'ce',   pill:'pill-sport'},
+      };
+      // Build classMap from the actual classes at this race
+      const classMap = (race.classes || [])
+        .filter(c => CLASS_KEY_MAP[c])
+        .map(c => ({ key: CLASS_KEY_MAP[c].key, label: c, pill: CLASS_KEY_MAP[c].pill }));
 
       accordion.innerHTML = '';
 
       classMap.forEach(({ key, label, pill }) => {
         const hasDrivers = hasNamedList && raceEntries?.[key]?.length > 0;
         const hasCount   = hasCounts && race.entries?.[key];
-        if (!hasDrivers && !hasCount) return; // skip classes not at this race
+        const hasBase    = !!(ENTRY_LIST_BASE[key] && ENTRY_LIST_BASE[key].length > 0);
+        if (!hasDrivers && !hasCount && !hasBase) return; // skip if truly no data
 
-        const count = hasDrivers
-          ? raceEntries[key].length
-          : race.entries[key]?.entered || 0;
+        const driversForCount = (hasNamedList && raceEntries?.[key]?.length) ? raceEntries[key]
+                              : (ENTRY_LIST_BASE[key]?.length ? ENTRY_LIST_BASE[key] : null);
+        const count = driversForCount ? driversForCount.length
+                    : (race.entries?.[key]?.entered || 0);
 
         // Build the block
         const block = document.createElement('div');
@@ -1387,9 +1405,11 @@ function openModal(race) {
         body.className = 'acc-body';
         body.hidden = true;
 
-        // Populate body
-        if (hasDrivers) {
-          body.innerHTML = raceEntries[key].map(d => {
+        // Populate body — prefer race-specific named list, fall back to season roster
+        const driversToShow = (hasDrivers && raceEntries[key]) ? raceEntries[key]
+                            : (hasBase ? ENTRY_LIST_BASE[key] : null);
+        if (driversToShow && driversToShow.length) {
+          body.innerHTML = driversToShow.map(d => {
             const photo = getDriverPhoto(d.name);
             const imgHtml = photo
               ? `<img class="modal-entry-photo" src="${photo}" alt="${d.name}" loading="lazy" onerror="this.style.display='none'">`
@@ -1403,13 +1423,15 @@ function openModal(race) {
               </div>
             </div>`;
           }).join('');
-        } else {
+        } else if (hasCount && race.entries[key]) {
           const e = race.entries[key];
           body.innerHTML = `<div class="modal-entry-count-only">
             <div class="ecount-big">${e.qualified}</div>
             <div class="ecount-label">cars qualified</div>
             <div class="ecount-entered">${e.entered} entered</div>
           </div>`;
+        } else {
+          body.innerHTML = `<div class="modal-entry-tbd">No entry list submitted</div>`;
         }
 
         // Toggle on click

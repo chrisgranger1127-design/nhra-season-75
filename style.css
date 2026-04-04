@@ -1913,3 +1913,20 @@ a, button, [role="button"] {
   border: 1px solid rgba(85,145,199,0.4);
   color: #5591c7;
 }
+
+/* ── ADDITIONAL CLASS PILL STYLES ── */
+.pill-tad, .pill-tafc {
+  background: rgba(245,166,35,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245,166,35,0.4);
+}
+.pill-fss {
+  background: rgba(85,145,199,0.15);
+  color: #5591c7;
+  border: 1px solid rgba(85,145,199,0.4);
+}
+.pill-sport {
+  background: var(--surface-3);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
