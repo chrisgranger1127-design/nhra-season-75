@@ -801,7 +801,6 @@ async function fetchClassEntries(classKey) {
 }
 
 async function refreshEntryList() {
-  setRefreshStatus('fetching');
   let anyUpdated = false;
 
   // Fetch all 4 classes in parallel
@@ -841,42 +840,12 @@ async function refreshEntryList() {
   });
 
   entryFetchTime = new Date();
-  setRefreshStatus(anyUpdated ? 'fresh' : 'stale');
 
   // Re-render if entries view is active
   if (activeView === 'entries') renderEntryList();
 }
 
-function setRefreshStatus(status) {
-  entryFetchStatus = status;
-  const dot = document.getElementById('refresh-dot');
-  const label = document.getElementById('refresh-label');
-  const icon = document.getElementById('refresh-icon');
-  if (!dot || !label) return;
 
-  dot.className = 'refresh-dot';
-  if (status === 'fetching') {
-    dot.classList.add('fetching');
-    label.textContent = 'Refreshing…';
-    if (icon) icon.classList.add('spinning');
-  } else if (status === 'fresh') {
-    dot.classList.add('fresh');
-    const t = entryFetchTime ? entryFetchTime.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }) : '';
-    label.textContent = `Updated ${t}`;
-    if (icon) icon.classList.remove('spinning');
-  } else if (status === 'stale') {
-    dot.classList.add('stale');
-    label.textContent = 'Cached data';
-    if (icon) icon.classList.remove('spinning');
-  } else if (status === 'error') {
-    dot.classList.add('stale');
-    label.textContent = 'Offline';
-    if (icon) icon.classList.remove('spinning');
-  } else {
-    label.textContent = 'Live';
-    if (icon) icon.classList.remove('spinning');
-  }
-}
 
 // ─── TIME ZONE CONVERSION ─────────────────────────────────────────────────────
 function convertToET(timeStr, dateStr, venueTz) {
@@ -1191,9 +1160,7 @@ document.querySelectorAll('.entry-tab').forEach(tab => {
   });
 });
 
-document.getElementById('btn-refresh')?.addEventListener('click', () => {
-  refreshEntryList();
-});
+
 
 function getEntryData(classKey) {
   return entryListLive[classKey] || ENTRY_LIST_BASE[classKey] || [];
