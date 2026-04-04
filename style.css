@@ -1558,3 +1558,47 @@ a, button, [role="button"] {
   color: var(--text-muted);
 }
 .empty-state svg { margin: 0 auto var(--space-4); opacity: 0.3; }
+
+/* ── ENTRY COUNT CARDS (in modal) ── */
+.entry-count-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.entry-count-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.entry-count-nums {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.ecount-main {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.ecount-main span {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.ecount-sub {
+  font-size: var(--text-sm);
+  color: var(--text-faint);
+  font-weight: 500;
+}

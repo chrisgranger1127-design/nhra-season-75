@@ -12,6 +12,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-03-05", endDate: "2026-03-08",
     tv: "FS1", phase: "regular", tags: ["season-opener"],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    entries: { tf:{entered:19,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:21,qualified:16}, psm:{entered:15,qualified:8}, pm:{entered:12,qualified:8} },
     winners: [
       { cls: "Top Fuel",    driver: "Josh Hart",      et: "3.733", mph: "337.83", pill: "tf" },
       { cls: "Funny Car",   driver: "Chad Green",     et: "3.959", mph: "329.91", pill: "fc" },
@@ -55,6 +56,7 @@ const RACES = [
     timezone: "America/Phoenix", startDate: "2026-03-20", endDate: "2026-03-22",
     tv: "FS1", phase: "regular", tags: [],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Mod"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:{entered:10,qualified:8} },
     winners: [
       { cls: "Top Fuel",  driver: "Shawn Langdon", et: "3.859", mph: "329.02", pill: "tf" },
       { cls: "Funny Car", driver: "Ron Capps",     et: "3.895", mph: "326.48", pill: "fc" },
@@ -89,6 +91,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-04-09", endDate: "2026-04-12",
     tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Thursday, Apr 9", sessions: [
         { time: "9:00 AM", event: "Gates Open / Tech Inspection", key: false },
@@ -122,6 +125,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-04-24", endDate: "2026-04-26",
     tv: "FS1", phase: "regular", tags: ["4-wide"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, Apr 24", sessions: [
         { time: "9:00 AM", event: "Gates Open", key: false },
@@ -150,6 +154,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-05-01", endDate: "2026-05-03",
     tv: "FS1", phase: "regular", tags: ["new-venue"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, May 1", sessions: [
         { time: "9:00 AM", event: "Gates Open — Inaugural SGMP National Event", key: false },
@@ -174,6 +179,7 @@ const RACES = [
     timezone: "America/Chicago", startDate: "2026-05-14", endDate: "2026-05-17",
     tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Thursday, May 14", sessions: [
         { time: "1:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
@@ -198,6 +204,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-05-29", endDate: "2026-05-31",
     tv: "FOX", phase: "regular", tags: ["new-venue"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Friday, May 29", sessions: [
         { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
@@ -218,6 +225,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-06-05", endDate: "2026-06-07",
     tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Friday, Jun 5", sessions: [
         { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
@@ -238,6 +246,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-06-12", endDate: "2026-06-14",
     tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, Jun 12", sessions: [
         { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
@@ -258,6 +267,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-06-25", endDate: "2026-06-28",
     tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Thursday, Jun 25", sessions: [
         { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
@@ -274,6 +284,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-07-17", endDate: "2026-07-19",
     tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Friday, Jul 17", sessions: [
         { time: "6:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
@@ -290,6 +301,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-07-24", endDate: "2026-07-26",
     tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Sunday, Jul 26", sessions: [
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
@@ -303,6 +315,7 @@ const RACES = [
     timezone: "America/Chicago", startDate: "2026-08-20", endDate: "2026-08-23",
     tv: "TBD", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Sunday, Aug 23", sessions: [
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
@@ -316,6 +329,7 @@ const RACES = [
     timezone: "America/Indiana/Indianapolis", startDate: "2026-09-02", endDate: "2026-09-07",
     tv: "FS1 & FOX", phase: "regular", tags: ["big-go"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol","Sportsman"],
+    entries: { tf:{entered:20,qualified:16}, fc:{entered:20,qualified:16}, ps:{entered:24,qualified:16}, psm:{entered:16,qualified:8}, pm:{entered:16,qualified:8} },
     itinerary: [
       { day: "Monday, Sep 7", sessions: [
         { time: "9:00 AM", event: "SealMaster Track Walk & Driver Introductions", key: false },
@@ -330,6 +344,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-09-17", endDate: "2026-09-20",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Sep 20", sessions: [
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 1 of 6)", key: true },
@@ -343,6 +358,7 @@ const RACES = [
     timezone: "America/New_York", startDate: "2026-09-25", endDate: "2026-09-27",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Sunday, Sep 27", sessions: [
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 2 of 6)", key: true },
@@ -356,6 +372,7 @@ const RACES = [
     timezone: "America/Chicago", startDate: "2026-10-02", endDate: "2026-10-04",
     tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Oct 4", sessions: [
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 3 of 6)", key: true },
@@ -369,6 +386,7 @@ const RACES = [
     timezone: "America/Chicago", startDate: "2026-10-14", endDate: "2026-10-18",
     tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Oct 18", sessions: [
         { time: "10:00 AM", event: "Countdown Eliminations Begin (Race 4 of 6)", key: true },
@@ -382,6 +400,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-10-29", endDate: "2026-11-01",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Nov 1", sessions: [
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 5 of 6)", key: true },
@@ -395,6 +414,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-11-12", endDate: "2026-11-15",
     tv: "FS1", phase: "countdown", tags: ["season-finale"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Nov 15", sessions: [
         { time: "10:30 AM", event: "Championship Eliminations — World Titles On The Line", key: true },
@@ -1077,6 +1097,34 @@ function openModal(race) {
     });
   } else {
     wSec.setAttribute('hidden','');
+  }
+
+  // Entry counts per class
+  const entrySection = document.getElementById('modal-entry-counts');
+  const entryGrid = document.getElementById('modal-entry-grid');
+  if (race.entries && entrySection && entryGrid) {
+    entrySection.removeAttribute('hidden');
+    const classMap = [
+      { key:'tf',  label:'Top Fuel',         pill:'pill-tf'  },
+      { key:'fc',  label:'Funny Car',         pill:'pill-fc'  },
+      { key:'ps',  label:'Pro Stock',         pill:'pill-ps'  },
+      { key:'psm', label:'Pro Stock Moto',    pill:'pill-psm' },
+      { key:'pm',  label:'Pro Mod',           pill:'pill-pm'  },
+    ];
+    entryGrid.innerHTML = classMap
+      .filter(c => race.entries[c.key])
+      .map(c => {
+        const e = race.entries[c.key];
+        return `<div class="entry-count-card">
+          <span class="wc-class-pill ${c.pill}">${c.label}</span>
+          <div class="entry-count-nums">
+            <div class="ecount-main">${e.qualified}<span>qualified</span></div>
+            <div class="ecount-sub">${e.entered} entered</div>
+          </div>
+        </div>`;
+      }).join('');
+  } else if (entrySection) {
+    entrySection.setAttribute('hidden','');
   }
 
   // Classes
