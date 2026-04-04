@@ -1440,9 +1440,70 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 
+
+// ─── COUNTDOWN TIMER ─────────────────────────────────────────────────────────
+function initCountdown() {
+  const t = today();
+  const nextRace = RACES.find(r => parseDate(r.endDate) >= t);
+  if (!nextRace) {
+    const bar = document.getElementById('countdown-bar');
+    if (bar) bar.hidden = true;
+    return;
+  }
+
+  const nameEl  = document.getElementById('countdown-race-name');
+  const labelEl = document.getElementById('countdown-label');
+  const daysEl  = document.getElementById('cd-days');
+  const hrsEl   = document.getElementById('cd-hours');
+  const minsEl  = document.getElementById('cd-mins');
+  const secsEl  = document.getElementById('cd-secs');
+
+  if (nameEl) nameEl.textContent = nextRace.name;
+
+  // Target = race start date at 9:00 AM venue local time, converted to ET
+  // Simple approach: target is midnight ET of the start date
+  function getTargetMs() {
+    const s = parseDate(nextRace.startDate);
+    // 9am ET on start day
+    const target = new Date(s.getFullYear(), s.getMonth(), s.getDate(), 9, 0, 0, 0);
+    return target.getTime();
+  }
+
+  function tick() {
+    const now = Date.now();
+    const target = getTargetMs();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      // Race weekend is happening
+      if (labelEl) labelEl.textContent = '🏁 Race Weekend';
+      if (daysEl)  daysEl.textContent  = '0';
+      if (hrsEl)   hrsEl.textContent   = '0';
+      if (minsEl)  minsEl.textContent  = '0';
+      if (secsEl)  secsEl.textContent  = '0';
+      return;
+    }
+
+    const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+    if (labelEl) labelEl.textContent = 'Countdown to Next Race';
+    if (daysEl)  daysEl.textContent  = String(days).padStart(2, '0');
+    if (hrsEl)   hrsEl.textContent   = String(hours).padStart(2, '0');
+    if (minsEl)  minsEl.textContent  = String(mins).padStart(2, '0');
+    if (secsEl)  secsEl.textContent  = String(secs).padStart(2, '0');
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 updateStats();
 renderSchedule();
+initCountdown();
 
 // Kick off background entry list refresh on app load
 // (silent — doesn't block the UI, updates when ready)
