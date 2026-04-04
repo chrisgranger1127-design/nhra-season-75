@@ -207,9 +207,16 @@
           <h3 class="section-label">🏆 Race Winners</h3>
           <div id="modal-winners-grid"></div>
         </div>
-        <div class="section-block" id="modal-entry-counts" hidden>
-          <h3 class="section-label">Field Size</h3>
-          <div class="entry-count-grid" id="modal-entry-grid"></div>
+        <div class="section-block" id="modal-entry-section" hidden>
+          <h3 class="section-label">Entry List <span class="tz-badge" id="modal-entry-badge"></span></h3>
+          <div class="entry-class-tabs modal-entry-tabs">
+            <button class="entry-tab active" data-meclass="tf">Top Fuel</button>
+            <button class="entry-tab" data-meclass="fc">Funny Car</button>
+            <button class="entry-tab" data-meclass="ps">Pro Stock</button>
+            <button class="entry-tab" data-meclass="psm">Pro Stock Moto</button>
+            <button class="entry-tab" data-meclass="pm">Pro Mod</button>
+          </div>
+          <div id="modal-entry-list"></div>
         </div>
         <div class="section-block">
           <h3 class="section-label">Pro Classes</h3>

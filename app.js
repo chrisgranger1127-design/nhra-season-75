@@ -91,7 +91,7 @@ const RACES = [
     timezone: "America/Los_Angeles", startDate: "2026-04-09", endDate: "2026-04-12",
     tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
-    entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
+    entries: { tf:{entered:15,qualified:16}, fc:{entered:18,qualified:16}, ps:{entered:19,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Thursday, Apr 9", sessions: [
         { time: "9:00 AM", event: "Gates Open / Tech Inspection", key: false },
@@ -422,6 +422,72 @@ const RACES = [
     ]
   },
 ];
+
+// Real Winternationals Entry List (from NHRA.com, April 4 2026)
+const RACE_ENTRY_LISTS = {
+  3: { // Winternationals
+    tf: [
+      {num:"1", name:"Doug Kalitta", sponsor:"Mac Tools / Toyota"},
+      {num:"2", name:"Shawn Langdon", sponsor:"Kalitta Air / Toyota"},
+      {num:"3", name:"Justin Ashley", sponsor:"SCAG Power Equipment"},
+      {num:"8", name:"Shawn Reed", sponsor:"Reed Trucking"},
+      {num:"14", name:"Tony Stewart", sponsor:"R+L Carriers"},
+      {num:"15", name:"Tony Schumacher", sponsor:"ACC"},
+      {num:"51", name:"Clay Millican", sponsor:"Parts Plus"},
+      {num:"77", name:"Josh Hart", sponsor:"Burnyzz / Speedmaster"},
+      {num:"100", name:"Madison Gordon", sponsor:"Carlyle Tools"},
+      {num:"123", name:"Antron Brown", sponsor:"ABM Matco Tools / Lucas Oil"},
+      {num:"200", name:"Will Smith", sponsor:"BlueBird Turf / Red Line Oil"},
+      {num:"474", name:"Billy Torrence", sponsor:"Capco Contractors"},
+      {num:"748", name:"Cameron Ferre", sponsor:"Freeman / Jen Owens Realtor"},
+      {num:"777", name:"Leah Pruett", sponsor:"Mopar Direct Connection / Dodge"},
+      {num:"7727", name:"Ron August Jr", sponsor:"Fire Protection Mgmt"},
+    ],
+    fc: [
+      {num:"1", name:"Austin Prock", sponsor:"Motorcraft / Ford Racing / PPG"},
+      {num:"3", name:"Jack Beckman", sponsor:"PEAK Chevrolet SS"},
+      {num:"5", name:"Daniel Wilkerson", sponsor:"SCAG Power Equipment"},
+      {num:"6", name:"Paul Lee", sponsor:"Mainline Sales / FTI / McLeod"},
+      {num:"7", name:"Chad Green", sponsor:"Bond-Coat, Inc."},
+      {num:"9", name:"Spencer Hyde", sponsor:"Head Inc."},
+      {num:"14", name:"Matt Hagan", sponsor:"Dodge SRT Hellcat"},
+      {num:"22", name:"Todd Lesenko", sponsor:"Jim Dunn Racing"},
+      {num:"24", name:"Jordan Vandergriff", sponsor:"Cornwell Tools Chevrolet SS"},
+      {num:"28", name:"Ron Capps", sponsor:"NAPA Auto Parts / Toyota"},
+      {num:"71", name:"Cruz Pedregon", sponsor:"Snap-On"},
+      {num:"139", name:"Dave Richards", sponsor:"BlueBird Turf"},
+      {num:"256", name:"Blake Alexander", sponsor:"Pronto / Schaeffler"},
+      {num:"373", name:"JR Todd", sponsor:"DHL Toyota Supra"},
+      {num:"703", name:"James Campbell", sponsor:"Densham Motorsports"},
+      {num:"766", name:"Jason Rupert", sponsor:"Hot Probes / Shell Roofing"},
+      {num:"771", name:"Alexis DeJoria", sponsor:"Bandero Cafe Chevrolet SS"},
+      {num:"7818", name:"Dylan Winefsky", sponsor:"Robert\'s Car Care"},
+    ],
+    ps: [
+      {num:"1", name:"Dallas Glenn", sponsor:"RAD Torque Systems"},
+      {num:"2", name:"Greg Anderson", sponsor:"HendrickCars.com / Summit"},
+      {num:"3", name:"Matt Hartford", sponsor:"Total Seal"},
+      {num:"4", name:"Aaron Stanfield", sponsor:"Janac Bros Racing"},
+      {num:"6", name:"Erica Enders", sponsor:"Elite Motorsports"},
+      {num:"7", name:"Eric Latino", sponsor:"GESi Emissions Systems"},
+      {num:"8", name:"Jeg Coughlin Jr", sponsor:"JEGS / Outlaw Light Beer"},
+      {num:"9", name:"Cody Coughlin", sponsor:"Cody Coughlin Company"},
+      {num:"10", name:"Troy Coughlin Jr", sponsor:"JEGS.com Elite Camaro"},
+      {num:"16", name:"Matthew Latino", sponsor:"FASS / PowerEdge / ACE Race Part"},
+      {num:"17", name:"Cody Anderson", sponsor:"J&A / Keith Haney Racing"},
+      {num:"52", name:"Deric Kramer", sponsor:"Get Biofuel"},
+      {num:"150", name:"Kenny Delco", sponsor:"JCM Racing"},
+      {num:"400", name:"Mason McGaha", sponsor:"Harlow Sammons"},
+      {num:"439", name:"Stephen Bell", sponsor:"1320 LLC"},
+      {num:"445", name:"Greg Stanfield", sponsor:"Janac Bros"},
+      {num:"703", name:"Joey Grose", sponsor:"Ron Grose Racing"},
+      {num:"4264", name:"Chris McGaha", sponsor:"Harlow Sammons of Odessa"},
+      {num:"5707", name:"Chris Vang", sponsor:"Prestige Trailers"},
+    ],
+    psm: null,
+    pm: null,
+  }
+};
 
 // ─── POINTS STANDINGS (after Race 2 — Arizona Nationals) ─────────────────────
 const STANDINGS = {
@@ -1099,32 +1165,74 @@ function openModal(race) {
     wSec.setAttribute('hidden','');
   }
 
-  // Entry counts per class
-  const entrySection = document.getElementById('modal-entry-counts');
-  const entryGrid = document.getElementById('modal-entry-grid');
-  if (race.entries && entrySection && entryGrid) {
-    entrySection.removeAttribute('hidden');
-    const classMap = [
-      { key:'tf',  label:'Top Fuel',         pill:'pill-tf'  },
-      { key:'fc',  label:'Funny Car',         pill:'pill-fc'  },
-      { key:'ps',  label:'Pro Stock',         pill:'pill-ps'  },
-      { key:'psm', label:'Pro Stock Moto',    pill:'pill-psm' },
-      { key:'pm',  label:'Pro Mod',           pill:'pill-pm'  },
-    ];
-    entryGrid.innerHTML = classMap
-      .filter(c => race.entries[c.key])
-      .map(c => {
-        const e = race.entries[c.key];
-        return `<div class="entry-count-card">
-          <span class="wc-class-pill ${c.pill}">${c.label}</span>
-          <div class="entry-count-nums">
-            <div class="ecount-main">${e.qualified}<span>qualified</span></div>
-            <div class="ecount-sub">${e.entered} entered</div>
-          </div>
-        </div>`;
-      }).join('');
-  } else if (entrySection) {
-    entrySection.setAttribute('hidden','');
+  // Entry list per class — show named drivers if available, otherwise show counts
+  const entrySection = document.getElementById('modal-entry-section');
+  if (entrySection) {
+    const raceEntries = RACE_ENTRY_LISTS[race.id];
+    const hasNamedList = raceEntries && Object.values(raceEntries).some(v => v && v.length > 0);
+    const hasCounts = race.entries && Object.values(race.entries).some(v => v);
+
+    if (hasNamedList || hasCounts) {
+      entrySection.removeAttribute('hidden');
+
+      // Set badge
+      const badge = document.getElementById('modal-entry-badge');
+      if (badge) badge.textContent = hasNamedList ? 'Official' : 'Field Size';
+
+      // Set up class tab switching
+      let activeModalClass = 'tf';
+      const modalEntryList = document.getElementById('modal-entry-list');
+
+      function renderModalEntries(cls) {
+        activeModalClass = cls;
+        // Update tab active state
+        document.querySelectorAll('[data-meclass]').forEach(t => {
+          t.classList.toggle('active', t.dataset.meclass === cls);
+        });
+
+        if (!modalEntryList) return;
+
+        if (hasNamedList && raceEntries[cls] && raceEntries[cls].length) {
+          // Full named list
+          modalEntryList.innerHTML = raceEntries[cls].map((d, i) => `
+            <div class="modal-entry-row">
+              <span class="modal-entry-num">${d.num}</span>
+              <div class="modal-entry-info">
+                <div class="modal-entry-name">${d.name}</div>
+                <div class="modal-entry-sponsor">${d.sponsor}</div>
+              </div>
+            </div>`).join('');
+        } else if (hasCounts && race.entries[cls]) {
+          // Just counts
+          const e = race.entries[cls];
+          modalEntryList.innerHTML = `
+            <div class="modal-entry-count-only">
+              <div class="ecount-big">${e.qualified}</div>
+              <div class="ecount-label">cars qualified</div>
+              <div class="ecount-entered">${e.entered} entered</div>
+            </div>`;
+        } else {
+          // Class not at this race or TBD
+          const status = getRaceStatus(race);
+          modalEntryList.innerHTML = `<div class="modal-entry-tbd">${status === 'upcoming' ? 'Entry list not yet posted' : 'Not competing at this event'}</div>`;
+        }
+      }
+
+      // Wire up tab clicks (remove old listeners by cloning)
+      document.querySelectorAll('[data-meclass]').forEach(tab => {
+        const newTab = tab.cloneNode(true);
+        tab.parentNode.replaceChild(newTab, tab);
+        newTab.addEventListener('click', () => renderModalEntries(newTab.dataset.meclass));
+      });
+
+      // Default to first class that has data
+      const classKeys = ['tf','fc','ps','psm','pm'];
+      const firstClass = classKeys.find(k => (hasNamedList && raceEntries[k]?.length) || (hasCounts && race.entries[k])) || 'tf';
+      renderModalEntries(firstClass);
+
+    } else {
+      entrySection.setAttribute('hidden','');
+    }
   }
 
   // Classes
