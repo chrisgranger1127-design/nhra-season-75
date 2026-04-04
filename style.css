@@ -1901,3 +1901,15 @@ a, button, [role="button"] {
   transition: background var(--transition);
 }
 .modal-entry-row:hover { background: var(--surface-3); }
+
+/* ── CLASS PILL TIERS ── */
+.class-pill.alcohol {
+  background: var(--gold-dim);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+.class-pill.factory {
+  background: rgba(85,145,199,0.12);
+  border: 1px solid rgba(85,145,199,0.4);
+  color: #5591c7;
+}

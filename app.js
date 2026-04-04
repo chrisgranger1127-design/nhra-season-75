@@ -110,7 +110,7 @@ const RACES = [
     venue: "Gainesville Raceway", city: "Gainesville, FL",
     timezone: "America/New_York", startDate: "2026-03-05", endDate: "2026-03-08",
     tv: "FS1", phase: "regular", tags: ["season-opener"],
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:19,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:21,qualified:16}, psm:{entered:15,qualified:8}, pm:{entered:12,qualified:8} },
     winners: [
       { cls: "Top Fuel",    driver: "Josh Hart",      et: "3.733", mph: "337.83", pill: "tf" },
@@ -154,7 +154,7 @@ const RACES = [
     venue: "Firebird Motorsports Park", city: "Chandler, AZ",
     timezone: "America/Phoenix", startDate: "2026-03-20", endDate: "2026-03-22",
     tv: "FS1", phase: "regular", tags: [],
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:{entered:10,qualified:8} },
     winners: [
       { cls: "Top Fuel",  driver: "Shawn Langdon", et: "3.859", mph: "329.02", pill: "tf" },
@@ -189,7 +189,7 @@ const RACES = [
     venue: "In-N-Out Burger Pomona Dragstrip", city: "Pomona, CA",
     timezone: "America/Los_Angeles", startDate: "2026-04-09", endDate: "2026-04-12",
     tv: "FS1", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:15,qualified:16}, fc:{entered:18,qualified:16}, ps:{entered:19,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Thursday, Apr 9", sessions: [
@@ -223,7 +223,7 @@ const RACES = [
     venue: "zMAX Dragway", city: "Concord, NC",
     timezone: "America/New_York", startDate: "2026-04-24", endDate: "2026-04-26",
     tv: "FS1", phase: "regular", tags: ["4-wide"], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, Apr 24", sessions: [
@@ -252,7 +252,7 @@ const RACES = [
     venue: "South Georgia Motorsports Park", city: "Adel, GA",
     timezone: "America/New_York", startDate: "2026-05-01", endDate: "2026-05-03",
     tv: "FS1", phase: "regular", tags: ["new-venue"], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, May 1", sessions: [
@@ -277,7 +277,7 @@ const RACES = [
     venue: "Route 66 Raceway", city: "Joliet, IL",
     timezone: "America/Chicago", startDate: "2026-05-14", endDate: "2026-05-17",
     tv: "FS1", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Thursday, May 14", sessions: [
@@ -302,7 +302,7 @@ const RACES = [
     venue: "Maryland International Raceway", city: "Mechanicsville, MD",
     timezone: "America/New_York", startDate: "2026-05-29", endDate: "2026-05-31",
     tv: "FOX", phase: "regular", tags: ["new-venue"], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Friday, May 29", sessions: [
@@ -323,7 +323,7 @@ const RACES = [
     venue: "New England Dragway", city: "Epping, NH",
     timezone: "America/New_York", startDate: "2026-06-05", endDate: "2026-06-07",
     tv: "FOX", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Friday, Jun 5", sessions: [
@@ -344,7 +344,7 @@ const RACES = [
     venue: "Bristol Dragway", city: "Bristol, TN",
     timezone: "America/New_York", startDate: "2026-06-12", endDate: "2026-06-14",
     tv: "FS1", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Friday, Jun 12", sessions: [
@@ -365,7 +365,7 @@ const RACES = [
     venue: "Summit Motorsports Park", city: "Norwalk, OH",
     timezone: "America/New_York", startDate: "2026-06-25", endDate: "2026-06-28",
     tv: "FOX", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Thursday, Jun 25", sessions: [
@@ -382,7 +382,7 @@ const RACES = [
     venue: "Sonoma Raceway", city: "Sonoma, CA",
     timezone: "America/Los_Angeles", startDate: "2026-07-17", endDate: "2026-07-19",
     tv: "FS1", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Friday, Jul 17", sessions: [
@@ -399,7 +399,7 @@ const RACES = [
     venue: "Pacific Raceways", city: "Kent, WA",
     timezone: "America/Los_Angeles", startDate: "2026-07-24", endDate: "2026-07-26",
     tv: "FOX", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Sunday, Jul 26", sessions: [
@@ -413,7 +413,7 @@ const RACES = [
     venue: "Brainerd International Raceway", city: "Brainerd, MN",
     timezone: "America/Chicago", startDate: "2026-08-20", endDate: "2026-08-23",
     tv: "TBD", phase: "regular", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:16,qualified:16}, psm:null, pm:null },
     itinerary: [
       { day: "Sunday, Aug 23", sessions: [
@@ -427,7 +427,7 @@ const RACES = [
     venue: "Lucas Oil Indianapolis Raceway Park", city: "Brownsburg, IN",
     timezone: "America/Indiana/Indianapolis", startDate: "2026-09-02", endDate: "2026-09-07",
     tv: "FS1 & FOX", phase: "regular", tags: ["big-go"], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol","Sportsman"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:20,qualified:16}, fc:{entered:20,qualified:16}, ps:{entered:24,qualified:16}, psm:{entered:16,qualified:8}, pm:{entered:16,qualified:8} },
     itinerary: [
       { day: "Monday, Sep 7", sessions: [
@@ -442,7 +442,7 @@ const RACES = [
     venue: "U.S. 131 Motorsports Park", city: "Martin, MI",
     timezone: "America/New_York", startDate: "2026-09-17", endDate: "2026-09-20",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Sep 20", sessions: [
@@ -456,7 +456,7 @@ const RACES = [
     venue: "Rockingham Dragway", city: "Rockingham, NC",
     timezone: "America/New_York", startDate: "2026-09-25", endDate: "2026-09-27",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
       { day: "Sunday, Sep 27", sessions: [
@@ -470,7 +470,7 @@ const RACES = [
     venue: "World Wide Technology Raceway", city: "Madison, IL",
     timezone: "America/Chicago", startDate: "2026-10-02", endDate: "2026-10-04",
     tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Oct 4", sessions: [
@@ -484,7 +484,7 @@ const RACES = [
     venue: "Texas Motorplex", city: "Ennis, TX",
     timezone: "America/Chicago", startDate: "2026-10-14", endDate: "2026-10-18",
     tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Oct 18", sessions: [
@@ -498,7 +498,7 @@ const RACES = [
     venue: "Las Vegas Motor Speedway", city: "Las Vegas, NV",
     timezone: "America/Los_Angeles", startDate: "2026-10-29", endDate: "2026-11-01",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Nov 1", sessions: [
@@ -512,7 +512,7 @@ const RACES = [
     venue: "In-N-Out Burger Pomona Dragstrip", city: "Pomona, CA",
     timezone: "America/Los_Angeles", startDate: "2026-11-12", endDate: "2026-11-15",
     tv: "FS1", phase: "countdown", tags: ["season-finale"], winners: null,
-    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
+    classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
       { day: "Sunday, Nov 15", sessions: [
@@ -1354,11 +1354,17 @@ function openModal(race) {
     }
   }
 
-  // Classes
-  const proClasses = ['Top Fuel','Funny Car','Pro Stock','Pro Stock Motorcycle','Pro Mod'];
-  document.getElementById('modal-classes').innerHTML = race.classes.map(c =>
-    `<span class="class-pill ${proClasses.includes(c)?'pro':''}">${c}</span>`
-  ).join('');
+  // Classes — styled by tier
+  const proClasses     = ['Top Fuel','Funny Car','Pro Stock','Pro Stock Motorcycle','Pro Mod'];
+  const alcoholClasses = ['Top Alcohol Dragster','Top Alcohol Funny Car'];
+  const factoryClasses = ['Factory Stock Showdown','Factory X','Mountain Motor Pro Stock'];
+  document.getElementById('modal-classes').innerHTML = race.classes.map(c => {
+    let tier = '';
+    if (proClasses.includes(c))     tier = 'pro';
+    else if (alcoholClasses.includes(c)) tier = 'alcohol';
+    else if (factoryClasses.includes(c)) tier = 'factory';
+    return `<span class="class-pill ${tier}">${c}</span>`;
+  }).join('');
 
   // Itinerary
   const itinContainer = document.getElementById('itinerary-content');
