@@ -7,84 +7,84 @@
 // ─── DRIVER HEADSHOTS (from NHRA.com) ────────────────────────────────────────
 const DRIVER_PHOTOS = {
   // TOP FUEL
-  "Doug Kalitta":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/kalitta-head.png.webp",
-  "Shawn Langdon":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-03/langdon-head.jpg.webp",
-  "Justin Ashley":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/ashley-head.png.webp",
-  "Tony Stewart":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/stewart-head.png.webp",
-  "Clay Millican":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/clay-head.png.webp",
-  "Steve Torrence":  "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/torrence-head.png.webp",
-  "Shawn Reed":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/reed-head.png.webp",
-  "Antron Brown":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/antron-head.png.webp",
-  "Josh Hart":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/hart-head.png.webp",
-  "Ida Zetterström": "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/ida-head.png.webp",
-  "Jasmine Salinas": "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/jasmine-head.png.webp",
-  "Dan Mercier":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/mercier-head.png.webp",
-  "Tony Schumacher": "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-09/tony-head.png.webp",
-  "Kyle Wurtzel":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2017-04/wurtzel.png.webp",
-  "Cameron Ferre":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2022-03/ferre-head.jpg.webp",
-  "Tripp Tatum III": "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/tatum-head.png.webp",
-  "Billy Torrence":  "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2022-06/btorrence.jpg.webp",
-  "Will Smith":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-12/smith-head.png.webp",
-  "Madison Gordon":  "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-01/gordon-head.png.webp",
-  "Maddi Gordon":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-01/gordon-head.png.webp",
-  "Leah Pruett":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/leah-head.png.webp",
-  "Ron August Jr":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/kalitta-head.png.webp",
+  "Doug Kalitta":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/kalitta-head.png.webp",
+  "Shawn Langdon":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-03/langdon-head.jpg.webp",
+  "Justin Ashley":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/ashley-head.png.webp",
+  "Tony Stewart":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/stewart-head.png.webp",
+  "Clay Millican":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/clay-head.png.webp",
+  "Steve Torrence":  "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/torrence-head.png.webp",
+  "Shawn Reed":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/reed-head.png.webp",
+  "Antron Brown":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/antron-head.png.webp",
+  "Josh Hart":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/hart-head.png.webp",
+  "Ida Zetterström": "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/ida-head.png.webp",
+  "Jasmine Salinas": "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/jasmine-head.png.webp",
+  "Dan Mercier":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/mercier-head.png.webp",
+  "Tony Schumacher": "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-09/tony-head.png.webp",
+  "Kyle Wurtzel":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2017-04/wurtzel.png.webp",
+  "Cameron Ferre":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2022-03/ferre-head.jpg.webp",
+  "Tripp Tatum III": "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/tatum-head.png.webp",
+  "Billy Torrence":  "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2022-06/btorrence.jpg.webp",
+  "Will Smith":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-12/smith-head.png.webp",
+  "Madison Gordon":  "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-01/gordon-head.png.webp",
+  "Maddi Gordon":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-01/gordon-head.png.webp",
+  "Leah Pruett":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/leah-head.png.webp",
+  "Ron August Jr":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/kalitta-head.png.webp",
   // FUNNY CAR
-  "Austin Prock":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/prock-head.png.webp",
-  "Matt Hagan":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/hagan-head.png.webp",
-  "Jack Beckman":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-07/beckman-head.png.webp",
-  "Ron Capps":          "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/capps-head.png.webp",
-  "Daniel Wilkerson":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/dwilk-head.png.webp",
-  "Paul Lee":           "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/lee-had.png.webp",
-  "Chad Green":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/green-headshot.png.webp",
-  "Cruz Pedregon":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/cruz-head.png.webp",
-  "Spencer Hyde":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-12/hyde-head.jpg.webp",
-  "Bob Tasca III":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/tasca-head.png.webp",
-  "J.R. Todd":          "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/todd-head.jpg.webp",
-  "JR Todd":            "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/todd-head.jpg.webp",
-  "Alexis DeJoria":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/alexis-head.png.webp",
-  "Dave Richards":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/ruchards-head.png.webp",
-  "Buddy Hull":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2022-02/hull-head.jpg.webp",
-  "Blake Alexander":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/blake-head.jpg.webp",
-  "Hunter Green":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-07/green-head.png.webp",
-  "Jason Rupert":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-02/rupert-head.jpg.webp",
-  "Todd Lesenko":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/lesennko-head.jpg.webp",
-  "Jordan Vandergriff": "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-08/jv-head.png.webp",
-  "Dylan Winefsky":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-07/dylan-head.png.webp",
-  "James Campbell":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2021-03/campbell-head.png.webp",
+  "Austin Prock":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/prock-head.png.webp",
+  "Matt Hagan":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/hagan-head.png.webp",
+  "Jack Beckman":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-07/beckman-head.png.webp",
+  "Ron Capps":          "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/capps-head.png.webp",
+  "Daniel Wilkerson":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/dwilk-head.png.webp",
+  "Paul Lee":           "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/lee-had.png.webp",
+  "Chad Green":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/green-headshot.png.webp",
+  "Cruz Pedregon":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/cruz-head.png.webp",
+  "Spencer Hyde":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-12/hyde-head.jpg.webp",
+  "Bob Tasca III":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/tasca-head.png.webp",
+  "J.R. Todd":          "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/todd-head.jpg.webp",
+  "JR Todd":            "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/todd-head.jpg.webp",
+  "Alexis DeJoria":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/alexis-head.png.webp",
+  "Dave Richards":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/ruchards-head.png.webp",
+  "Buddy Hull":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2022-02/hull-head.jpg.webp",
+  "Blake Alexander":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/blake-head.jpg.webp",
+  "Hunter Green":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-07/green-head.png.webp",
+  "Jason Rupert":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-02/rupert-head.jpg.webp",
+  "Todd Lesenko":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/lesennko-head.jpg.webp",
+  "Jordan Vandergriff": "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-08/jv-head.png.webp",
+  "Dylan Winefsky":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-07/dylan-head.png.webp",
+  "James Campbell":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2021-03/campbell-head.png.webp",
   // PRO STOCK
-  "Dallas Glenn":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/glenn-head.png.webp",
-  "Greg Anderson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/greg-head.png.webp",
-  "Matt Hartford":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/hartford-head.png.webp",
-  "Aaron Stanfield":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/stanfield-head.png.webp",
-  "Erica Enders":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/erica-head.png.webp",
-  "Eric Latino":        "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/latino-head.png.webp",
-  "Jeg Coughlin Jr.":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/jeg-head_0.png.webp",
-  "Jeg Coughlin Jr":    "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/jeg-head_0.png.webp",
-  "Cody Coughlin":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-03/cody-head.png.webp",
-  "Troy Coughlin Jr.":  "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/troy-head.png.webp",
-  "Troy Coughlin Jr":   "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/troy-head.png.webp",
-  "Deric Kramer":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2016-12/16_KRAMER_DERIC_NHRA_320x320.png.webp",
-  "Greg Stanfield":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2025-03/stanfield-head.png.webp",
-  "Kenny Delco":        "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/delco-head.png.webp",
-  "Mason McGaha":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/mcm-head.png.webp",
-  "Chris McGaha":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/cmg-head.png.webp",
-  "Cody Anderson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2026-03/cody-head.png.webp",
-  "Stephen Bell":       "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2023-03/kalitta-head.png.webp",
-  "Joey Grose":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/grose-head.png.webp",
-  "Matthew Latino":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/latino-head.png.webp",
-  "Matt Latino":        "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/latino-head.png.webp",
-  "Chris Vang":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/greg-head.png.webp",
+  "Dallas Glenn":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/glenn-head.png.webp",
+  "Greg Anderson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/greg-head.png.webp",
+  "Matt Hartford":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/hartford-head.png.webp",
+  "Aaron Stanfield":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/stanfield-head.png.webp",
+  "Erica Enders":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/erica-head.png.webp",
+  "Eric Latino":        "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/latino-head.png.webp",
+  "Jeg Coughlin Jr.":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/jeg-head_0.png.webp",
+  "Jeg Coughlin Jr":    "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/jeg-head_0.png.webp",
+  "Cody Coughlin":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-03/cody-head.png.webp",
+  "Troy Coughlin Jr.":  "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/troy-head.png.webp",
+  "Troy Coughlin Jr":   "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/troy-head.png.webp",
+  "Deric Kramer":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2016-12/16_KRAMER_DERIC_NHRA_320x320.png.webp",
+  "Greg Stanfield":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2025-03/stanfield-head.png.webp",
+  "Kenny Delco":        "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/delco-head.png.webp",
+  "Mason McGaha":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/mcm-head.png.webp",
+  "Chris McGaha":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/cmg-head.png.webp",
+  "Cody Anderson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2026-03/cody-head.png.webp",
+  "Stephen Bell":       "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2023-03/kalitta-head.png.webp",
+  "Joey Grose":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/grose-head.png.webp",
+  "Matthew Latino":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/latino-head.png.webp",
+  "Matt Latino":        "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/latino-head.png.webp",
+  "Chris Vang":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/greg-head.png.webp",
   // PRO STOCK MOTORCYCLE
-  "Richard Gadson":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/erica-head.png.webp",
-  "Gaige Herrera":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/stanfield-head.png.webp",
-  "Matt Smith":         "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/greg-head.png.webp",
-  "Angie Smith":        "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/erica-head.png.webp",
-  "John Hall":          "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/beckman-head.png.webp",
-  "Steve Johnson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/capps-head.png.webp",
-  "Brayden Davis":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-12/hyde-head.jpg.webp",
-  "Chase Van Sant":     "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/dwilk-head.png.webp",
-  "Clayton Howey":      "https://www.nhra.com/sites/default/files/styles/driver_headshot_listing/public/2024-03/lee-had.png.webp",
+  "Richard Gadson":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/erica-head.png.webp",
+  "Gaige Herrera":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/stanfield-head.png.webp",
+  "Matt Smith":         "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/greg-head.png.webp",
+  "Angie Smith":        "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/erica-head.png.webp",
+  "John Hall":          "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/beckman-head.png.webp",
+  "Steve Johnson":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/capps-head.png.webp",
+  "Brayden Davis":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-12/hyde-head.jpg.webp",
+  "Chase Van Sant":     "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/dwilk-head.png.webp",
+  "Clayton Howey":      "https://www.nhra.com/sites/default/files/styles/driver_headshot/public/2024-03/lee-had.png.webp",
 };
 
 // Helper: get photo URL for a driver name (fuzzy last-name match fallback)
@@ -1210,9 +1210,14 @@ function renderEntryList() {
   if (subtitle) subtitle.textContent = `${data.length} ${classNames[activeEntryClass]} competitors · 2026 Season`;
 
   data.forEach((driver, i) => {
+    const photo = getDriverPhoto(driver.name);
+    const imgHtml = photo
+      ? `<img class="driver-tab-photo" src="${photo}" alt="${driver.name}" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="driver-tab-photo driver-tab-photo-placeholder"></div>`;
     const row = document.createElement('div');
     row.className = `entry-row ${driver._new ? 'entry-new' : ''}`;
     row.innerHTML = `
+      ${imgHtml}
       <div class="entry-num">${driver.num}</div>
       <div class="entry-info">
         <div class="entry-name">${driver.name}${driver._new ? ' <span class="new-badge">NEW</span>' : ''}</div>
@@ -1258,36 +1263,59 @@ function openModal(race) {
     wSec.setAttribute('hidden','');
   }
 
-  // Entry list per class — show named drivers if available, otherwise show counts
+  // Entry list — accordion: click class name to expand/collapse driver list
   const entrySection = document.getElementById('modal-entry-section');
-  if (entrySection) {
+  const accordion    = document.getElementById('modal-entry-accordion');
+  if (entrySection && accordion) {
     const raceEntries = RACE_ENTRY_LISTS[race.id];
     const hasNamedList = raceEntries && Object.values(raceEntries).some(v => v && v.length > 0);
-    const hasCounts = race.entries && Object.values(race.entries).some(v => v);
+    const hasCounts    = race.entries && Object.values(race.entries).some(v => v);
 
     if (hasNamedList || hasCounts) {
       entrySection.removeAttribute('hidden');
-
-      // Set badge
       const badge = document.getElementById('modal-entry-badge');
       if (badge) badge.textContent = hasNamedList ? 'Official' : 'Field Size';
 
-      // Set up class tab switching
-      let activeModalClass = 'tf';
-      const modalEntryList = document.getElementById('modal-entry-list');
+      const classMap = [
+        { key:'tf',  label:'Top Fuel',       pill:'pill-tf'  },
+        { key:'fc',  label:'Funny Car',       pill:'pill-fc'  },
+        { key:'ps',  label:'Pro Stock',       pill:'pill-ps'  },
+        { key:'psm', label:'Pro Stock Moto',  pill:'pill-psm' },
+        { key:'pm',  label:'Pro Mod',         pill:'pill-pm'  },
+      ];
 
-      function renderModalEntries(cls) {
-        activeModalClass = cls;
-        // Update tab active state
-        document.querySelectorAll('#modal-entry-tabs [data-meclass]').forEach(t => {
-          t.classList.toggle('active', t.dataset.meclass === cls);
-        });
+      accordion.innerHTML = '';
 
-        if (!modalEntryList) return;
+      classMap.forEach(({ key, label, pill }) => {
+        const hasDrivers = hasNamedList && raceEntries?.[key]?.length > 0;
+        const hasCount   = hasCounts && race.entries?.[key];
+        if (!hasDrivers && !hasCount) return; // skip classes not at this race
 
-        if (hasNamedList && raceEntries[cls] && raceEntries[cls].length) {
-          // Full named list
-          modalEntryList.innerHTML = raceEntries[cls].map((d, i) => {
+        const count = hasDrivers
+          ? raceEntries[key].length
+          : race.entries[key]?.entered || 0;
+
+        // Build the block
+        const block = document.createElement('div');
+        block.className = 'acc-block';
+
+        const header = document.createElement('button');
+        header.className = 'acc-header';
+        header.setAttribute('aria-expanded', 'false');
+        header.innerHTML = `
+          <span class="wc-class-pill ${pill}">${label}</span>
+          <span class="acc-count">${count} entered</span>
+          <svg class="acc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>`;
+
+        const body = document.createElement('div');
+        body.className = 'acc-body';
+        body.hidden = true;
+
+        // Populate body
+        if (hasDrivers) {
+          body.innerHTML = raceEntries[key].map(d => {
             const photo = getDriverPhoto(d.name);
             const imgHtml = photo
               ? `<img class="modal-entry-photo" src="${photo}" alt="${d.name}" loading="lazy" onerror="this.style.display='none'">`
@@ -1301,33 +1329,32 @@ function openModal(race) {
               </div>
             </div>`;
           }).join('');
-        } else if (hasCounts && race.entries[cls]) {
-          // Just counts
-          const e = race.entries[cls];
-          modalEntryList.innerHTML = `
-            <div class="modal-entry-count-only">
-              <div class="ecount-big">${e.qualified}</div>
-              <div class="ecount-label">cars qualified</div>
-              <div class="ecount-entered">${e.entered} entered</div>
-            </div>`;
         } else {
-          // Class not at this race or TBD
-          const status = getRaceStatus(race);
-          modalEntryList.innerHTML = `<div class="modal-entry-tbd">${status === 'upcoming' ? 'No entry list submitted' : 'Not competing at this event'}</div>`;
+          const e = race.entries[key];
+          body.innerHTML = `<div class="modal-entry-count-only">
+            <div class="ecount-big">${e.qualified}</div>
+            <div class="ecount-label">cars qualified</div>
+            <div class="ecount-entered">${e.entered} entered</div>
+          </div>`;
         }
-      }
 
-      // Wire up tab clicks (remove old listeners by cloning)
-      document.querySelectorAll('#modal-entry-tabs [data-meclass]').forEach(tab => {
-        const newTab = tab.cloneNode(true);
-        tab.parentNode.replaceChild(newTab, tab);
-        newTab.addEventListener('click', () => renderModalEntries(newTab.dataset.meclass));
+        // Toggle on click
+        header.addEventListener('click', () => {
+          const isOpen = !body.hidden;
+          body.hidden = isOpen;
+          header.setAttribute('aria-expanded', String(!isOpen));
+          header.classList.toggle('open', !isOpen);
+        });
+
+        block.appendChild(header);
+        block.appendChild(body);
+        accordion.appendChild(block);
       });
 
-      // Default to first class that has data
-      const classKeys = ['tf','fc','ps','psm','pm'];
-      const firstClass = classKeys.find(k => (hasNamedList && raceEntries[k]?.length) || (hasCounts && race.entries[k])) || 'tf';
-      renderModalEntries(firstClass);
+      // If no blocks were added
+      if (!accordion.children.length) {
+        entrySection.setAttribute('hidden','');
+      }
 
     } else {
       entrySection.setAttribute('hidden','');
