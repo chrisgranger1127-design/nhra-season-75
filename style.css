@@ -1831,19 +1831,21 @@ a, button, [role="button"] {
 /* ── DRIVER PHOTOS — HD large size ── */
 /* In modal entry list */
 .modal-entry-photo {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
   flex-shrink: 0;
   background: var(--surface-3);
   border: 2px solid var(--border);
-  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 .modal-entry-photo-placeholder {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   flex-shrink: 0;
   background: var(--surface-3);
@@ -1860,7 +1862,9 @@ a, button, [role="button"] {
   flex-shrink: 0;
   background: var(--surface-3);
   border: 2px solid var(--border);
-  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 .driver-tab-photo-placeholder {
   width: 52px;
