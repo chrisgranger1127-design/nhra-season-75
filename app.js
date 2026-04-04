@@ -1,953 +1,795 @@
-/* ─────────────────────────────────────────────
-   NHRA 2026 PWA — App Logic
-   ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   NHRA 2026 PWA — Full App Logic
+   Features: Schedule · Winners Circle · Points Standings · Entry List (live refresh)
+   ═══════════════════════════════════════════════════════ */
 
-// ── RACE DATA ──────────────────────────────────────────────────────────────
-// All event times are stored in LOCAL venue time zone.
-// The app converts them to Eastern Time (ET) for display.
-
+// ─── RACE DATA ───────────────────────────────────────────────────────────────
 const RACES = [
   {
-    id: 1,
-    name: "NHRA Gatornationals",
-    fullName: "AMALIE Motor Oil NHRA Gatornationals",
-    venue: "Gainesville Raceway",
-    city: "Gainesville, FL",
-    timezone: "America/New_York",
-    startDate: "2026-03-05",
-    endDate:   "2026-03-08",
-    tv: "FS1",
-    phase: "regular",
-    tags: ["season-opener"],
+    id: 1, name: "NHRA Gatornationals",
+    fullName: "57th annual AMALIE Motor Oil NHRA Gatornationals",
+    venue: "Gainesville Raceway", city: "Gainesville, FL",
+    timezone: "America/New_York", startDate: "2026-03-05", endDate: "2026-03-08",
+    tv: "FS1", phase: "regular", tags: ["season-opener"],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
+    winners: [
+      { cls: "Top Fuel",    driver: "Josh Hart",      et: "3.733", mph: "337.83", pill: "tf" },
+      { cls: "Funny Car",   driver: "Chad Green",     et: "3.959", mph: "329.91", pill: "fc" },
+      { cls: "Pro Stock",   driver: "Matt Hartford",  et: "6.587", mph: "208.94", pill: "ps" },
+      { cls: "Pro Stock Moto", driver: "Richard Gadson", et: "6.753", mph: "200.05", pill: "psm" },
+      { cls: "Pro Mod",     driver: "Derek Menholt",  et: "5.741", mph: "258.10", pill: "pm" },
+    ],
     itinerary: [
-      { day: "Thursday, Mar 5",   sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech Inspection", key: false },
+      { day: "Thursday, Mar 5", sessions: [
+        { time: "9:00 AM", event: "Gates Open / Tech Inspection", key: false },
         { time: "12:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "6:00 PM",  event: "Nitro Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "3:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
+        { time: "6:00 PM", event: "Nitro Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Friday, Mar 6", sessions: [
-        { time: "8:00 AM",  event: "Gates Open", key: false },
-        { time: "9:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "1:30 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3, Nitro Afternoon)", key: true },
-        { time: "6:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
+        { time: "8:00 AM", event: "Gates Open", key: false },
+        { time: "9:00 AM", event: "Lucas Oil Series Eliminations", key: false },
+        { time: "1:30 PM", event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
+        { time: "4:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
+        { time: "6:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
       ]},
       { day: "Saturday, Mar 7", sessions: [
-        { time: "8:00 AM",  event: "Gates Open", key: false },
-        { time: "9:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "11:00 AM", event: "Pit Party & Autographs (Midway)", key: false },
+        { time: "8:00 AM", event: "Gates Open", key: false },
         { time: "12:00 PM", event: "Qualifying — Top Fuel (Mission 2Fast2Tasty Challenge)", key: true },
         { time: "12:35 PM", event: "Qualifying — Funny Car (Mission 2Fast2Tasty Challenge)", key: true },
-        { time: "1:15 PM",  event: "Qualifying — Pro Stock / PSM (Mission 2Fast2Tasty Challenge)", key: true },
-        { time: "3:30 PM",  event: "Final Qualifying Session — All Pro Classes (Q4)", key: true },
+        { time: "1:15 PM", event: "Qualifying — Pro Stock / PSM (Mission 2Fast2Tasty Challenge)", key: true },
+        { time: "3:30 PM", event: "Final Qualifying Session — All Pro Classes", key: true },
       ]},
       { day: "Sunday, Mar 8", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
         { time: "10:00 AM", event: "SealMaster Track Walk & Driver Introductions", key: false },
         { time: "11:00 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
-        { time: "All Day",  event: "Top Fuel → Funny Car → Pro Stock → PSM → Pro Mod", key: false },
+        { time: "All Day", event: "Top Fuel → Funny Car → Pro Stock → PSM → Pro Mod", key: false },
       ]},
     ]
   },
   {
-    id: 2,
-    name: "NHRA Arizona Nationals",
-    fullName: "FMP NHRA Arizona Nationals Presented by NGK Spark Plugs",
-    venue: "Firebird Motorsports Park",
-    city: "Chandler, AZ",
-    timezone: "America/Phoenix",
-    startDate: "2026-03-20",
-    endDate:   "2026-03-22",
-    tv: "FS1",
-    phase: "regular",
-    tags: [],
+    id: 2, name: "NHRA Arizona Nationals",
+    fullName: "41st annual FMP NHRA Arizona Nationals Presented by NGK Spark Plugs",
+    venue: "Firebird Motorsports Park", city: "Chandler, AZ",
+    timezone: "America/Phoenix", startDate: "2026-03-20", endDate: "2026-03-22",
+    tv: "FS1", phase: "regular", tags: [],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Mod"],
+    winners: [
+      { cls: "Top Fuel",  driver: "Shawn Langdon", et: "3.859", mph: "329.02", pill: "tf" },
+      { cls: "Funny Car", driver: "Ron Capps",     et: "3.895", mph: "326.48", pill: "fc" },
+      { cls: "Pro Stock", driver: "Dallas Glenn",  et: "6.627", mph: "206.39", pill: "ps" },
+    ],
     itinerary: [
       { day: "Friday, Mar 20", sessions: [
         { time: "10:00 AM", event: "Gates Open / Tech", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock (Q1)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "5:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "1:00 PM", event: "Qualifying — Pro Stock (Q1)", key: true },
+        { time: "3:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
+        { time: "5:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, Mar 21", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
         { time: "11:00 AM", event: "Qualifying — Top Fuel / Funny Car (Q3, Mission 2Fast2Tasty)", key: true },
         { time: "12:00 PM", event: "Qualifying — Pro Stock (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "2:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — Pro Stock (Q4)", key: true },
-        { time: "4:30 PM",  event: "Autograph Session", key: false },
+        { time: "2:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q4)", key: true },
+        { time: "3:00 PM", event: "Qualifying — Pro Stock (Q4)", key: true },
       ]},
       { day: "Sunday, Mar 22", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
+        { time: "9:30 AM", event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
-        { time: "All Day",  event: "Top Fuel → Funny Car → Pro Stock → Pro Mod", key: false },
+        { time: "All Day", event: "Top Fuel → Funny Car → Pro Stock → Pro Mod", key: false },
       ]},
     ]
   },
   {
-    id: 3,
-    name: "NHRA Winternationals",
+    id: 3, name: "NHRA Winternationals",
     fullName: "66th annual Lucas Oil NHRA Winternationals",
-    venue: "In-N-Out Burger Pomona Dragstrip",
-    city: "Pomona, CA",
-    timezone: "America/Los_Angeles",
-    startDate: "2026-04-09",
-    endDate:   "2026-04-12",
-    tv: "FS1",
-    phase: "regular",
-    tags: [],
+    venue: "In-N-Out Burger Pomona Dragstrip", city: "Pomona, CA",
+    timezone: "America/Los_Angeles", startDate: "2026-04-09", endDate: "2026-04-12",
+    tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
       { day: "Thursday, Apr 9", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech Inspection", key: false },
+        { time: "9:00 AM", event: "Gates Open / Tech Inspection", key: false },
         { time: "12:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "6:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "3:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
+        { time: "6:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Friday, Apr 10", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
-        { time: "6:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
+        { time: "9:00 AM", event: "Gates Open", key: false },
+        { time: "1:00 PM", event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
+        { time: "3:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
+        { time: "6:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
       ]},
       { day: "Saturday, Apr 11", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
         { time: "11:00 AM", event: "Qualifying — Top Fuel / Funny Car (Q5, Mission 2Fast2Tasty)", key: true },
         { time: "12:00 PM", event: "Qualifying — Pro Stock / PSM (Q5)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Pro Classes (Q6, Final)", key: true },
-        { time: "5:00 PM",  event: "Sportsman Eliminations", key: false },
+        { time: "3:00 PM", event: "Final Qualifying — All Pro Classes (Q6)", key: true },
       ]},
       { day: "Sunday, Apr 12", sessions: [
-        { time: "8:30 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
+        { time: "8:30 AM", event: "Gates Open", key: false },
+        { time: "9:30 AM", event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
-        { time: "All Day",  event: "Top Fuel → Funny Car → Pro Stock → PSM", key: false },
       ]},
     ]
   },
   {
-    id: 4,
-    name: "NHRA 4-Wide Nationals",
+    id: 4, name: "NHRA 4-Wide Nationals",
     fullName: "16th annual American Rebel Light NHRA 4-Wide Nationals",
-    venue: "zMAX Dragway",
-    city: "Concord, NC",
-    timezone: "America/New_York",
-    startDate: "2026-04-24",
-    endDate:   "2026-04-26",
-    tv: "FS1",
-    phase: "regular",
-    tags: ["4-wide"],
+    venue: "zMAX Dragway", city: "Concord, NC",
+    timezone: "America/New_York", startDate: "2026-04-24", endDate: "2026-04-26",
+    tv: "FS1", phase: "regular", tags: ["4-wide"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
     itinerary: [
       { day: "Friday, Apr 24", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "6:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "9:00 AM", event: "Gates Open", key: false },
+        { time: "1:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
+        { time: "4:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
+        { time: "6:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, Apr 25", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — Top Fuel 4-Wide (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "1:00 PM",  event: "Qualifying — Funny Car 4-Wide (Q3)", key: true },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM 4-Wide (Q3)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes 4-Wide (Q4, Final)", key: true },
-        { time: "5:00 PM",  event: "Autograph Session (Midway)", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
+        { time: "12:00 PM", event: "4-Wide Qualifying — Top Fuel (Q3, Mission 2Fast2Tasty)", key: true },
+        { time: "1:00 PM", event: "4-Wide Qualifying — Funny Car (Q3)", key: true },
+        { time: "2:00 PM", event: "4-Wide Qualifying — Pro Stock / PSM (Q3)", key: true },
+        { time: "3:30 PM", event: "4-Wide Final Qualifying — All Classes (Q4)", key: true },
       ]},
       { day: "Sunday, Apr 26", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
+        { time: "9:00 AM", event: "Gates Open", key: false },
+        { time: "9:30 AM", event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "4-Wide Eliminations Begin — All Pro Classes", key: true },
-        { time: "Note",     event: "4-Lane format: Race 1 → Race 2 → Race 3 → Race 4 → Semis → Finals", key: false },
+        { time: "Note", event: "4-Lane format: Race 1 → Race 2 → Race 3 → Race 4 → Semis → Finals", key: false },
       ]},
     ]
   },
   {
-    id: 5,
-    name: "NHRA Southern Nationals",
-    fullName: "NHRA Southern Nationals",
-    venue: "South Georgia Motorsports Park",
-    city: "Adel, GA",
-    timezone: "America/New_York",
-    startDate: "2026-05-01",
-    endDate:   "2026-05-03",
-    tv: "FS1",
-    phase: "regular",
-    tags: ["new-venue"],
+    id: 5, name: "NHRA Southern Nationals", fullName: "NHRA Southern Nationals",
+    venue: "South Georgia Motorsports Park", city: "Adel, GA",
+    timezone: "America/New_York", startDate: "2026-05-01", endDate: "2026-05-03",
+    tv: "FS1", phase: "regular", tags: ["new-venue"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
     itinerary: [
       { day: "Friday, May 1", sessions: [
-        { time: "9:00 AM",  event: "Gates Open — Inaugural SGMP National Event", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "9:00 AM", event: "Gates Open — Inaugural SGMP National Event", key: false },
+        { time: "1:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
+        { time: "4:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, May 2", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "1:30 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "3:30 PM",  event: "Final Qualifying — All Classes (Q4)", key: true },
-        { time: "5:30 PM",  event: "Autograph Session", key: false },
+        { time: "12:00 PM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
+        { time: "3:30 PM", event: "Final Qualifying — All Classes (Q4)", key: true },
       ]},
       { day: "Sunday, May 3", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
+        { time: "9:30 AM", event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
-        { time: "All Day",  event: "Top Fuel → Funny Car → Pro Stock → PSM → Pro Mod", key: false },
       ]},
     ]
   },
   {
-    id: 6,
-    name: "Route 66 NHRA Nationals",
-    fullName: "Gerber Collision & Glass Route 66 NHRA Nationals Presented by PEAK",
-    venue: "Route 66 Raceway",
-    city: "Joliet, IL",
-    timezone: "America/Chicago",
-    startDate: "2026-05-14",
-    endDate:   "2026-05-17",
-    tv: "FS1",
-    phase: "regular",
-    tags: [],
+    id: 6, name: "Route 66 NHRA Nationals",
+    fullName: "26th annual Gerber Collision & Glass Route 66 NHRA Nationals Presented by PEAK",
+    venue: "Route 66 Raceway", city: "Joliet, IL",
+    timezone: "America/Chicago", startDate: "2026-05-14", endDate: "2026-05-17",
+    tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
       { day: "Thursday, May 14", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "1:00 PM", event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Friday, May 15", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
+        { time: "4:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
       ]},
       { day: "Saturday, May 16", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
         { time: "11:00 AM", event: "Qualifying — All Classes (Mission 2Fast2Tasty)", key: true },
-        { time: "2:30 PM",  event: "Qualifying — All Classes (Final Q)", key: true },
-        { time: "5:00 PM",  event: "Pit Party & Autographs", key: false },
+        { time: "2:30 PM", event: "Final Qualifying — All Classes", key: true },
       ]},
       { day: "Sunday, May 17", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 7,
-    name: "NHRA Potomac Nationals",
-    fullName: "Inaugural NHRA Potomac Nationals",
-    venue: "Maryland International Raceway",
-    city: "Mechanicsville, MD",
-    timezone: "America/New_York",
-    startDate: "2026-05-29",
-    endDate:   "2026-05-31",
-    tv: "FOX",
-    phase: "regular",
-    tags: ["new-venue"],
+    id: 7, name: "NHRA Potomac Nationals", fullName: "Inaugural NHRA Potomac Nationals",
+    venue: "Maryland International Raceway", city: "Mechanicsville, MD",
+    timezone: "America/New_York", startDate: "2026-05-29", endDate: "2026-05-31",
+    tv: "FOX", phase: "regular", tags: ["new-venue"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
       { day: "Friday, May 29", sessions: [
-        { time: "9:00 AM",  event: "Gates Open — MIR's first NHRA National Event", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, May 30", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
         { time: "12:00 PM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
-        { time: "5:30 PM",  event: "Autograph Session", key: false },
+        { time: "3:00 PM", event: "Final Qualifying — All Classes (Q4)", key: true },
       ]},
       { day: "Sunday, May 31", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 8,
-    name: "NHRA New England Nationals",
+    id: 8, name: "NHRA New England Nationals",
     fullName: "13th annual NHRA New England Nationals",
-    venue: "New England Dragway",
-    city: "Epping, NH",
-    timezone: "America/New_York",
-    startDate: "2026-06-05",
-    endDate:   "2026-06-07",
-    tv: "FOX",
-    phase: "regular",
-    tags: [],
+    venue: "New England Dragway", city: "Epping, NH",
+    timezone: "America/New_York", startDate: "2026-06-05", endDate: "2026-06-07",
+    tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
     itinerary: [
       { day: "Friday, Jun 5", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, Jun 6", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
         { time: "11:30 AM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
-        { time: "5:30 PM",  event: "Pit Party & Autographs", key: false },
+        { time: "3:00 PM", event: "Final Qualifying — All Classes (Q4)", key: true },
       ]},
       { day: "Sunday, Jun 7", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 9,
-    name: "NHRA Thunder Valley Nationals",
+    id: 9, name: "NHRA Thunder Valley Nationals",
     fullName: "25th annual Super Grip NHRA Thunder Valley Nationals",
-    venue: "Bristol Dragway",
-    city: "Bristol, TN",
-    timezone: "America/New_York",
-    startDate: "2026-06-12",
-    endDate:   "2026-06-14",
-    tv: "FS1",
-    phase: "regular",
-    tags: [],
+    venue: "Bristol Dragway", city: "Bristol, TN",
+    timezone: "America/New_York", startDate: "2026-06-12", endDate: "2026-06-14",
+    tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
     itinerary: [
       { day: "Friday, Jun 12", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Saturday, Jun 13", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
         { time: "12:00 PM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
+        { time: "3:00 PM", event: "Final Qualifying — All Classes (Q4)", key: true },
       ]},
       { day: "Sunday, Jun 14", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 10,
-    name: "Summit Racing Equipment NHRA Nationals",
+    id: 10, name: "Summit Racing Equipment NHRA Nationals",
     fullName: "20th annual Summit Racing Equipment NHRA Nationals",
-    venue: "Summit Motorsports Park",
-    city: "Norwalk, OH",
-    timezone: "America/New_York",
-    startDate: "2026-06-25",
-    endDate:   "2026-06-28",
-    tv: "FOX",
-    phase: "regular",
-    tags: [],
+    venue: "Summit Motorsports Park", city: "Norwalk, OH",
+    timezone: "America/New_York", startDate: "2026-06-25", endDate: "2026-06-28",
+    tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
       { day: "Thursday, Jun 25", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Friday, Jun 26", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Jun 27", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "11:00 AM", event: "Qualifying — All Classes (Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Final Q)", key: true },
+        { time: "7:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Sunday, Jun 28", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 11,
-    name: "DENSO NHRA Sonoma Nationals",
+    id: 11, name: "DENSO NHRA Sonoma Nationals",
     fullName: "38th annual DENSO NHRA Sonoma Nationals",
-    venue: "Sonoma Raceway",
-    city: "Sonoma, CA",
-    timezone: "America/Los_Angeles",
-    startDate: "2026-07-17",
-    endDate:   "2026-07-19",
-    tv: "FS1",
-    phase: "regular",
-    tags: [],
+    venue: "Sonoma Raceway", city: "Sonoma, CA",
+    timezone: "America/Los_Angeles", startDate: "2026-07-17", endDate: "2026-07-19",
+    tv: "FS1", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
       { day: "Friday, Jul 17", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "6:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Jul 18", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
+        { time: "6:30 PM", event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
       ]},
       { day: "Sunday, Jul 19", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 12,
-    name: "NHRA Northwest Nationals",
+    id: 12, name: "NHRA Northwest Nationals",
     fullName: "37th annual Muckleshoot Casino Resort NHRA Northwest Nationals",
-    venue: "Pacific Raceways",
-    city: "Kent, WA",
-    timezone: "America/Los_Angeles",
-    startDate: "2026-07-24",
-    endDate:   "2026-07-26",
-    tv: "FOX",
-    phase: "regular",
-    tags: [],
+    venue: "Pacific Raceways", city: "Kent, WA",
+    timezone: "America/Los_Angeles", startDate: "2026-07-24", endDate: "2026-07-26",
+    tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
     itinerary: [
-      { day: "Friday, Jul 24", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Jul 25", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q3, Mission 2Fast2Tasty)", key: true },
-        { time: "3:00 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
-      ]},
       { day: "Sunday, Jul 26", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 13,
-    name: "NHRA Brainerd Nationals",
+    id: 13, name: "NHRA Brainerd Nationals",
     fullName: "44th annual NHRA Brainerd Nationals",
-    venue: "Brainerd International Raceway",
-    city: "Brainerd, MN",
-    timezone: "America/Chicago",
-    startDate: "2026-08-20",
-    endDate:   "2026-08-23",
-    tv: "TBD",
-    phase: "regular",
-    tags: [],
+    venue: "Brainerd International Raceway", city: "Brainerd, MN",
+    timezone: "America/Chicago", startDate: "2026-08-20", endDate: "2026-08-23",
+    tv: "TBD", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock"],
     itinerary: [
-      { day: "Thursday, Aug 20", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Sportsman Qualifying", key: false },
-        { time: "12:00 PM", event: "Qualifying — Top Alcohol Sessions", key: false },
-        { time: "4:30 PM",  event: "Qualifying — Pro Stock (Q1)", key: true },
-        { time: "6:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-      ]},
-      { day: "Friday, Aug 21", sessions: [
-        { time: "9:00 AM",  event: "Sportsman Eliminations", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
-        { time: "6:45 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Aug 22", sessions: [
-        { time: "9:00 AM",  event: "Sportsman Eliminations", key: false },
-        { time: "12:00 PM", event: "Qualifying — Top Fuel (Q5, Mission 2Fast2Tasty)", key: true },
-        { time: "12:35 PM", event: "Qualifying — Funny Car (Q5)", key: true },
-        { time: "1:15 PM",  event: "Qualifying — Pro Stock (Q5)", key: true },
-        { time: "3:30 PM",  event: "Final Qualifying — All Classes (Q6)", key: true },
-        { time: "8:30 PM",  event: "Concert (The Zoo Band Shell)", key: false },
-      ]},
       { day: "Sunday, Aug 23", sessions: [
-        { time: "9:30 AM",  event: "SealMaster Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Mission Foods Drag Racing Eliminations Begin", key: true },
       ]},
     ]
   },
   {
-    id: 14,
-    name: "Cornwell Tools NHRA U.S. Nationals",
+    id: 14, name: "Cornwell Tools NHRA U.S. Nationals",
     fullName: "72nd annual Cornwell Quality Tools NHRA U.S. Nationals — The Big Go",
-    venue: "Lucas Oil Indianapolis Raceway Park",
-    city: "Brownsburg, IN",
-    timezone: "America/Indiana/Indianapolis",
-    startDate: "2026-09-02",
-    endDate:   "2026-09-07",
-    tv: "FS1 & FOX",
-    phase: "regular",
-    tags: ["big-go"],
+    venue: "Lucas Oil Indianapolis Raceway Park", city: "Brownsburg, IN",
+    timezone: "America/Indiana/Indianapolis", startDate: "2026-09-02", endDate: "2026-09-07",
+    tv: "FS1 & FOX", phase: "regular", tags: ["big-go"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol","Sportsman"],
     itinerary: [
-      { day: "Wednesday, Sep 2", sessions: [
-        { time: "8:30 AM",  event: "Gates Open — Lucas Oil Series Eliminations", key: false },
-        { time: "6:15 PM",  event: "Pro Series Qualifying (Q1) — Night Show", key: true },
-      ]},
-      { day: "Thursday, Sep 3", sessions: [
-        { time: "8:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "6:15 PM",  event: "Pro Series Qualifying (Q2) — Night Show", key: true },
-      ]},
-      { day: "Friday, Aug 29 (preview)", sessions: [
-        { time: "8:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "6:15 PM",  event: "Pro Series Qualifying (Q3) — Night Show", key: true },
-      ]},
-      { day: "Saturday, Sep 5", sessions: [
-        { time: "8:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "12:30 PM", event: "Pro Series Qualifying (Q4, Mission 2Fast2Tasty)", key: true },
-        { time: "3:15 PM",  event: "Pro Series Qualifying (Q5, Final)", key: true },
-        { time: "7:15 PM",  event: "Lucas Oil Series Evening Eliminations", key: false },
-      ]},
-      { day: "Sunday, Sep 6", sessions: [
-        { time: "8:00 AM",  event: "Lucas Oil Series Eliminations", key: false },
-        { time: "12:00 PM", event: "PlayNHRA All-Star Funny Car Callout Elims", key: true },
-        { time: "12:45 PM", event: "Pro Series Qualifying (Q6)", key: true },
-        { time: "2:45 PM",  event: "Pro Series Final Qualifying (Q7)", key: true },
-        { time: "5:45 PM",  event: "Lucas Oil Series Evening Eliminations", key: false },
-      ]},
       { day: "Monday, Sep 7", sessions: [
-        { time: "9:00 AM",  event: "SealMaster Track Walk & Driver Introductions", key: false },
-        { time: "10:00 AM", event: "Mission Foods Drag Racing Eliminations Begin — THE BIG GO", key: true },
-        { time: "All Day",  event: "Top Fuel → Funny Car → Pro Stock → PSM → Pro Mod", key: false },
+        { time: "9:00 AM", event: "SealMaster Track Walk & Driver Introductions", key: false },
+        { time: "10:00 AM", event: "Mission Foods Drag Racing Eliminations — THE BIG GO", key: true },
       ]},
     ]
   },
-
-  // ── COUNTDOWN TO THE CHAMPIONSHIP ──
   {
-    id: 15,
-    name: "NHRA Great Lakes Nationals",
+    id: 15, name: "NHRA Great Lakes Nationals",
     fullName: "41st annual NHRA Great Lakes Nationals",
-    venue: "U.S. 131 Motorsports Park",
-    city: "Martin, MI",
-    timezone: "America/New_York",
-    startDate: "2026-09-17",
-    endDate:   "2026-09-20",
-    tv: "FS1",
-    phase: "countdown",
-    tags: [],
+    venue: "U.S. 131 Motorsports Park", city: "Martin, MI",
+    timezone: "America/New_York", startDate: "2026-09-17", endDate: "2026-09-20",
+    tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
-      { day: "Thursday, Sep 17", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Friday, Sep 18", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Sep 19", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Mission 2Fast2Tasty)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Final)", key: true },
-      ]},
       { day: "Sunday, Sep 20", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 1 of 6)", key: true },
       ]},
     ]
   },
   {
-    id: 16,
-    name: "NHRA Nationals at The Rock",
+    id: 16, name: "NHRA Nationals at The Rock",
     fullName: "NHRA Nationals at The Rock",
-    venue: "Rockingham Dragway",
-    city: "Rockingham, NC",
-    timezone: "America/New_York",
-    startDate: "2026-09-25",
-    endDate:   "2026-09-27",
-    tv: "FS1",
-    phase: "countdown",
-    tags: [],
+    venue: "Rockingham Dragway", city: "Rockingham, NC",
+    timezone: "America/New_York", startDate: "2026-09-25", endDate: "2026-09-27",
+    tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod"],
     itinerary: [
-      { day: "Friday, Sep 25", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Sep 26", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q3)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
-      ]},
       { day: "Sunday, Sep 27", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 2 of 6)", key: true },
       ]},
     ]
   },
   {
-    id: 17,
-    name: "NAPA Auto Parts NHRA Midwest Nationals",
+    id: 17, name: "NAPA Auto Parts NHRA Midwest Nationals",
     fullName: "15th annual NAPA Auto Parts NHRA Midwest Nationals",
-    venue: "World Wide Technology Raceway",
-    city: "Madison, IL",
-    timezone: "America/Chicago",
-    startDate: "2026-10-02",
-    endDate:   "2026-10-04",
-    tv: "FS1 / FOX",
-    phase: "countdown",
-    tags: [],
+    venue: "World Wide Technology Raceway", city: "Madison, IL",
+    timezone: "America/Chicago", startDate: "2026-10-02", endDate: "2026-10-04",
+    tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
-      { day: "Friday, Oct 2", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Oct 3", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q3)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Q4, Final)", key: true },
-      ]},
       { day: "Sunday, Oct 4", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 3 of 6)", key: true },
       ]},
     ]
   },
   {
-    id: 18,
-    name: "Texas NHRA FallNationals",
+    id: 18, name: "Texas NHRA FallNationals",
     fullName: "41st annual Texas NHRA FallNationals",
-    venue: "Texas Motorplex",
-    city: "Ennis, TX",
-    timezone: "America/Chicago",
-    startDate: "2026-10-14",
-    endDate:   "2026-10-18",
-    tv: "FS1 / FOX",
-    phase: "countdown",
-    tags: [],
+    venue: "Texas Motorplex", city: "Ennis, TX",
+    timezone: "America/Chicago", startDate: "2026-10-14", endDate: "2026-10-18",
+    tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
-      { day: "Wednesday, Oct 14", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech / Media Day", key: false },
-      ]},
-      { day: "Thursday, Oct 15", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Friday, Oct 16", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Oct 17", sessions: [
-        { time: "8:00 AM",  event: "Sportsman Eliminations", key: false },
-        { time: "12:00 PM", event: "Qualifying — Top Fuel / Funny Car (Q5, Mission 2Fast2Tasty)", key: true },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q5)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Final Q)", key: true },
-      ]},
       { day: "Sunday, Oct 18", sessions: [
-        { time: "8:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:00 AM", event: "Countdown Eliminations Begin (Race 4 of 6)", key: true },
       ]},
     ]
   },
   {
-    id: 19,
-    name: "NHRA Nevada Nationals",
+    id: 19, name: "NHRA Nevada Nationals",
     fullName: "26th annual NHRA Nevada Nationals",
-    venue: "Las Vegas Motor Speedway",
-    city: "Las Vegas, NV",
-    timezone: "America/Los_Angeles",
-    startDate: "2026-10-29",
-    endDate:   "2026-11-01",
-    tv: "FS1",
-    phase: "countdown",
-    tags: [],
+    venue: "Las Vegas Motor Speedway", city: "Las Vegas, NV",
+    timezone: "America/Los_Angeles", startDate: "2026-10-29", endDate: "2026-11-01",
+    tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
-      { day: "Thursday, Oct 29", sessions: [
-        { time: "9:00 AM",  event: "Gates Open / Tech", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Friday, Oct 30", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Oct 31", sessions: [
-        { time: "9:00 AM",  event: "Gates Open — Halloween at the Races", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q5, Mission 2Fast2Tasty)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Final Q)", key: true },
-      ]},
       { day: "Sunday, Nov 1", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
         { time: "10:30 AM", event: "Countdown Eliminations Begin (Race 5 of 6)", key: true },
       ]},
     ]
   },
   {
-    id: 20,
-    name: "In-N-Out Burger NHRA Finals",
+    id: 20, name: "In-N-Out Burger NHRA Finals",
     fullName: "61st annual In-N-Out Burger NHRA Finals — 75th Anniversary Season Finale",
-    venue: "In-N-Out Burger Pomona Dragstrip",
-    city: "Pomona, CA",
-    timezone: "America/Los_Angeles",
-    startDate: "2026-11-12",
-    endDate:   "2026-11-15",
-    tv: "FS1",
-    phase: "countdown",
-    tags: ["season-finale"],
+    venue: "In-N-Out Burger Pomona Dragstrip", city: "Pomona, CA",
+    timezone: "America/Los_Angeles", startDate: "2026-11-12", endDate: "2026-11-15",
+    tv: "FS1", phase: "countdown", tags: ["season-finale"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle"],
     itinerary: [
-      { day: "Thursday, Nov 12", sessions: [
-        { time: "9:00 AM",  event: "Gates Open — 75th Anniversary Season Finale", key: false },
-        { time: "1:00 PM",  event: "Qualifying — Pro Stock / PSM (Q1)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q1, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q2, Night Show)", key: true },
-      ]},
-      { day: "Friday, Nov 13", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "2:00 PM",  event: "Qualifying — Pro Stock / PSM (Q3)", key: true },
-        { time: "4:30 PM",  event: "Qualifying — Top Fuel / Funny Car (Q3, Night Show)", key: true },
-        { time: "7:00 PM",  event: "Qualifying — Top Fuel / Funny Car (Q4, Night Show)", key: true },
-      ]},
-      { day: "Saturday, Nov 14", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "12:00 PM", event: "Qualifying — All Classes (Q5, Mission 2Fast2Tasty)", key: true },
-        { time: "3:30 PM",  event: "Qualifying — All Classes (Final Q)", key: true },
-        { time: "5:30 PM",  event: "Championship Celebration Events", key: false },
-      ]},
       { day: "Sunday, Nov 15", sessions: [
-        { time: "9:00 AM",  event: "Gates Open", key: false },
-        { time: "9:30 AM",  event: "Track Walk & Driver Introductions", key: false },
-        { time: "10:30 AM", event: "Championship Eliminations Begin (Race 6 of 6 — World Titles On The Line)", key: true },
+        { time: "10:30 AM", event: "Championship Eliminations — World Titles On The Line", key: true },
       ]},
     ]
   },
 ];
 
-// ── TIME ZONE CONVERSION ────────────────────────────────────────────────────
-// Parse local time string + venue timezone → convert to Eastern Time display
-function convertToET(timeStr, dateStr, venueTz) {
-  // Skip non-time entries
-  if (!timeStr.match(/^\d+:\d+\s*(AM|PM)$/i)) return timeStr;
+// ─── POINTS STANDINGS (after Race 2 — Arizona Nationals) ─────────────────────
+const STANDINGS = {
+  tf: [
+    { pos:1,  name:"Doug Kalitta",    pts:176, behind:0 },
+    { pos:2,  name:"Josh Hart",       pts:174, behind:-2 },
+    { pos:3,  name:"Shawn Langdon",   pts:170, behind:-6 },
+    { pos:4,  name:"Leah Pruett",     pts:158, behind:-18 },
+    { pos:5,  name:"Maddi Gordon",    pts:152, behind:-24 },
+    { pos:6,  name:"Tony Stewart",    pts:108, behind:-68 },
+    { pos:7,  name:"Antron Brown",    pts:107, behind:-69 },
+    { pos:8,  name:"Tony Schumacher", pts:101, behind:-75 },
+    { pos:9,  name:"Billy Torrence",  pts:78,  behind:-98 },
+    { pos:10, name:"Justin Ashley",   pts:65,  behind:-111 },
+    { pos:11, name:"Shawn Reed",      pts:65,  behind:-111 },
+    { pos:12, name:"Clay Millican",   pts:62,  behind:-114 },
+    { pos:13, name:"Tripp Tatum III", pts:53,  behind:-123 },
+    { pos:14, name:"Cameron Ferre",   pts:41,  behind:-135 },
+    { pos:15, name:"Will Smith",      pts:41,  behind:-135 },
+  ],
+  fc: [
+    { pos:1,  name:"Chad Green",          pts:174, behind:0 },
+    { pos:2,  name:"Spencer Hyde",        pts:156, behind:-18 },
+    { pos:3,  name:"Ron Capps",           pts:151, behind:-23 },
+    { pos:4,  name:"J.R. Todd",           pts:140, behind:-34 },
+    { pos:5,  name:"Matt Hagan",          pts:135, behind:-39 },
+    { pos:6,  name:"Alexis DeJoria",      pts:126, behind:-48 },
+    { pos:7,  name:"Jordan Vandergriff",  pts:125, behind:-49 },
+    { pos:8,  name:"Paul Lee",            pts:111, behind:-63 },
+    { pos:9,  name:"Daniel Wilkerson",    pts:107, behind:-67 },
+    { pos:10, name:"Jack Beckman",        pts:64,  behind:-110 },
+    { pos:11, name:"Dave Richards",       pts:63,  behind:-111 },
+    { pos:12, name:"Cruz Pedregon",       pts:57,  behind:-117 },
+    { pos:13, name:"John Smith",          pts:51,  behind:-123 },
+    { pos:14, name:"Austin Prock",        pts:33,  behind:-141 },
+    { pos:15, name:"Bob Tasca III",       pts:32,  behind:-142 },
+  ],
+  ps: [
+    { pos:1,  name:"Dallas Glenn",      pts:195, behind:0 },
+    { pos:2,  name:"Matt Hartford",     pts:160, behind:-35 },
+    { pos:3,  name:"Cody Coughlin",     pts:158, behind:-37 },
+    { pos:4,  name:"Greg Anderson",     pts:142, behind:-53 },
+    { pos:5,  name:"Erica Enders",      pts:128, behind:-67 },
+    { pos:6,  name:"Greg Stanfield",    pts:118, behind:-77 },
+    { pos:7,  name:"Matt Latino",       pts:109, behind:-86 },
+    { pos:8,  name:"Jeg Coughlin Jr.",  pts:107, behind:-88 },
+    { pos:9,  name:"Aaron Stanfield",   pts:106, behind:-89 },
+    { pos:10, name:"Cody Anderson",     pts:83,  behind:-112 },
+    { pos:11, name:"Chris McGaha",      pts:82,  behind:-113 },
+    { pos:12, name:"Deric Kramer",      pts:67,  behind:-128 },
+    { pos:13, name:"Eric Latino",       pts:65,  behind:-130 },
+    { pos:14, name:"Troy Coughlin Jr.", pts:64,  behind:-131 },
+    { pos:15, name:"Stephen Bell",      pts:62,  behind:-133 },
+  ],
+  psm: [
+    { pos:1,  name:"Richard Gadson",  pts:124, behind:0 },
+    { pos:2,  name:"John Hall",       pts:94,  behind:-30 },
+    { pos:3,  name:"Clayton Howey",   pts:74,  behind:-50 },
+    { pos:4,  name:"Steve Johnson",   pts:73,  behind:-51 },
+    { pos:5,  name:"Matt Smith",      pts:64,  behind:-60 },
+    { pos:6,  name:"Angie Smith",     pts:63,  behind:-61 },
+    { pos:7,  name:"Gaige Herrera",   pts:59,  behind:-65 },
+    { pos:8,  name:"Chase Van Sant",  pts:53,  behind:-71 },
+    { pos:9,  name:"Kelly Clontz",    pts:32,  behind:-92 },
+    { pos:10, name:"Brayden Davis",   pts:32,  behind:-92 },
+    { pos:11, name:"Jianna Evaristo", pts:32,  behind:-92 },
+    { pos:12, name:"Ryan Oehler",     pts:32,  behind:-92 },
+    { pos:13, name:"Chris Bostick",   pts:31,  behind:-93 },
+    { pos:14, name:"Marc Ingwersen",  pts:31,  behind:-93 },
+    { pos:15, name:"Kimberly Morrell",pts:31,  behind:-93 },
+  ]
+};
 
+// ─── ENTRY LIST (base data — live-refreshed on app open) ──────────────────────
+// This is the known 2026 season roster. On app open, we attempt a live fetch
+// from nhra.com and merge any updates. Fallback = this data.
+
+const ENTRY_LIST_BASE = {
+  tf: [
+    { num:"01", name:"Doug Kalitta",    sponsor:"Mac Tools Dragster",                    team:"Kalitta Motorsports" },
+    { num:"02", name:"Shawn Langdon",   sponsor:"Kalitta Air Careers",                   team:"Kalitta Motorsports" },
+    { num:"03", name:"Justin Ashley",   sponsor:"SCAG Power Equipment",                  team:"SCAG Racing" },
+    { num:"05", name:"Tony Stewart",    sponsor:"R+L Carriers",                          team:"Elite Motorsports" },
+    { num:"06", name:"Clay Millican",   sponsor:"Parts Plus",                            team:"Parts Plus Racing" },
+    { num:"07", name:"Steve Torrence",  sponsor:"Capco Racing",                          team:"Capco Contractors Racing" },
+    { num:"08", name:"Shawn Reed",      sponsor:"Shawn Reed Racing",                     team:"Shawn Reed Racing" },
+    { num:"09", name:"Antron Brown",    sponsor:"Matco Tools / Lucas Oil / Toyota",       team:"Antron Brown Motorsports" },
+    { num:"10", name:"Josh Hart",       sponsor:"Burnyzz Speed Shop / Speedmaster",       team:"John Force Racing" },
+    { num:"11", name:"Ida Zetterström", sponsor:"JCM Racing",                            team:"JCM Racing" },
+    { num:"12", name:"Jasmine Salinas", sponsor:"Scrappers Racing",                      team:"Scrappers Racing" },
+    { num:"13", name:"Dan Mercier",     sponsor:"Mercier Racing",                        team:"Mercier Racing" },
+    { num:"14", name:"Tony Schumacher", sponsor:"American Communications Construction",  team:"Tony Schumacher Racing" },
+    { num:"16", name:"Kyle Wurtzel",    sponsor:"Heartwood Planning Group",              team:"Wurtzel Racing" },
+    { num:"17", name:"Cameron Ferre",   sponsor:"Jerry Freeman Racing",                  team:"Jerry Freeman Racing" },
+    { num:"100", name:"Maddi Gordon",   sponsor:"Ron Capps Motorsports",                 team:"Ron Capps Motorsports" },
+    { num:"474", name:"Billy Torrence", sponsor:"Capco Racing",                          team:"Capco Contractors Racing" },
+    { num:"777", name:"Leah Pruett",    sponsor:"Tony Stewart Racing",                   team:"Tony Stewart Racing" },
+    { num:"90",  name:"Will Smith",     sponsor:"SCAG Racing / BlueBird Turf",           team:"SCAG Racing" },
+    { num:"4",   name:"Tripp Tatum III",sponsor:"Tatum Motorsports",                     team:"Tatum Motorsports" },
+  ],
+  fc: [
+    { num:"01", name:"Austin Prock",        sponsor:"Ford Mustang Dark Horse",                    team:"Tasca Racing" },
+    { num:"02", name:"Matt Hagan",          sponsor:"TSR Direct Connection Dodge SRT Hellcat",    team:"Tony Stewart Racing" },
+    { num:"03", name:"Jack Beckman",        sponsor:"PEAK Chevrolet Camaro SS",                   team:"PEAK Racing" },
+    { num:"04", name:"Ron Capps",           sponsor:"NAPA Auto Parts Toyota GR Supra",            team:"Ron Capps Motorsports" },
+    { num:"05", name:"Daniel Wilkerson",    sponsor:"Scag Power Equipment Ford Shelby Mustang",   team:"Elite Motorsports" },
+    { num:"06", name:"Paul Lee",            sponsor:"McLeod Racing / FTI Performance Charger",    team:"Paul Lee Racing" },
+    { num:"07", name:"Chad Green",          sponsor:"Bond Coat Ford Mustang",                     team:"Chad Green Racing" },
+    { num:"08", name:"Cruz Pedregon",       sponsor:"Snap-on Tools Dodge SRT Hellcat",            team:"Cruz Pedregon Racing" },
+    { num:"09", name:"Spencer Hyde",        sponsor:"Head Inc. Ford Mustang",                     team:"Spencer Hyde Racing" },
+    { num:"10", name:"Bob Tasca III",       sponsor:"Ford Motorcraft / Quick Lane Mustang",       team:"Tasca Racing" },
+    { num:"11", name:"J.R. Todd",           sponsor:"DHL Toyota GR Supra",                        team:"Kalitta Motorsports" },
+    { num:"12", name:"Alexis DeJoria",      sponsor:"Bandero Café Funny Car",                     team:"John Force Racing" },
+    { num:"13", name:"Dave Richards",       sponsor:"SCAG Racing / BlueBird Turf / Versatran",    team:"SCAG Racing" },
+    { num:"14", name:"Buddy Hull",          sponsor:"Hull Racing",                                team:"Hull Racing" },
+    { num:"15", name:"Blake Alexander",     sponsor:"Pronto Auto Service Center",                 team:"Blake Alexander Racing" },
+    { num:"24", name:"Jordan Vandergriff",  sponsor:"Cornwell Tools Chevrolet Camaro SS",         team:"John Force Racing" },
+    { num:"28", name:"Hunter Green",        sponsor:"Bond-Coat Dodge Hellcat",                    team:"Chad Green Racing" },
+  ],
+  ps: [
+    { num:"01", name:"Greg Anderson",       sponsor:"HendrickCars.com",                      team:"KB Titan Racing" },
+    { num:"02", name:"Dallas Glenn",        sponsor:"RAD Torque Systems",                    team:"Elite Motorsports" },
+    { num:"03", name:"Aaron Stanfield",     sponsor:"JHG / Melling / Janac Brothers",         team:"Elite Motorsports" },
+    { num:"04", name:"Erica Enders",        sponsor:"JHG / Melling / SCAG",                  team:"Elite Motorsports" },
+    { num:"05", name:"Jeg Coughlin Jr.",    sponsor:"Scag Power Equipment / Outlaw Mile Hi",  team:"Elite Motorsports" },
+    { num:"06", name:"Matt Hartford",       sponsor:"GETTRX / Total Seal",                   team:"KB Titan Racing" },
+    { num:"09", name:"Troy Coughlin Jr.",   sponsor:"JEGS.com / White Castle",               team:"Elite Motorsports" },
+    { num:"10", name:"Eric Latino",         sponsor:"Team GESi Racing",                      team:"GESi Racing" },
+    { num:"11", name:"Mason McGaha",        sponsor:"Harlow Sammons Racing",                 team:"Elite Motorsports" },
+    { num:"12", name:"Chris McGaha",        sponsor:"Harlow Sammons Racing",                 team:"Elite Motorsports" },
+    { num:"13", name:"Deric Kramer",        sponsor:"Get Biofuel",                           team:"Kramer Motorsports" },
+    { num:"16", name:"Kenny Delco",         sponsor:"KD Racing / Artisan Coffee Co.",         team:"KD Racing" },
+    { num:"17", name:"Cory Reed",           sponsor:"J&A Service",                           team:"J&A Service Racing" },
+    { num:"51", name:"Dave Connolly",       sponsor:"KB Titan Racing",                       team:"KB Titan Racing" },
+    { num:"72", name:"Cody Coughlin",       sponsor:"Cody Coughlin Co.",                     team:"Cody Coughlin Co." },
+    { num:"201", name:"Matt Latino",        sponsor:"Team GESi Racing",                      team:"GESi Racing" },
+    { num:"439", name:"Stephen Bell",       sponsor:"1320 LLC",                              team:"Elite Motorsports" },
+    { num:"07", name:"Cristian Cuadra",     sponsor:"Corral Boots / Cuadra / Columbia Impex", team:"Cuadra Racing" },
+    { num:"14", name:"David Cuadra",        sponsor:"Cuadra / Corral Boots",                 team:"Cuadra Racing" },
+    { num:"15", name:"Fernando Cuadra Jr.", sponsor:"Corral Boots / Cuadra",                 team:"Cuadra Racing" },
+  ],
+  psm: [
+    { num:"01", name:"Richard Gadson",  sponsor:"RevZilla / Mission / Vance & Hines Suzuki",  team:"Vance & Hines" },
+    { num:"02", name:"Gaige Herrera",   sponsor:"RevZilla / Mission / Vance & Hines Suzuki",  team:"Vance & Hines" },
+    { num:"03", name:"Matt Smith",      sponsor:"Denso / Outlaw Beer / MSR",                  team:"Matt Smith Racing" },
+    { num:"04", name:"Angie Smith",     sponsor:"Denso / Outlaw Beer / MSR",                  team:"Matt Smith Racing" },
+    { num:"05", name:"Brayden Davis",   sponsor:"Flyin' Ryan Racing / B&K Cylinder Heads",    team:"Davis Racing" },
+    { num:"06", name:"John Hall",       sponsor:"Denso / B.R.A.K.E.S. / MSR",                team:"Matt Smith Racing" },
+    { num:"07", name:"Jianna Evaristo", sponsor:"JHG / Scrappers / Denso / MSR",             team:"Matt Smith Racing" },
+    { num:"08", name:"Chase Van Sant",  sponsor:"Trick Tools / White Alligator Racing Suzuki", team:"White Alligator Racing" },
+    { num:"09", name:"Steve Johnson",   sponsor:"Steve Johnson Racing Suzuki",                team:"Steve Johnson Racing" },
+    { num:"10", name:"Chris Bostick",   sponsor:"The Surf RV Resort Suzuki",                  team:"Bostick Racing" },
+    { num:"11", name:"Marc Ingwersen",  sponsor:"Thiel's Wheels Buell",                       team:"Ingwersen Racing" },
+    { num:"12", name:"Kelly Clontz",    sponsor:"Steamfitters UA Local 602",                  team:"Clontz Racing" },
+    { num:"13", name:"Ryan Oehler",     sponsor:"El Bandido Tequila",                         team:"Oehler Racing" },
+    { num:"14", name:"Hector Arana Jr", sponsor:"GETTRX Buell",                               team:"Arana Racing" },
+    { num:"15", name:"Ron Tornow",      sponsor:"Ron Tornow Racing",                          team:"Tornow Racing" },
+  ]
+};
+
+// Track live-fetched overrides
+let entryListLive = {};
+let entryFetchTime = null;
+let entryFetchStatus = 'idle'; // idle | fetching | fresh | stale | error
+
+// ─── ENTRY LIST LIVE REFRESH ──────────────────────────────────────────────────
+// Strategy: On each app open and each time the Entries tab is opened,
+// fetch the NHRA driver listing pages via a CORS proxy and diff against base data.
+// We use allorigins.win as a free CORS proxy (no auth needed, browser-safe).
+
+const NHRA_SOURCES = {
+  tf:  'https://www.nhra.com/drivers/nhra/top-fuel',
+  fc:  'https://www.nhra.com/drivers/nhra/funny-car',
+  ps:  'https://www.nhra.com/drivers/nhra/pro-stock',
+  psm: 'https://www.nhra.com/drivers/nhra/pro-stock-motorcycle',
+};
+
+async function fetchClassEntries(classKey) {
+  const url = NHRA_SOURCES[classKey];
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+  try {
+    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+    const html = data.contents || '';
+
+    // Parse driver names and car numbers from the table
+    // NHRA driver listing uses a standard table format
+    const rows = [];
+    const nameRe = /<td[^>]*>([A-Z][a-zA-ZÖöÜüÄäÉéÍí '\-\.]+)<\/td>/g;
+    const numRe = /\|(\d+)\s*\|/g;
+
+    // Extract from the table structure returned by allorigins
+    // Look for the driver table rows
+    const tableMatch = html.match(/Driver\s*\|[^]+?(?=<\/table>|$)/i);
+    if (tableMatch) {
+      const tableText = tableMatch[0];
+      const lines = tableText.split('\n');
+      lines.forEach(line => {
+        const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+        if (parts.length >= 2) {
+          const numPart = parts[0];
+          const namePart = parts[1];
+          if (/^\d+$/.test(numPart) && namePart.length > 2 && /[a-zA-Z]/.test(namePart)) {
+            rows.push({ num: numPart, name: namePart });
+          }
+        }
+      });
+    }
+
+    if (rows.length > 2) {
+      return rows;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function refreshEntryList() {
+  setRefreshStatus('fetching');
+  let anyUpdated = false;
+
+  // Fetch all 4 classes in parallel
+  const results = await Promise.allSettled([
+    fetchClassEntries('tf'),
+    fetchClassEntries('fc'),
+    fetchClassEntries('ps'),
+    fetchClassEntries('psm'),
+  ]);
+
+  const keys = ['tf','fc','ps','psm'];
+  results.forEach((res, i) => {
+    if (res.status === 'fulfilled' && res.value && res.value.length > 3) {
+      // Merge: update names/numbers that changed, keep sponsor/team from base
+      const liveRows = res.value;
+      const classKey = keys[i];
+      const base = ENTRY_LIST_BASE[classKey];
+      const merged = base.map(entry => {
+        const liveMatch = liveRows.find(r =>
+          r.name.toLowerCase().includes(entry.name.split(' ').pop().toLowerCase())
+        );
+        if (liveMatch && liveMatch.num !== entry.num) {
+          return { ...entry, num: liveMatch.num, _updated: true };
+        }
+        return entry;
+      });
+      // Add any new drivers from live that aren't in base
+      liveRows.forEach(lr => {
+        const exists = merged.some(m => m.name.toLowerCase().includes(lr.name.split(' ').pop()?.toLowerCase() || ''));
+        if (!exists && lr.name.length > 3) {
+          merged.push({ num: lr.num, name: lr.name, sponsor: '—', team: '—', _new: true });
+        }
+      });
+      entryListLive[classKey] = merged;
+      anyUpdated = true;
+    }
+  });
+
+  entryFetchTime = new Date();
+  setRefreshStatus(anyUpdated ? 'fresh' : 'stale');
+
+  // Re-render if entries view is active
+  if (activeView === 'entries') renderEntryList();
+}
+
+function setRefreshStatus(status) {
+  entryFetchStatus = status;
+  const dot = document.getElementById('refresh-dot');
+  const label = document.getElementById('refresh-label');
+  const icon = document.getElementById('refresh-icon');
+  if (!dot || !label) return;
+
+  dot.className = 'refresh-dot';
+  if (status === 'fetching') {
+    dot.classList.add('fetching');
+    label.textContent = 'Refreshing…';
+    if (icon) icon.classList.add('spinning');
+  } else if (status === 'fresh') {
+    dot.classList.add('fresh');
+    const t = entryFetchTime ? entryFetchTime.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }) : '';
+    label.textContent = `Updated ${t}`;
+    if (icon) icon.classList.remove('spinning');
+  } else if (status === 'stale') {
+    dot.classList.add('stale');
+    label.textContent = 'Cached data';
+    if (icon) icon.classList.remove('spinning');
+  } else if (status === 'error') {
+    dot.classList.add('stale');
+    label.textContent = 'Offline';
+    if (icon) icon.classList.remove('spinning');
+  } else {
+    label.textContent = 'Live';
+    if (icon) icon.classList.remove('spinning');
+  }
+}
+
+// ─── TIME ZONE CONVERSION ─────────────────────────────────────────────────────
+function convertToET(timeStr, dateStr, venueTz) {
+  if (!timeStr.match(/^\d+:\d+\s*(AM|PM)$/i)) return timeStr;
   try {
     const [, hr, min, ampm] = timeStr.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
     let hour = parseInt(hr, 10);
     if (ampm.toUpperCase() === 'PM' && hour !== 12) hour += 12;
     if (ampm.toUpperCase() === 'AM' && hour === 12) hour = 0;
-
-    // Build an ISO datetime string and parse in venue timezone
     const localStr = `${dateStr}T${String(hour).padStart(2,'0')}:${min}:00`;
-
-    // Use Intl to get the UTC offset for this date/time in the venue tz
-    const venueDt = new Date(localStr);
-    const venueOffset = getTimezoneOffset(localStr, venueTz);
-    const utcMs = venueDt.getTime() - venueOffset * 60000;
-
-    const etDate = new Date(utcMs);
-    return etDate.toLocaleTimeString('en-US', {
-      hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York'
+    const dt = new Date(localStr);
+    const tzDate = new Date(dt.toLocaleString('en-US', { timeZone: venueTz }));
+    const utcDate = new Date(dt.toLocaleString('en-US', { timeZone: 'UTC' }));
+    const offsetMin = (tzDate - utcDate) / 60000;
+    const utcMs = dt.getTime() - offsetMin * 60000;
+    return new Date(utcMs).toLocaleTimeString('en-US', {
+      hour:'numeric', minute:'2-digit', hour12:true, timeZone:'America/New_York'
     });
-  } catch {
-    return timeStr;
-  }
+  } catch { return timeStr; }
 }
 
-function getTimezoneOffset(localDateStr, tz) {
-  // Use Intl DateTimeFormat trick to get offset in minutes
-  const dt = new Date(localDateStr);
-  const tzDate = new Date(dt.toLocaleString('en-US', { timeZone: tz }));
-  const utcDate = new Date(dt.toLocaleString('en-US', { timeZone: 'UTC' }));
-  return (tzDate - utcDate) / 60000;
-}
-
-// ── DATE HELPERS ───────────────────────────────────────────────────────────
-function parseDate(str) {
-  const [y, m, d] = str.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-function today() {
-  const n = new Date();
-  return new Date(n.getFullYear(), n.getMonth(), n.getDate());
-}
+// ─── DATE HELPERS ─────────────────────────────────────────────────────────────
+const MONTHS3 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS3U = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+function parseDate(s) { const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function today()      { const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate()); }
 function formatDateRange(start, end) {
-  const s = parseDate(start), e = parseDate(end);
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  if (s.getMonth() === e.getMonth()) {
-    return `${months[s.getMonth()]} ${s.getDate()}–${e.getDate()}, ${s.getFullYear()}`;
-  }
-  return `${months[s.getMonth()]} ${s.getDate()} – ${months[e.getMonth()]} ${e.getDate()}, ${e.getFullYear()}`;
+  const s=parseDate(start), e=parseDate(end);
+  if (s.getMonth()===e.getMonth())
+    return `${MONTHS3[s.getMonth()]} ${s.getDate()}–${e.getDate()}, ${s.getFullYear()}`;
+  return `${MONTHS3[s.getMonth()]} ${s.getDate()} – ${MONTHS3[e.getMonth()]} ${e.getDate()}, ${e.getFullYear()}`;
 }
 
-// ── STATUS HELPERS ─────────────────────────────────────────────────────────
+// ─── RACE STATUS ──────────────────────────────────────────────────────────────
 function getRaceStatus(race) {
-  const t = today();
-  const start = parseDate(race.startDate);
-  const end = parseDate(race.endDate);
-  if (t > end)   return 'completed';
-  if (t >= start) return 'live';
+  const t=today(), s=parseDate(race.startDate), e=parseDate(race.endDate);
+  if (t>e) return 'completed';
+  if (t>=s) return 'live';
   return 'upcoming';
 }
 
-// ── STATS BAR ──────────────────────────────────────────────────────────────
+// ─── STATS BAR ────────────────────────────────────────────────────────────────
 function updateStats() {
-  const t = today();
-  let remaining = 0, completed = 0, nextRace = null;
-
+  const t=today();
+  let remaining=0, completed=0, nextRace=null;
   RACES.forEach(r => {
-    const end = parseDate(r.endDate);
-    const start = parseDate(r.startDate);
-    if (t > end) {
-      completed++;
-    } else {
-      remaining++;
-      if (!nextRace && t <= start) nextRace = r;
-    }
+    if (t > parseDate(r.endDate)) completed++;
+    else { remaining++; if (!nextRace && t<=parseDate(r.startDate)) nextRace=r; }
   });
-
   document.getElementById('stat-remaining').textContent = remaining;
   document.getElementById('stat-completed').textContent = completed;
-
   if (nextRace) {
     const city = nextRace.city.split(',')[1]?.trim() || nextRace.city;
     document.getElementById('stat-next').textContent = city;
   } else {
-    document.getElementById('stat-next').textContent = 'Season Complete';
+    document.getElementById('stat-next').textContent = 'Complete';
   }
 }
 
-// ── RENDER SCHEDULE ────────────────────────────────────────────────────────
+// ─── NAV / VIEW SWITCHING ─────────────────────────────────────────────────────
+let activeView = 'schedule';
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    if (view === activeView) return;
+
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.view').forEach(v => {
+      v.classList.remove('active-view');
+      v.setAttribute('hidden','');
+    });
+    const el = document.getElementById(`view-${view}`);
+    if (el) { el.removeAttribute('hidden'); el.classList.add('active-view'); }
+
+    activeView = view;
+
+    if (view === 'winners')   renderWinnersCircle();
+    if (view === 'standings') renderStandings();
+    if (view === 'entries') {
+      renderEntryList();
+      // Trigger background refresh every time Entries tab is opened
+      refreshEntryList();
+    }
+  });
+});
+
+// ─── SCHEDULE VIEW ────────────────────────────────────────────────────────────
 let activeFilter = 'all';
 
-function renderSchedule() {
-  const list = document.getElementById('schedule-list');
-  list.innerHTML = '';
-
-  const t = today();
-  let nextFound = false;
-
-  // Find overall next race
-  const nextRace = RACES.find(r => parseDate(r.endDate) >= t);
-
-  let regularRendered = false;
-  let countdownRendered = false;
-
-  const filtered = RACES.filter(r => {
-    const status = getRaceStatus(r);
-    if (activeFilter === 'upcoming')  return status === 'upcoming' || status === 'live';
-    if (activeFilter === 'completed') return status === 'completed';
-    if (activeFilter === 'countdown') return r.phase === 'countdown';
-    return true;
-  });
-
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty-state">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
-        </svg>
-        <p>No races in this category</p>
-      </div>`;
-    return;
-  }
-
-  filtered.forEach(race => {
-    const status = getRaceStatus(race);
-    const isNext = race === nextRace && (activeFilter === 'all' || activeFilter === 'upcoming');
-
-    // Phase headers
-    if (race.phase === 'regular' && !regularRendered && (activeFilter === 'all' || activeFilter === 'completed')) {
-      const ph = document.createElement('div');
-      ph.className = 'phase-header regular';
-      ph.innerHTML = `<span class="phase-label">Regular Season</span><div class="phase-line"></div>`;
-      list.appendChild(ph);
-      regularRendered = true;
-    }
-    if (race.phase === 'countdown' && !countdownRendered && (activeFilter === 'all' || activeFilter === 'countdown' || activeFilter === 'completed')) {
-      const ph = document.createElement('div');
-      ph.className = 'phase-header countdown';
-      ph.innerHTML = `<span class="phase-label">Countdown to the Championship</span><div class="phase-line"></div>`;
-      list.appendChild(ph);
-      countdownRendered = true;
-    }
-
-    const card = document.createElement('div');
-    card.className = `race-card ${status} ${race.phase === 'countdown' ? 'countdown-race' : ''} ${isNext ? 'next-race' : ''}`;
-    card.setAttribute('role', 'listitem');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `${race.name}, ${race.city}, ${formatDateRange(race.startDate, race.endDate)}`);
-
-    const sDate = parseDate(race.startDate);
-    const eDate = parseDate(race.endDate);
-    const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    const sameMonth = sDate.getMonth() === eDate.getMonth();
-
-    let statusLabel = '';
-    if (isNext) statusLabel = `<span class="card-status status-next">Next Race</span>`;
-    else if (status === 'completed') statusLabel = `<span class="card-status status-completed">Completed</span>`;
-    else if (status === 'live') statusLabel = `<span class="card-status status-next">Live</span>`;
-
-    let tagsHtml = race.tags.map(t => {
-      const cls = t === '4-wide' ? 'tag-4wide' : t === 'big-go' ? 'tag-biggo' : '';
-      const labels = { '4-wide': '4-Wide', 'big-go': 'The Big Go', 'season-opener': 'Season Opener', 'season-finale': 'Season Finale', 'new-venue': 'New Venue' };
-      return `<span class="card-tag ${cls}">${labels[t] || t}</span>`;
-    }).join('');
-
-    card.innerHTML = `
-      ${isNext ? '<div class="next-race-banner">UP NEXT</div>' : ''}
-      <div class="card-date-col">
-        <span class="card-month">${months[sDate.getMonth()]}</span>
-        <span class="card-day">${sDate.getDate()}</span>
-        ${!sameMonth ? `<span class="card-day-end">–${months[eDate.getMonth()]} ${eDate.getDate()}</span>` : `<span class="card-day-end">–${eDate.getDate()}</span>`}
-      </div>
-      <div class="card-content">
-        <div class="card-top-row">
-          <span class="card-event-num">Race ${race.id} of 20</span>
-          ${statusLabel}
-        </div>
-        <div class="card-name">${race.name}</div>
-        <div class="card-venue">${race.venue} · ${race.city}</div>
-        <div class="card-footer-row">
-          <span class="card-tv">${race.tv}</span>
-          ${tagsHtml}
-        </div>
-      </div>
-      <div class="card-arrow">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-      </div>
-    `;
-
-    card.addEventListener('click', () => openModal(race));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(race); } });
-    list.appendChild(card);
-  });
-}
-
-// ── FILTER TABS ────────────────────────────────────────────────────────────
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -957,68 +799,320 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
-// ── MODAL ──────────────────────────────────────────────────────────────────
+function renderSchedule() {
+  const list = document.getElementById('schedule-list');
+  list.innerHTML = '';
+  const t = today();
+  const nextRace = RACES.find(r => parseDate(r.endDate) >= t);
+
+  const filtered = RACES.filter(r => {
+    const st = getRaceStatus(r);
+    if (activeFilter === 'upcoming')  return st === 'upcoming' || st === 'live';
+    if (activeFilter === 'completed') return st === 'completed';
+    if (activeFilter === 'countdown') return r.phase === 'countdown';
+    return true;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><p>No races in this category</p></div>`;
+    return;
+  }
+
+  let regularDone = false, countdownDone = false;
+
+  filtered.forEach(race => {
+    const status = getRaceStatus(race);
+    const isNext = race === nextRace && (activeFilter === 'all' || activeFilter === 'upcoming');
+
+    if (race.phase === 'regular' && !regularDone && (activeFilter === 'all' || activeFilter === 'completed')) {
+      list.appendChild(phaseHeader('Regular Season', false)); regularDone = true;
+    }
+    if (race.phase === 'countdown' && !countdownDone && (activeFilter === 'all' || activeFilter === 'countdown' || activeFilter === 'completed')) {
+      list.appendChild(phaseHeader('Countdown to the Championship', true)); countdownDone = true;
+    }
+
+    const card = document.createElement('div');
+    card.className = `race-card ${status} ${race.phase==='countdown'?'countdown-race':''} ${isNext?'next-race':''}`;
+    card.setAttribute('role','listitem');
+    card.setAttribute('tabindex','0');
+
+    const sDate = parseDate(race.startDate), eDate = parseDate(race.endDate);
+    const sameMonth = sDate.getMonth() === eDate.getMonth();
+
+    let statusHtml = '';
+    if (isNext)              statusHtml = `<span class="card-status status-next">Next Race</span>`;
+    else if (status==='completed') statusHtml = `<span class="card-status status-completed">Completed</span>`;
+    else if (status==='live')      statusHtml = `<span class="card-status status-next">Live Now</span>`;
+
+    let tagsHtml = race.tags.map(tag => {
+      const map = {'4-wide':'4-Wide','big-go':'The Big Go','season-opener':'Season Opener','season-finale':'Season Finale','new-venue':'New Venue'};
+      const cls = tag==='4-wide'?'tag-4wide':tag==='big-go'?'tag-biggo':'';
+      return `<span class="card-tag ${cls}">${map[tag]||tag}</span>`;
+    }).join('');
+
+    // Show winner badge if completed
+    let winnerBadge = '';
+    if (status === 'completed' && race.winners) {
+      const tf = race.winners.find(w => w.cls === 'Top Fuel');
+      if (tf) winnerBadge = `<span class="card-tag winner-tag">🏆 TF: ${tf.driver.split(' ').pop()}</span>`;
+    }
+
+    card.innerHTML = `
+      ${isNext ? '<div class="next-race-banner">UP NEXT</div>' : ''}
+      <div class="card-date-col">
+        <span class="card-month">${MONTHS3U[sDate.getMonth()]}</span>
+        <span class="card-day">${sDate.getDate()}</span>
+        <span class="card-day-end">thru ${sameMonth?eDate.getDate():MONTHS3U[eDate.getMonth()]+' '+eDate.getDate()}</span>
+      </div>
+      <div class="card-content">
+        <div class="card-top-row">
+          <span class="card-event-num">Race ${race.id} of 20</span>
+          ${statusHtml}
+        </div>
+        <div class="card-name">${race.name}</div>
+        <div class="card-venue">${race.venue} · ${race.city}</div>
+        <div class="card-footer-row">
+          <span class="card-tv">${race.tv}</span>
+          ${tagsHtml}${winnerBadge}
+        </div>
+      </div>
+      <div class="card-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>`;
+
+    card.addEventListener('click', () => openModal(race));
+    card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(race);} });
+    list.appendChild(card);
+  });
+}
+
+function phaseHeader(label, isCountdown) {
+  const el = document.createElement('div');
+  el.className = `phase-header ${isCountdown?'countdown':''}`;
+  el.innerHTML = `<span class="phase-label">${label}</span><div class="phase-line"></div>`;
+  return el;
+}
+
+// ─── WINNERS CIRCLE ───────────────────────────────────────────────────────────
+function renderWinnersCircle() {
+  const container = document.getElementById('winners-list');
+  container.innerHTML = '';
+
+  RACES.forEach(race => {
+    const card = document.createElement('div');
+    card.className = 'wc-card';
+
+    const sDate = parseDate(race.startDate);
+    const status = getRaceStatus(race);
+
+    card.innerHTML = `
+      <div class="wc-card-header">
+        <div class="wc-race-info">
+          <div class="wc-race-num">Race ${race.id} of 20 · ${race.phase==='countdown'?'Countdown':'Regular Season'}</div>
+          <div class="wc-race-name">${race.name}</div>
+          <div class="wc-race-venue">${race.venue} · ${race.city}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="wc-race-date">${MONTHS3U[sDate.getMonth()]} ${sDate.getDate()}</div>
+          <div style="font-size:var(--text-xs);color:var(--text-faint);margin-top:2px">${sDate.getFullYear()}</div>
+        </div>
+      </div>
+      <div class="wc-winners-grid" id="wc-grid-${race.id}"></div>`;
+
+    container.appendChild(card);
+
+    const grid = document.getElementById(`wc-grid-${race.id}`);
+
+    if (status === 'completed' && race.winners && race.winners.length) {
+      race.winners.forEach(w => {
+        const row = document.createElement('div');
+        row.className = 'wc-winner-row';
+        row.innerHTML = `
+          <span class="wc-class-pill pill-${w.pill}">${w.cls}</span>
+          <span class="wc-winner-name">${w.driver}</span>
+          <div class="wc-winner-et">
+            <span>${w.et}s</span>
+            ${w.mph} mph
+          </div>`;
+        grid.appendChild(row);
+      });
+    } else if (status === 'live') {
+      grid.innerHTML = `<div class="wc-pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Race weekend in progress</div>`;
+    } else {
+      grid.innerHTML = `<div class="wc-pending"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Not yet run — ${formatDateRange(race.startDate, race.endDate)}</div>`;
+    }
+  });
+}
+
+// ─── POINTS STANDINGS ─────────────────────────────────────────────────────────
+let activeStandingsClass = 'tf';
+
+document.querySelectorAll('.class-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.class-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeStandingsClass = tab.dataset.class;
+    renderStandings();
+  });
+});
+
+function renderStandings() {
+  const container = document.getElementById('standings-list');
+  container.innerHTML = '';
+  const data = STANDINGS[activeStandingsClass];
+  if (!data) return;
+
+  const leader = data[0];
+  const maxPts = leader.pts;
+
+  // Leader card
+  const leaderEl = document.createElement('div');
+  leaderEl.className = 'standings-leader';
+  leaderEl.innerHTML = `
+    <div class="leader-pos">🏆 Points Leader</div>
+    <div class="leader-name">${leader.name}</div>
+    <div class="leader-pts">${leader.pts} <span>pts</span></div>`;
+  container.appendChild(leaderEl);
+
+  // Rest of field
+  data.slice(1).forEach(d => {
+    const pct = Math.max(4, Math.round((d.pts / maxPts) * 100));
+    const row = document.createElement('div');
+    row.className = 'standing-row';
+    row.innerHTML = `
+      <div class="standing-pos ${d.pos <= 3 ? 'top3' : ''}">${d.pos}</div>
+      <div class="standing-bar-wrap">
+        <div class="standing-name">${d.name}</div>
+        <div class="standing-bar-track">
+          <div class="standing-bar-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <div class="standing-pts-col">
+        <div class="standing-pts">${d.pts}</div>
+        <div class="standing-behind">${d.behind}</div>
+      </div>`;
+    container.appendChild(row);
+  });
+
+  const note = document.createElement('div');
+  note.className = 'data-note';
+  note.innerHTML = `Source: <a href="https://www.nhra.com/standings/2026/nhra-mission-foods-drag-racing-series" target="_blank" rel="noopener">NHRA.com Standings</a> · After Race 2 of 20`;
+  container.appendChild(note);
+}
+
+// ─── ENTRY LIST VIEW ──────────────────────────────────────────────────────────
+let activeEntryClass = 'tf';
+
+document.querySelectorAll('.entry-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.entry-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeEntryClass = tab.dataset.eclass;
+    renderEntryList();
+  });
+});
+
+document.getElementById('btn-refresh')?.addEventListener('click', () => {
+  refreshEntryList();
+});
+
+function getEntryData(classKey) {
+  return entryListLive[classKey] || ENTRY_LIST_BASE[classKey] || [];
+}
+
+function renderEntryList() {
+  const container = document.getElementById('entry-list');
+  container.innerHTML = '';
+  const data = getEntryData(activeEntryClass);
+
+  const classNames = { tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Motorcycle' };
+
+  const subtitle = document.getElementById('entry-subtitle');
+  if (subtitle) subtitle.textContent = `${data.length} ${classNames[activeEntryClass]} competitors · 2026 Season`;
+
+  data.forEach((driver, i) => {
+    const row = document.createElement('div');
+    row.className = `entry-row ${driver._new ? 'entry-new' : ''}`;
+    row.innerHTML = `
+      <div class="entry-num">${driver.num}</div>
+      <div class="entry-info">
+        <div class="entry-name">${driver.name}${driver._new ? ' <span class="new-badge">NEW</span>' : ''}</div>
+        <div class="entry-team">${driver.team}</div>
+        <div class="entry-sponsor">${driver.sponsor}</div>
+      </div>`;
+    container.appendChild(row);
+  });
+
+  if (!data.length) {
+    container.innerHTML = `<div class="empty-state"><p>No entry data available</p></div>`;
+  }
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
 const modalBackdrop = document.getElementById('modal-backdrop');
 const modalSheet    = document.getElementById('modal-sheet');
 const modalClose    = document.getElementById('modal-close');
 
 function openModal(race) {
-  // Header
-  document.getElementById('modal-event-num').textContent = `Race ${race.id} of 20 · ${race.phase === 'countdown' ? 'Countdown to the Championship' : 'Regular Season'}`;
+  document.getElementById('modal-event-num').textContent = `Race ${race.id} of 20 · ${race.phase==='countdown'?'Countdown to the Championship':'Regular Season'}`;
   document.getElementById('modal-title').textContent = race.name;
   document.getElementById('modal-location').textContent = `${race.venue} — ${race.city}`;
   document.getElementById('modal-dates').textContent = formatDateRange(race.startDate, race.endDate);
   document.getElementById('modal-tv').textContent = `📺 ${race.tv}`;
 
+  // Winners section
+  const wSec = document.getElementById('modal-winners-section');
+  const wGrid = document.getElementById('modal-winners-grid');
+  if (race.winners && race.winners.length) {
+    wSec.removeAttribute('hidden');
+    wGrid.innerHTML = '';
+    race.winners.forEach(w => {
+      const r = document.createElement('div');
+      r.className = 'modal-winner-row';
+      r.innerHTML = `
+        <span class="modal-winner-class pill-${w.pill} wc-class-pill">${w.cls}</span>
+        <span class="modal-winner-name">${w.driver}</span>
+        <div class="modal-winner-et"><strong>${w.et}s</strong>${w.mph} mph</div>`;
+      wGrid.appendChild(r);
+    });
+  } else {
+    wSec.setAttribute('hidden','');
+  }
+
   // Classes
   const proClasses = ['Top Fuel','Funny Car','Pro Stock','Pro Stock Motorcycle','Pro Mod'];
   document.getElementById('modal-classes').innerHTML = race.classes.map(c =>
-    `<span class="class-pill ${proClasses.includes(c) ? 'pro' : ''}">${c}</span>`
+    `<span class="class-pill ${proClasses.includes(c)?'pro':''}">${c}</span>`
   ).join('');
 
-  // Itinerary with ET conversion
+  // Itinerary
   const itinContainer = document.getElementById('itinerary-content');
   itinContainer.innerHTML = '';
-
   race.itinerary.forEach(day => {
     const dayEl = document.createElement('div');
     dayEl.className = 'itin-day';
-
-    const dayLabel = document.createElement('div');
-    dayLabel.className = 'itin-day-label';
-    dayLabel.textContent = day.day;
-    dayEl.appendChild(dayLabel);
-
+    const lbl = document.createElement('div');
+    lbl.className = 'itin-day-label'; lbl.textContent = day.day;
+    dayEl.appendChild(lbl);
     day.sessions.forEach(sess => {
       const row = document.createElement('div');
-      row.className = `itin-row ${sess.key ? 'key-session' : ''}`;
-
-      // Convert time to ET using the first day of the event
+      row.className = `itin-row ${sess.key?'key-session':''}`;
       const etTime = convertToET(sess.time, race.startDate, race.timezone);
-
-      row.innerHTML = `
-        <span class="itin-time">${etTime}</span>
-        <span class="itin-event ${sess.key ? '' : 'muted'}">${sess.event}</span>
-      `;
+      row.innerHTML = `<span class="itin-time">${etTime}</span><span class="itin-event ${sess.key?'':'muted'}">${sess.event}</span>`;
       dayEl.appendChild(row);
     });
-
     itinContainer.appendChild(dayEl);
   });
 
-  // Tickets link
-  document.getElementById('modal-tickets').href = `https://www.nhra.com/schedule/2026`;
+  document.getElementById('modal-tickets').href = 'https://www.nhra.com/schedule/2026';
 
-  // Show
   modalBackdrop.removeAttribute('hidden');
   modalSheet.removeAttribute('hidden');
   document.body.style.overflow = 'hidden';
-
   requestAnimationFrame(() => {
     modalBackdrop.classList.add('visible');
     modalSheet.classList.add('open');
   });
-
   modalClose.focus();
 }
 
@@ -1026,95 +1120,75 @@ function closeModal() {
   modalBackdrop.classList.remove('visible');
   modalSheet.classList.remove('open');
   document.body.style.overflow = '';
-
   setTimeout(() => {
-    modalBackdrop.setAttribute('hidden', '');
-    modalSheet.setAttribute('hidden', '');
+    modalBackdrop.setAttribute('hidden','');
+    modalSheet.setAttribute('hidden','');
   }, 300);
 }
 
 modalClose.addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
-// Touch-to-dismiss sheet (swipe down)
 let touchStartY = 0;
-modalSheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
-modalSheet.addEventListener('touchend', e => {
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (dy > 80) closeModal();
-}, { passive: true });
+modalSheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive:true });
+modalSheet.addEventListener('touchend', e => { if(e.changedTouches[0].clientY - touchStartY > 80) closeModal(); }, { passive:true });
 
-// ── THEME TOGGLE ───────────────────────────────────────────────────────────
+// ─── THEME TOGGLE ─────────────────────────────────────────────────────────────
 (function() {
   const html = document.documentElement;
   const btn  = document.querySelector('[data-theme-toggle]');
   const icon = document.getElementById('theme-icon');
-
-  let theme = html.getAttribute('data-theme') ||
-    (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  let theme = html.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
   html.setAttribute('data-theme', theme);
   updateIcon(theme);
-
-  btn.addEventListener('click', () => {
+  btn?.addEventListener('click', () => {
     theme = theme === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', theme);
     updateIcon(theme);
-    try { localStorage.setItem('nhra-theme', theme); } catch {}
   });
-
-  try {
-    const saved = localStorage.getItem('nhra-theme');
-    if (saved) { theme = saved; html.setAttribute('data-theme', theme); updateIcon(theme); }
-  } catch {}
-
   function updateIcon(t) {
-    if (t === 'dark') {
+    if (!icon) return;
+    if (t==='dark') {
       icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-      btn.setAttribute('aria-label', 'Switch to light mode');
+      btn?.setAttribute('aria-label','Switch to light mode');
     } else {
       icon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-      btn.setAttribute('aria-label', 'Switch to dark mode');
+      btn?.setAttribute('aria-label','Switch to dark mode');
     }
   }
 })();
 
-// ── PWA INSTALL (Android/Chrome) ──────────────────────────────────────────
+// ─── PWA INSTALL ──────────────────────────────────────────────────────────────
 let deferredPrompt = null;
-const installBanner = document.getElementById('install-banner');
-const installBtn    = document.getElementById('install-btn');
+const installBanner  = document.getElementById('install-banner');
+const installBtn     = document.getElementById('install-btn');
 const installDismiss = document.getElementById('install-dismiss');
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  installBanner.removeAttribute('hidden');
+  installBanner?.removeAttribute('hidden');
 });
-
-installBtn.addEventListener('click', async () => {
+installBtn?.addEventListener('click', async () => {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
+  await deferredPrompt.userChoice;
   deferredPrompt = null;
-  installBanner.setAttribute('hidden', '');
+  installBanner?.setAttribute('hidden','');
 });
+installDismiss?.addEventListener('click', () => installBanner?.setAttribute('hidden',''));
+window.addEventListener('appinstalled', () => { installBanner?.setAttribute('hidden',''); deferredPrompt = null; });
 
-installDismiss.addEventListener('click', () => {
-  installBanner.setAttribute('hidden', '');
-});
-
-window.addEventListener('appinstalled', () => {
-  installBanner.setAttribute('hidden', '');
-  deferredPrompt = null;
-});
-
-// ── SERVICE WORKER ─────────────────────────────────────────────────────────
+// ─── SERVICE WORKER ───────────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────────
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 updateStats();
 renderSchedule();
+
+// Kick off background entry list refresh on app load
+// (silent — doesn't block the UI, updates when ready)
+setTimeout(() => refreshEntryList(), 1500);

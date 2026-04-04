@@ -8,37 +8,25 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="NHRA 2026">
   <meta name="theme-color" content="#0d0d0d">
-  <meta name="description" content="2026 NHRA Mission Foods Drag Racing Series — Full season schedule with weekend itineraries, auto-converted to Eastern Time.">
-
+  <meta name="description" content="2026 NHRA Mission Foods Drag Racing Series — Schedule, results, standings, entry lists.">
   <title>NHRA 2026</title>
-
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
-
-  <!-- Apple Touch Icons -->
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
-  <link rel="apple-touch-startup-image" href="icons/splash.png">
-
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ── HEADER ── -->
+  <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
       <div class="logo-wrap">
         <svg class="logo-icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
           <rect width="40" height="40" rx="8" fill="#E8161A"/>
-          <!-- checkered flag blocks -->
           <rect x="8"  y="8"  width="6" height="6" fill="#fff"/>
           <rect x="14" y="8"  width="6" height="6" fill="#E8161A"/>
           <rect x="20" y="8"  width="6" height="6" fill="#fff"/>
@@ -47,9 +35,7 @@
           <rect x="14" y="14" width="6" height="6" fill="#fff"/>
           <rect x="20" y="14" width="6" height="6" fill="#E8161A"/>
           <rect x="26" y="14" width="6" height="6" fill="#fff"/>
-          <!-- flag pole -->
           <rect x="8" y="8" width="3" height="26" rx="1.5" fill="#fff"/>
-          <!-- speed lines -->
           <path d="M18 27 L34 27" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
           <path d="M16 32 L34 32" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
         </svg>
@@ -69,7 +55,7 @@
     </div>
   </header>
 
-  <!-- ── STATS BAR ── -->
+  <!-- STATS BAR -->
   <div class="stats-bar">
     <div class="stat-item">
       <span class="stat-val">20</span>
@@ -92,18 +78,104 @@
     </div>
   </div>
 
-  <!-- ── FILTER TABS ── -->
-  <div class="filter-bar">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
-    <button class="filter-btn" data-filter="completed">Completed</button>
-    <button class="filter-btn" data-filter="countdown">Countdown</button>
+  <!-- ══ SCHEDULE VIEW ══ -->
+  <div id="view-schedule" class="view active-view">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+      <button class="filter-btn" data-filter="completed">Completed</button>
+      <button class="filter-btn" data-filter="countdown">Countdown</button>
+    </div>
+    <main class="schedule-wrap" id="schedule-list" role="list"></main>
   </div>
 
-  <!-- ── SCHEDULE ── -->
-  <main class="schedule-wrap" id="schedule-list" role="list"></main>
+  <!-- ══ WINNERS CIRCLE VIEW ══ -->
+  <div id="view-winners" class="view" hidden>
+    <div class="view-header">
+      <h2 class="view-title">🏆 Winners Circle</h2>
+      <p class="view-sub">2026 Season · Race-by-Race Results</p>
+    </div>
+    <div class="wc-wrap" id="winners-list"></div>
+  </div>
 
-  <!-- ── INSTALL BANNER (Android/Chrome) ── -->
+  <!-- ══ STANDINGS VIEW ══ -->
+  <div id="view-standings" class="view" hidden>
+    <div class="view-header">
+      <h2 class="view-title">Points Standings</h2>
+      <p class="view-sub" id="standings-subtitle">After Race 2 of 20 · Arizona Nationals</p>
+    </div>
+    <div class="class-tabs">
+      <button class="class-tab active" data-class="tf">Top Fuel</button>
+      <button class="class-tab" data-class="fc">Funny Car</button>
+      <button class="class-tab" data-class="ps">Pro Stock</button>
+      <button class="class-tab" data-class="psm">Pro Stock Moto</button>
+    </div>
+    <div class="standings-wrap" id="standings-list"></div>
+  </div>
+
+  <!-- ══ ENTRY LIST VIEW ══ -->
+  <div id="view-entries" class="view" hidden>
+    <div class="view-header entry-header-row">
+      <div>
+        <h2 class="view-title">Entry List</h2>
+        <p class="view-sub" id="entry-subtitle">2026 Pro Competitors</p>
+      </div>
+      <div class="refresh-wrap">
+        <div class="refresh-status" id="refresh-status">
+          <span class="refresh-dot" id="refresh-dot"></span>
+          <span id="refresh-label">Live</span>
+        </div>
+        <button class="btn-refresh" id="btn-refresh" aria-label="Refresh entry list">
+          <svg id="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M23 4v6h-6"/><path d="M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="entry-class-tabs">
+      <button class="entry-tab active" data-eclass="tf">Top Fuel</button>
+      <button class="entry-tab" data-eclass="fc">Funny Car</button>
+      <button class="entry-tab" data-eclass="ps">Pro Stock</button>
+      <button class="entry-tab" data-eclass="psm">Pro Stock Moto</button>
+    </div>
+    <div class="entry-wrap" id="entry-list"></div>
+    <div class="data-note" id="entry-source-note">
+      Data sourced from <a href="https://www.nhra.com/drivers" target="_blank" rel="noopener">NHRA.com</a> · Refreshes on open
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+    <button class="nav-btn active" data-view="schedule" aria-label="Schedule">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+      </svg>
+      <span>Schedule</span>
+    </button>
+    <button class="nav-btn" data-view="winners" aria-label="Winners">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M8 21h8M12 17v4M6 3H4v5a8 8 0 0 0 16 0V3h-2"/>
+      </svg>
+      <span>Winners</span>
+    </button>
+    <button class="nav-btn" data-view="standings" aria-label="Standings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 20V10M12 20V4M6 20v-6"/>
+      </svg>
+      <span>Standings</span>
+    </button>
+    <button class="nav-btn" data-view="entries" aria-label="Entry List">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      <span>Entries</span>
+    </button>
+  </nav>
+
+  <!-- INSTALL BANNER -->
   <div class="install-banner" id="install-banner" hidden>
     <div class="install-text">
       <strong>Add to Home Screen</strong>
@@ -113,12 +185,12 @@
     <button class="install-dismiss" id="install-dismiss" aria-label="Dismiss">✕</button>
   </div>
 
-  <!-- ── RACE DETAIL MODAL ── -->
+  <!-- RACE DETAIL MODAL -->
   <div class="modal-backdrop" id="modal-backdrop" hidden aria-hidden="true"></div>
   <div class="modal-sheet" id="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
     <div class="modal-handle"></div>
     <div class="modal-scroll">
-      <div class="modal-hero" id="modal-hero">
+      <div class="modal-hero">
         <button class="modal-close" id="modal-close" aria-label="Close">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
@@ -130,21 +202,19 @@
           <span class="meta-chip tv-chip" id="modal-tv"></span>
         </div>
       </div>
-
       <div class="modal-body">
-        <!-- Classes -->
+        <div class="section-block" id="modal-winners-section" hidden>
+          <h3 class="section-label">🏆 Race Winners</h3>
+          <div id="modal-winners-grid"></div>
+        </div>
         <div class="section-block">
           <h3 class="section-label">Pro Classes</h3>
           <div class="classes-row" id="modal-classes"></div>
         </div>
-
-        <!-- Itinerary -->
         <div class="section-block">
           <h3 class="section-label">Weekend Itinerary <span class="tz-badge">All times ET</span></h3>
           <div id="itinerary-content"></div>
         </div>
-
-        <!-- Tickets -->
         <a class="btn-tickets" id="modal-tickets" href="https://www.nhra.com/schedule/2026" target="_blank" rel="noopener noreferrer">
           🎟 Buy Tickets at NHRA.com
         </a>
