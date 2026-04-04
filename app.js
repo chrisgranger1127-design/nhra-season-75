@@ -764,7 +764,7 @@ const ENTRY_LIST_BASE = {
     { num:"430",  name:"Erica Enders",     sponsor:"JHG / Melling Performance / R+L Carriers",  team:"Elite Motorsports" },
     { num:"6911", name:"Mike Thielen",     sponsor:"Thielen Racing",                             team:"Thielen Racing" },
     { num:"729",  name:"Nicholas Januik",  sponsor:"Januik Racing",                              team:"Januik Racing" },
-  ]
+  ],
   tad: [
     { num:"10",   name:"Melanie Johnson",  sponsor:"Hadman / AJPE",               team:"Johnson Racing" },
     { num:"6",    name:"Jamie Noonan",     sponsor:"Firebird",                    team:"Noonan Racing" },
