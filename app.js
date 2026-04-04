@@ -1186,7 +1186,7 @@ function openModal(race) {
       function renderModalEntries(cls) {
         activeModalClass = cls;
         // Update tab active state
-        document.querySelectorAll('[data-meclass]').forEach(t => {
+        document.querySelectorAll('#modal-entry-tabs [data-meclass]').forEach(t => {
           t.classList.toggle('active', t.dataset.meclass === cls);
         });
 
@@ -1219,7 +1219,7 @@ function openModal(race) {
       }
 
       // Wire up tab clicks (remove old listeners by cloning)
-      document.querySelectorAll('[data-meclass]').forEach(tab => {
+      document.querySelectorAll('#modal-entry-tabs [data-meclass]').forEach(tab => {
         const newTab = tab.cloneNode(true);
         tab.parentNode.replaceChild(newTab, tab);
         newTab.addEventListener('click', () => renderModalEntries(newTab.dataset.meclass));

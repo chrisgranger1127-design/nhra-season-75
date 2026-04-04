@@ -117,7 +117,7 @@
   <div id="view-entries" class="view" hidden>
     <div class="view-header entry-header-row">
       <div>
-        <h2 class="view-title">Entry List</h2>
+        <h2 class="view-title">Drivers</h2>
         <p class="view-sub" id="entry-subtitle">2026 Pro Competitors</p>
       </div>
       <div class="refresh-wrap">
@@ -165,13 +165,13 @@
       </svg>
       <span>Standings</span>
     </button>
-    <button class="nav-btn" data-view="entries" aria-label="Entry List">
+    <button class="nav-btn" data-view="entries" aria-label="Drivers">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
         <circle cx="9" cy="7" r="4"/>
         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
-      <span>Entries</span>
+      <span>Drivers</span>
     </button>
   </nav>
 
@@ -209,7 +209,7 @@
         </div>
         <div class="section-block" id="modal-entry-section" hidden>
           <h3 class="section-label">Entry List <span class="tz-badge" id="modal-entry-badge"></span></h3>
-          <div class="entry-class-tabs modal-entry-tabs">
+          <div class="entry-class-tabs modal-entry-tabs" id="modal-entry-tabs">
             <button class="entry-tab active" data-meclass="tf">Top Fuel</button>
             <button class="entry-tab" data-meclass="fc">Funny Car</button>
             <button class="entry-tab" data-meclass="ps">Pro Stock</button>
