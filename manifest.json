@@ -1,13 +1,16 @@
 {
-  "name": "NHRA 2026 — Mission Foods Drag Racing",
+  "name": "NHRA 2026 \u2014 Mission Foods Drag Racing",
   "short_name": "NHRA 2026",
   "description": "2026 NHRA season schedule with full weekend itineraries. Times auto-converted to Eastern Time.",
-  "start_url": "/",
+  "start_url": "/non-official-NHRA-season-75/",
   "display": "standalone",
   "background_color": "#0d0d0d",
   "theme_color": "#0d0d0d",
   "orientation": "portrait-primary",
-  "categories": ["sports", "lifestyle"],
+  "categories": [
+    "sports",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -34,7 +37,14 @@
       "short_name": "Next Race",
       "description": "Jump to the next upcoming race",
       "url": "/?filter=upcoming",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
-  ]
+  ],
+  "scope": "/non-official-NHRA-season-75/",
+  "id": "/non-official-NHRA-season-75/"
 }
