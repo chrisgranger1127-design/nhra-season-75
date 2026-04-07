@@ -633,8 +633,8 @@ const STANDINGS = {
     { pos:11, name:"Dave Richards",       pts:63,  behind:-111 },
     { pos:12, name:"Cruz Pedregon",       pts:57,  behind:-117 },
     { pos:13, name:"John Smith",          pts:51,  behind:-123 },
-    { pos:14, name:"Austin Prock",        pts:33,  behind:-141 },
-    { pos:15, name:"Bob Tasca III",       pts:32,  behind:-142 },
+    { pos:14, name:"Hunter Green",        pts:33,  behind:-141 },
+    { pos:15, name:"Julie Nataas",        pts:32,  behind:-142 },
   ],
   ps: [
     { pos:1,  name:"Dallas Glenn",      pts:195, behind:0 },
