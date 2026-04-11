@@ -1236,15 +1236,18 @@ a, button, [role="button"] {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: var(--space-2) var(--space-1) var(--space-3);
+  padding: var(--space-2) 2px var(--space-3);
   color: var(--text-faint);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   transition: color var(--transition);
   -webkit-tap-highlight-color: transparent;
+  min-width: 0;
 }
+.nav-btn svg { width: 18px; height: 18px; }
+.nav-btn span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .nav-btn.active { color: var(--accent); }
 .nav-btn:not(.active):hover { color: var(--text-muted); }
 
