@@ -2631,248 +2631,260 @@ a, button, [role="button"] {
 .entry-row.dm-clickable { display: flex; }
 
 
-/* ── DRIVER ANALYTICS MODAL ── */
-.da-hero {
+
+/* ── DRIVER ANALYTICS — SPORTS CARD DESIGN ── */
+#driver-modal-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 201;
+  background: var(--surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  max-height: 92dvh;
   display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-5) var(--space-5) var(--space-4);
-  border-bottom: 1px solid var(--divider);
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  max-width: 680px;
+  margin: 0 auto;
+}
+#driver-modal-sheet.open { transform: translateY(0); }
+
+.da-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  padding-bottom: calc(var(--space-10) + var(--safe-bottom));
   position: relative;
 }
-.da-photo {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
+
+/* HERO BANNER */
+.da-banner {
+  background: linear-gradient(160deg, #1a0505 0%, #0d0d0d 60%);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-end;
+  border-bottom: 2px solid var(--accent);
+  position: relative;
+  overflow: hidden;
+}
+.da-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(232,22,26,0.03) 20px, rgba(232,22,26,0.03) 21px);
+}
+[data-theme="light"] .da-banner { background: linear-gradient(160deg, #2a0608 0%, #1a0203 100%); }
+.da-banner-photo {
+  width: 100px; height: 100px;
+  border-radius: 12px;
   object-fit: cover;
   object-position: top center;
   flex-shrink: 0;
   border: 3px solid var(--accent);
+  box-shadow: 0 0 20px rgba(232,22,26,0.4);
+  position: relative; z-index: 1;
   background: var(--surface-3);
 }
-.da-photo-placeholder {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--surface-3);
-  border: 3px solid var(--border);
+.da-banner-right {
+  flex: 1; min-width: 0;
+  position: relative; z-index: 1;
 }
-.da-hero-info { flex: 1; min-width: 0; }
-.da-car-num {
+.da-banner-num {
   font-family: var(--font-display);
   font-size: var(--text-sm);
   font-weight: 800;
   color: var(--accent);
-  letter-spacing: 0.06em;
-  margin-bottom: 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
-.da-name {
+.da-banner-name {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: var(--text-3xl);
   font-weight: 800;
-  color: var(--text);
-  line-height: 1.1;
+  color: #fff;
+  line-height: 1;
+  margin: 2px 0 4px;
+}
+.da-banner-team {
+  font-size: var(--text-sm);
+  color: rgba(255,255,255,0.6);
   margin-bottom: 2px;
 }
-.da-team {
+.da-banner-sponsor {
   font-size: var(--text-xs);
-  color: var(--text-muted);
-  margin-bottom: var(--space-2);
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.da-body {
+.da-momentum-badge {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid;
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+/* 2026 / 2025 SPLIT */
+.da-split {
+  display: flex;
+  border-bottom: 1px solid var(--divider);
+}
+.da-split-col {
+  flex: 1;
   padding: var(--space-4) var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding-bottom: calc(var(--space-10) + var(--safe-bottom));
+  align-items: center;
+  gap: 4px;
 }
-.da-season-card {
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
+.da-split-26 { background: rgba(232,22,26,0.04); }
+.da-split-divider {
+  width: 1px;
+  background: var(--divider);
+  flex-shrink: 0;
+}
+.da-split-year {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+}
+.da-split-26 .da-split-year { color: var(--accent); }
+.da-split-big {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem,8vw,3.5rem);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+.da-split-champ { color: var(--gold) !important; }
+.da-split-sub {
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.da-split-pts {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.da-split-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2px;
+}
+.da-split-badge {
+  font-size: var(--text-xs);
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--surface-3);
 }
-.da-season-26 { background: rgba(232,22,26,0.06); border-color: rgba(232,22,26,0.25); }
-.da-season-25 { background: var(--surface-2); }
-.da-season-label {
+
+/* SECTIONS */
+.da-section {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--divider);
+}
+.da-section-title {
   font-size: var(--text-xs);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
+  color: var(--text-faint);
   margin-bottom: var(--space-3);
-}
-.da-season-26 .da-season-label { color: var(--accent); }
-.da-stats-grid {
   display: flex;
-  gap: var(--space-3);
-  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
 }
-.da-stat {
-  flex: 1;
-  min-width: 60px;
-  text-align: center;
-}
-.da-stat-val {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1;
-}
-.da-champ { color: var(--gold) !important; }
-.da-stat-lbl {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  margin-top: 3px;
-}
-.da-no-data {
-  font-size: var(--text-sm);
-  color: var(--text-faint);
-  font-style: italic;
-  padding: var(--space-2) 0;
-}
-.da-sponsor-row {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: var(--surface-2);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-}
-.da-sponsor-label {
+.da-trend-dir {
   font-size: var(--text-xs);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
-  flex-shrink: 0;
-  padding-top: 2px;
-}
-.da-sponsor-val {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  flex: 1;
+  color: var(--accent);
 }
 
-/* Clickable driver rows */
-.entry-row-clickable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.entry-row-clickable:active { background: var(--surface-3); transform: scale(0.99); }
-.entry-chevron {
-  color: var(--text-faint);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  transition: color var(--transition);
-}
-.entry-row-clickable:hover .entry-chevron { color: var(--accent); }
-
-/* ── DRIVER TRENDS CARD ── */
-.da-trends-card {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-.da-trends-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.da-momentum {
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: 800;
-}
-
-/* Race result timeline dots */
-.da-race-timeline {
+/* Race result dots */
+.da-dots {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
 }
-.da-race-dot {
+.da-dot {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
-  padding: 6px 10px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid;
-  background: var(--surface);
-  min-width: 48px;
+  gap: 4px;
 }
-.da-race-dot-result {
+.da-dot-ring {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+}
+.da-dot-val {
   font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: 800;
   line-height: 1;
 }
-.da-race-dot-name {
+.da-dot-lbl {
   font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-faint);
   text-align: center;
-  white-space: nowrap;
+  max-width: 44px;
+  line-height: 1.2;
 }
 
-/* ET Sparkline */
-.da-sparkline-wrap {
-  background: var(--surface);
+/* ET Chart */
+.da-chart-box {
+  background: var(--surface-2);
   border-radius: var(--radius-md);
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border);
+  overflow: hidden;
 }
-.da-sparkline-label {
-  font-size: var(--text-xs);
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: var(--space-2);
+
+/* Season Bests */
+.da-bests {
   display: flex;
-  align-items: center;
   gap: var(--space-2);
 }
-.da-sparkline-range {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text-faint);
-  font-family: monospace;
-  margin-top: 4px;
-}
-
-/* Key numbers row */
-.da-key-nums {
-  display: flex;
-  gap: var(--space-3);
-}
-.da-key-num {
+.da-best-item {
   flex: 1;
-  text-align: center;
-  background: var(--surface);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-2);
-  border: 1px solid var(--border);
+  text-align: center;
 }
-.da-key-val {
+.da-best-val {
   font-family: var(--font-display);
   font-size: var(--text-xl);
   font-weight: 800;
   color: var(--text);
   line-height: 1;
 }
-.da-key-lbl {
+.da-best-lbl {
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -2880,3 +2892,12 @@ a, button, [role="button"] {
   color: var(--text-faint);
   margin-top: 3px;
 }
+
+/* Clickable driver rows */
+.entry-row-clickable { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.entry-row-clickable:active { transform: scale(0.98); }
+.entry-chevron {
+  color: var(--text-faint); flex-shrink: 0;
+  display: flex; align-items: center;
+}
+.entry-row-clickable:hover .entry-chevron { color: var(--accent); }
