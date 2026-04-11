@@ -2317,3 +2317,26 @@ a, button, [role="button"] {
   line-height: 1;
 }
 .bracket-mph { font-size: var(--text-xs); color: var(--text-muted); }
+
+/* ── INLINE BRACKET BUTTON ── */
+.wc-winner-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.bracket-inline-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.bracket-inline-btn:hover { background: var(--accent); color: #fff; }

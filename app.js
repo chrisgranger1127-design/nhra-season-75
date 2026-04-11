@@ -1663,17 +1663,13 @@ function renderWinnersCircle() {
           <div class="wc-race-name">${race.name}</div>
           <div class="wc-race-venue">${race.venue} · ${race.city}</div>
         </div>
-        <div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div style="text-align:right;flex-shrink:0">
           <div class="wc-race-date">${MONTHS3U[sDate.getMonth()]} ${sDate.getDate()}</div>
-          ${hasBracket ? `<button class="bracket-btn" data-race="${race.id}">🏁 Bracket</button>` : ''}
         </div>
       </div>
       <div class="wc-winners-grid" id="wc-grid-${race.id}"></div>`;
 
     container.appendChild(card);
-
-    // Wire bracket button
-    card.querySelector('.bracket-btn')?.addEventListener('click', () => openBracketModal(race.id));
 
     const grid = document.getElementById(`wc-grid-${race.id}`);
 
@@ -2545,7 +2541,7 @@ function checkAndStartLiveRefresh() {
 
 
 // ─── BRACKET MODAL ────────────────────────────────────────────────────────────
-function openBracketModal(raceId) {
+function openBracketModal(raceId, startClass) {
   const race = RACES.find(r => r.id === raceId);
   const data = BRACKETS[raceId];
   if (!race || !data) return;
@@ -2578,7 +2574,7 @@ function openBracketModal(raceId) {
     const classLabels = { tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Moto', pm:'Pro Mod' };
     const classPills  = { tf:'pill-nitro', fc:'pill-nitro', ps:'pill-prostock', psm:'pill-prostock', pm:'pill-promod' };
 
-    let activeBClass = classes[0];
+    let activeBClass = (startClass && data[startClass]) ? startClass : classes[0];
     const tabRow = document.createElement('div');
     tabRow.className = 'qual-class-tabs';
     tabRow.style.marginBottom = 'var(--space-3)';
