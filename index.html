@@ -310,6 +310,75 @@
     </div>
   </div>
 
+  <!-- DRIVER ANALYTICS MODAL -->
+  <div class="modal-backdrop" id="driver-modal-backdrop" hidden aria-hidden="true"></div>
+  <div class="modal-sheet driver-modal-sheet" id="driver-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="driver-modal-name" hidden>
+    <div class="modal-handle"></div>
+    <div class="modal-scroll">
+      <!-- Driver photo hero -->
+      <div class="dm-hero">
+        <button class="modal-close" id="driver-modal-close" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="dm-photo-wrap">
+          <img class="dm-photo" id="driver-modal-photo" src="" alt="" loading="lazy" onerror="this.style.display='none'">
+          <div class="dm-photo-placeholder" id="driver-modal-photo-placeholder"></div>
+        </div>
+        <div class="dm-hero-info">
+          <div class="dm-car-num" id="driver-modal-num"></div>
+          <h2 class="dm-name" id="driver-modal-name"></h2>
+          <div class="dm-class-row">
+            <span class="dm-class-pill" id="driver-modal-class-pill"></span>
+            <span class="dm-team" id="driver-modal-team"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats body -->
+      <div class="dm-body">
+
+        <!-- 2026 Season Card -->
+        <div class="dm-section">
+          <div class="dm-section-header">
+            <span class="dm-section-year">2026</span>
+            <span class="dm-section-label">Season Stats</span>
+            <span class="dm-section-note">2 races</span>
+          </div>
+          <div class="dm-stat-grid" id="driver-modal-2026-grid">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- 2025 Season Card -->
+        <div class="dm-section">
+          <div class="dm-section-header">
+            <span class="dm-section-year">2025</span>
+            <span class="dm-section-label">Final Standings</span>
+          </div>
+          <div class="dm-stat-grid" id="driver-modal-2025-grid">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- Career at a glance -->
+        <div class="dm-section" id="driver-modal-career-section">
+          <div class="dm-section-header">
+            <span class="dm-section-year" style="background:var(--surface-3);color:var(--text-muted)">ALL</span>
+            <span class="dm-section-label">Career at a Glance</span>
+          </div>
+          <div class="dm-career-row" id="driver-modal-career-row">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- DRIVER ANALYTICS MODAL -->
+  <div class="modal-backdrop" id="driver-modal-backdrop" hidden aria-hidden="true"></div>
+  <div class="modal-sheet" id="driver-modal-sheet" role="dialog" aria-modal="true" aria-label="Driver analytics" hidden></div>
+
   <script src="app.js"></script>
 </body>
 </html>

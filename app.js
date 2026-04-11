@@ -646,6 +646,121 @@ const BRACKETS = {
   },
 };
 
+
+// ─── DRIVER STATS ─────────────────────────────────────────────────────────────
+// 2025 final standings + career context per driver
+const DRIVER_STATS = {
+  // TOP FUEL
+  "Doug Kalitta":     { class:"tf", s25pos:1,  s25pts:2607, s25wins:2, s25label:"🏆 2025 Champion" },
+  "Shawn Langdon":    { class:"tf", s25pos:2,  s25pts:2463, s25wins:0, s25label:"2nd Place" },
+  "Justin Ashley":    { class:"tf", s25pos:3,  s25pts:2444, s25wins:3, s25label:"3rd Place" },
+  "Tony Stewart":     { class:"tf", s25pos:5,  s25pts:2364, s25wins:1, s25label:"5th Place" },
+  "Clay Millican":    { class:"tf", s25pos:6,  s25pts:2335, s25wins:1, s25label:"6th Place" },
+  "Steve Torrence":   { class:"tf", s25pos:7,  s25pts:2297, s25wins:0, s25label:"7th Place" },
+  "Shawn Reed":       { class:"tf", s25pos:8,  s25pts:2290, s25wins:0, s25label:"8th Place" },
+  "Antron Brown":     { class:"tf", s25pos:9,  s25pts:2275, s25wins:0, s25label:"9th Place" },
+  "Josh Hart":        { class:"tf", s25pos:10, s25pts:2185, s25wins:0, s25label:"10th Place" },
+  "Tony Schumacher":  { class:"tf", s25pos:14, s25pts:259,  s25wins:0, s25label:"14th Place" },
+  "Cameron Ferre":    { class:"tf", s25pos:17, s25pts:177,  s25wins:0, s25label:"17th Place" },
+  "Will Smith":       { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"Not in top 20" },
+  "Maddi Gordon":     { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"Moved up from PSM" },
+  "Madison Gordon":   { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"Moved up from PSM" },
+  "Leah Pruett":      { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"Returned 2026" },
+  "Billy Torrence":   { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time 2025" },
+  "Ron August Jr":    { class:"tf", s25pos:null,s25pts:0,   s25wins:0, s25label:"2026 Debut" },
+  // FUNNY CAR
+  "Austin Prock":     { class:"fc", s25pos:1,  s25pts:2594, s25wins:4, s25label:"🏆 2025 Champion" },
+  "Matt Hagan":       { class:"fc", s25pos:2,  s25pts:2493, s25wins:3, s25label:"2nd Place" },
+  "Jack Beckman":     { class:"fc", s25pos:3,  s25pts:2416, s25wins:0, s25label:"3rd Place" },
+  "Ron Capps":        { class:"fc", s25pos:4,  s25pts:2370, s25wins:0, s25label:"4th Place" },
+  "Jordan Vandergriff":{ class:"fc",s25pos:5,  s25pts:2320, s25wins:2, s25label:"5th Place" },
+  "Chad Green":       { class:"fc", s25pos:6,  s25pts:2290, s25wins:1, s25label:"6th Place" },
+  "Alexis DeJoria":   { class:"fc", s25pos:7,  s25pts:2240, s25wins:0, s25label:"7th Place" },
+  "Paul Lee":         { class:"fc", s25pos:8,  s25pts:2180, s25wins:0, s25label:"8th Place" },
+  "Daniel Wilkerson": { class:"fc", s25pos:9,  s25pts:2150, s25wins:0, s25label:"9th Place" },
+  "J.R. Todd":        { class:"fc", s25pos:10, s25pts:2100, s25wins:1, s25label:"10th Place" },
+  "JR Todd":          { class:"fc", s25pos:10, s25pts:2100, s25wins:1, s25label:"10th Place" },
+  "Bob Tasca III":    { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time 2025" },
+  "Blake Alexander":  { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Cruz Pedregon":    { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  "Dave Richards":    { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Spencer Hyde":     { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Rookie 2025" },
+  "Dylan Winefsky":   { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Partial season" },
+  "Jason Rupert":     { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  "Todd Lesenko":     { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  "James Campbell":   { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  "Hunter Green":     { class:"fc", s25pos:null,s25pts:0,   s25wins:0, s25label:"2026 Entry" },
+  // PRO STOCK
+  "Dallas Glenn":     { class:"ps", s25pos:1,  s25pts:2666, s25wins:8, s25label:"🏆 2025 Champion" },
+  "Greg Anderson":    { class:"ps", s25pos:2,  s25pts:2574, s25wins:2, s25label:"2nd Place" },
+  "Matt Hartford":    { class:"ps", s25pos:3,  s25pts:2417, s25wins:1, s25label:"3rd Place" },
+  "Aaron Stanfield":  { class:"ps", s25pos:4,  s25pts:2379, s25wins:0, s25label:"4th Place" },
+  "Erica Enders":     { class:"ps", s25pos:5,  s25pts:2340, s25wins:1, s25label:"5th Place" },
+  "Greg Stanfield":   { class:"ps", s25pos:6,  s25pts:2310, s25wins:1, s25label:"6th Place" },
+  "Cody Coughlin":    { class:"ps", s25pos:7,  s25pts:2280, s25wins:0, s25label:"7th Place" },
+  "Troy Coughlin Jr": { class:"ps", s25pos:8,  s25pts:2240, s25wins:0, s25label:"8th Place" },
+  "Troy Coughlin Jr.":{ class:"ps", s25pos:8,  s25pts:2240, s25wins:0, s25label:"8th Place" },
+  "Matt Latino":      { class:"ps", s25pos:9,  s25pts:2200, s25wins:0, s25label:"9th Place" },
+  "Matthew Latino":   { class:"ps", s25pos:9,  s25pts:2200, s25wins:0, s25label:"9th Place" },
+  "Eric Latino":      { class:"ps", s25pos:10, s25pts:2160, s25wins:0, s25label:"10th Place" },
+  "Deric Kramer":     { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Kenny Delco":      { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Chris McGaha":     { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Mason McGaha":     { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Cody Anderson":    { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Stephen Bell":     { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Joey Grose":       { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Dave Connolly":    { class:"ps", s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  // PRO STOCK MOTORCYCLE
+  "Richard Gadson":   { class:"psm",s25pos:1,  s25pts:2584, s25wins:4, s25label:"🏆 2025 Champion" },
+  "Gaige Herrera":    { class:"psm",s25pos:2,  s25pts:2563, s25wins:7, s25label:"2nd Place" },
+  "Matt Smith":       { class:"psm",s25pos:3,  s25pts:2455, s25wins:1, s25label:"3rd Place" },
+  "Angie Smith":      { class:"psm",s25pos:4,  s25pts:2421, s25wins:0, s25label:"4th Place" },
+  "Brayden Davis":    { class:"psm",s25pos:5,  s25pts:2399, s25wins:0, s25label:"5th Place" },
+  "John Hall":        { class:"psm",s25pos:6,  s25pts:2375, s25wins:2, s25label:"6th Place" },
+  "Jianna Evaristo":  { class:"psm",s25pos:7,  s25pts:2273, s25wins:0, s25label:"7th Place" },
+  "Chase Van Sant":   { class:"psm",s25pos:8,  s25pts:2243, s25wins:0, s25label:"8th Place" },
+  "Steve Johnson":    { class:"psm",s25pos:9,  s25pts:2229, s25wins:0, s25label:"9th Place" },
+  "Chris Bostick":    { class:"psm",s25pos:10, s25pts:2179, s25wins:0, s25label:"10th Place" },
+  "Marc Ingwersen":   { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Kelly Clontz":     { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Ryan Oehler":      { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Hector Arana Jr":  { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Outside top 10" },
+  "Ron Tornow":       { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  "Clayton Howey":    { class:"psm",s25pos:null,s25pts:0,   s25wins:0, s25label:"Part-time" },
+  // PRO MOD
+  "JR Gray":          { class:"pm", s25pos:1,  s25pts:0,    s25wins:3, s25label:"🏆 2025 Champion" },
+  "Derek Menholt":    { class:"pm", s25pos:2,  s25pts:0,    s25wins:2, s25label:"2nd Place" },
+  "Billy Banaka":     { class:"pm", s25pos:3,  s25pts:0,    s25wins:1, s25label:"3rd Place" },
+  "Steve Jackson":    { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"Veteran competitor" },
+  "Mike Castellana":  { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"Veteran competitor" },
+  "Erica Enders":     { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"PS & PM competitor" },
+  "Alex Laughlin":    { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"Pro Mod competitor" },
+  "Jason Scruggs":    { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"Pro Mod competitor" },
+  "Mason Wright":     { class:"pm", s25pos:null,s25pts:0,   s25wins:0, s25label:"Pro Mod competitor" },
+};
+
+// Get 2026 stats for a driver from STANDINGS and RACES
+function get2026Stats(driverName, classKey) {
+  const standing = STANDINGS[classKey]?.find(d =>
+    d.name.toLowerCase() === driverName.toLowerCase()
+  );
+  let wins = 0, runnerUps = 0;
+  RACES.forEach(race => {
+    if (!race.winners) return;
+    race.winners.forEach(w => {
+      if (w.driver.toLowerCase() === driverName.toLowerCase()) wins++;
+    });
+    // Check brackets for runner-ups
+    const bracket = BRACKETS[race.id]?.[classKey];
+    if (bracket) {
+      const final = bracket.rounds[bracket.rounds.length - 1];
+      if (final?.pairs?.[0]?.l.toLowerCase() === driverName.toLowerCase()) runnerUps++;
+    }
+  });
+  return { pos: standing?.pos || null, pts: standing?.pts || 0, f2t: standing?.f2t || 0, wins, runnerUps };
+}
+
 // ─── QUALIFYING RESULTS ──────────────────────────────────────────────────────
 // Per-round qualifying data. sessions[Q] = array of {pos, driver, car, et, mph}
 // currentOrder = best combined order after all completed rounds
@@ -933,6 +1048,61 @@ const STANDINGS = {
     { pos:14, name:"Marc Ingwersen",  pts:31,  behind:-93 },
     { pos:15, name:"Kimberly Morrell",pts:31,  behind:-93 },
   ]
+};
+
+// ─── 2025 FINAL STANDINGS (hardcoded historical data) ────────────────────────
+const DRIVER_STATS_2025 = {
+  // TOP FUEL 2025 Final
+  "Doug Kalitta":      { pos:1,  pts:2607, wins:2,  champion:true  },
+  "Shawn Langdon":     { pos:2,  pts:2463, wins:0                   },
+  "Justin Ashley":     { pos:3,  pts:2444, wins:3                   },
+  "Brittany Force":    { pos:4,  pts:2415, wins:1                   },
+  "Tony Stewart":      { pos:5,  pts:2364, wins:1                   },
+  "Clay Millican":     { pos:6,  pts:2335, wins:1                   },
+  "Steve Torrence":    { pos:7,  pts:2297, wins:0                   },
+  "Shawn Reed":        { pos:8,  pts:2290, wins:0                   },
+  "Antron Brown":      { pos:9,  pts:2275, wins:0                   },
+  "Josh Hart":         { pos:10, pts:2185, wins:0                   },
+  // Funny Car 2025 Final
+  "Austin Prock":      { pos:1,  pts:2594, wins:4,  champion:true  },
+  "Matt Hagan":        { pos:2,  pts:2493, wins:3                   },
+  "Jack Beckman":      { pos:3,  pts:2416, wins:0                   },
+  "Ron Capps":         { pos:4,  pts:2370, wins:0                   },
+  "Jordan Vandergriff":{ pos:5,  pts:null, wins:2                   },
+  "Chad Green":        { pos:6,  pts:null, wins:1                   },
+  "Alexis DeJoria":    { pos:7,  pts:null, wins:0                   },
+  "Paul Lee":          { pos:8,  pts:null, wins:0                   },
+  "Daniel Wilkerson":  { pos:9,  pts:null, wins:0                   },
+  "J.R. Todd":         { pos:10, pts:null, wins:1                   },
+  "JR Todd":           { pos:10, pts:null, wins:1                   },
+  // Pro Stock 2025 Final
+  "Dallas Glenn":      { pos:1,  pts:2666, wins:8,  champion:true  },
+  "Greg Anderson":     { pos:2,  pts:2574, wins:2                   },
+  "Matt Hartford":     { pos:3,  pts:2417, wins:0                   },
+  "Aaron Stanfield":   { pos:4,  pts:2379, wins:0                   },
+  "Erica Enders":      { pos:5,  pts:null, wins:1                   },
+  "Greg Stanfield":    { pos:6,  pts:null, wins:1                   },
+  "Cody Coughlin":     { pos:7,  pts:null, wins:0                   },
+  "Troy Coughlin Jr.": { pos:8,  pts:null, wins:0                   },
+  "Troy Coughlin Jr":  { pos:8,  pts:null, wins:0                   },
+  "Matt Latino":       { pos:9,  pts:null, wins:0                   },
+  "Matthew Latino":    { pos:9,  pts:null, wins:0                   },
+  "Eric Latino":       { pos:10, pts:null, wins:0                   },
+  // Pro Stock Motorcycle 2025 Final
+  "Richard Gadson":    { pos:1,  pts:2584, wins:4,  champion:true  },
+  "Gaige Herrera":     { pos:2,  pts:2563, wins:7                   },
+  "Matt Smith":        { pos:3,  pts:2455, wins:1                   },
+  "Angie Smith":       { pos:4,  pts:2421, wins:0                   },
+  "Brayden Davis":     { pos:5,  pts:2399, wins:0                   },
+  "John Hall":         { pos:6,  pts:2375, wins:2                   },
+  "Jianna Evaristo":   { pos:7,  pts:null, wins:0                   },
+  "Chase Van Sant":    { pos:8,  pts:null, wins:0                   },
+  "Steve Johnson":     { pos:9,  pts:null, wins:0                   },
+  "Chris Bostick":     { pos:10, pts:null, wins:0                   },
+  // Pro Mod 2025 Final
+  "JR Gray":           { pos:1,  pts:null, wins:null, champion:true },
+  "Derek Menholt":     { pos:2,  pts:null, wins:null                },
+  "Billy Banaka":      { pos:3,  pts:null, wins:null                },
 };
 
 // ─── ENTRY LIST (base data — live-refreshed on app open) ──────────────────────
@@ -1789,13 +1959,15 @@ function renderEntryList() {
   const subtitle = document.getElementById('entry-subtitle');
   if (subtitle) subtitle.textContent = `${data.length} ${classNames[activeEntryClass]} competitors · 2026 Season`;
 
+  const isAnalyticsClass = ANALYTICS_CLASSES.has(activeEntryClass);
+
   data.forEach((driver, i) => {
     const photo = getDriverPhoto(driver.name);
     const imgHtml = photo
       ? `<img class="driver-tab-photo" src="${photo}" alt="${driver.name}" loading="lazy" onerror="this.style.display='none'">`
       : `<div class="driver-tab-photo driver-tab-photo-placeholder"></div>`;
     const row = document.createElement('div');
-    row.className = `entry-row ${driver._new ? 'entry-new' : ''}`;
+    row.className = `entry-row ${driver._new ? 'entry-new' : ''} ${isAnalyticsClass ? 'dm-clickable' : ''}`;
     row.innerHTML = `
       ${imgHtml}
       <div class="entry-num">${driver.num}</div>
@@ -1804,6 +1976,9 @@ function renderEntryList() {
         <div class="entry-team">${driver.team}</div>
         <div class="entry-sponsor">${driver.sponsor}</div>
       </div>`;
+    if (isAnalyticsClass) {
+      row.addEventListener('click', () => openDriverModal(driver, activeEntryClass));
+    }
     container.appendChild(row);
   });
 
@@ -1811,6 +1986,256 @@ function renderEntryList() {
     container.innerHTML = `<div class="empty-state"><p>No entry data available</p></div>`;
   }
 }
+
+// ─── DRIVER ANALYTICS MODAL ──────────────────────────────────────────────────
+const driverModalBackdrop = document.getElementById('driver-modal-backdrop');
+const driverModalSheet    = document.getElementById('driver-modal-sheet');
+const driverModalClose    = document.getElementById('driver-modal-close');
+
+// The 5 clickable class keys (pro classes only)
+const ANALYTICS_CLASSES = new Set(['tf','fc','ps','psm','pm']);
+
+const CLASS_LABELS = {
+  tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Motorcycle', pm:'Pro Mod'
+};
+
+function get2026DriverStats(driverName) {
+  // Search STANDINGS across all classes for this driver
+  let found = null;
+  ['tf','fc','ps','psm'].forEach(cls => {
+    const list = STANDINGS[cls];
+    if (!list) return;
+    const entry = list.find(d =>
+      d.name === driverName ||
+      d.name.replace('.','') === driverName.replace('.','') ||
+      d.name.toLowerCase() === driverName.toLowerCase()
+    );
+    if (entry) found = { ...entry, cls };
+  });
+  return found;
+}
+
+function count2026Wins(driverName) {
+  let wins = 0, runnerUps = 0;
+  RACES.forEach(race => {
+    if (!race.winners) return;
+    race.winners.forEach((w, idx) => {
+      if (w.driver === driverName ||
+          w.driver.replace('.','') === driverName.replace('.','') ||
+          w.driver.toLowerCase() === driverName.toLowerCase()) {
+        wins++;
+      }
+    });
+  });
+  // Count runner-ups: need bracket data — approximate from RACES (not yet stored),
+  // so we set runnerUps to null for now
+  return { wins, runnerUps: null };
+}
+
+// Runner-ups hardcoded for the 2 completed races (race 1 & 2)
+// We derive this from what we know about the finals
+const RUNNER_UPS_2026 = {
+  // Race 1: Gatornationals
+  // Race 2: Arizona Nationals
+  "Doug Kalitta":     0,
+  "Josh Hart":        0,
+  "Shawn Langdon":    1,  // race 2 runner-up (TF)
+  "Leah Pruett":      0,
+  "Maddi Gordon":     0,
+  "Tony Stewart":     0,
+  "Antron Brown":     0,
+  "Tony Schumacher":  0,
+  "Billy Torrence":   0,
+  "Justin Ashley":    0,
+  "Clay Millican":    0,
+  "Shawn Reed":       0,
+  // FC Race 1 runner-up
+  "Chad Green":       0,
+  "Spencer Hyde":     0,
+  "Ron Capps":        0,  // race 2 winner, but no runner-up tracked separately
+  "J.R. Todd":        0,
+  "JR Todd":          0,
+  "Matt Hagan":       0,
+  "Alexis DeJoria":   0,
+  "Jordan Vandergriff":0,
+  "Paul Lee":         0,
+  "Daniel Wilkerson": 0,
+  // PS
+  "Dallas Glenn":     1,  // runner-up in race 1
+  "Matt Hartford":    1,  // runner-up in race 2
+  "Cody Coughlin":    0,
+  "Greg Anderson":    0,
+  "Erica Enders":     0,
+  // PSM Race 1
+  "Richard Gadson":   0,
+  "John Hall":        0,
+  "Gaige Herrera":    0,
+  // PM
+  "Derek Menholt":    0,
+  "JR Gray":          0,
+  "Billy Banaka":     0,
+};
+
+function openDriverModal(driver, classKey) {
+  const name = driver.name;
+  const photo = getDriverPhoto(name);
+
+  // Photo
+  const photoEl = document.getElementById('driver-modal-photo');
+  const photoPlaceholder = document.getElementById('driver-modal-photo-placeholder');
+  if (photo) {
+    photoEl.src = photo;
+    photoEl.alt = name;
+    photoEl.style.display = 'block';
+    photoPlaceholder.style.display = 'none';
+  } else {
+    photoEl.style.display = 'none';
+    photoPlaceholder.style.display = 'block';
+  }
+
+  // Car number & name
+  document.getElementById('driver-modal-num').textContent = driver.num ? `#${driver.num}` : '';
+  document.getElementById('driver-modal-name').textContent = name;
+
+  // Class pill
+  const pillEl = document.getElementById('driver-modal-class-pill');
+  pillEl.textContent = CLASS_LABELS[classKey] || classKey.toUpperCase();
+  pillEl.className = `dm-class-pill dm-pill-${classKey}`;
+
+  // Team
+  document.getElementById('driver-modal-team').textContent = driver.team || driver.sponsor || '';
+
+  // ── 2026 Stats ──
+  const stats2026El = document.getElementById('driver-modal-2026-grid');
+  const standing2026 = get2026DriverStats(name);
+  const wins2026 = count2026Wins(name);
+  const runnerUps2026 = RUNNER_UPS_2026[name] ?? RUNNER_UPS_2026[name.replace('.','')]  ?? 0;
+  const f2t2026 = standing2026?.f2t ?? 0;
+
+  if (standing2026) {
+    const posOrdinal = n => {
+      const s = ['th','st','nd','rd']; const v = n%100;
+      return n + (s[(v-20)%10]||s[v]||s[0]);
+    };
+    stats2026El.innerHTML = `
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val dm-val-accent">${posOrdinal(standing2026.pos)}</div>
+        <div class="dm-stat-lbl">Position</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val">${standing2026.pts}</div>
+        <div class="dm-stat-lbl">Points</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val ${wins2026.wins > 0 ? 'dm-val-green' : ''}">${
+          wins2026.wins > 0 ? wins2026.wins : '—'
+        }</div>
+        <div class="dm-stat-lbl">Wins</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val ${runnerUps2026 > 0 ? 'dm-val-gold' : ''}">${runnerUps2026 > 0 ? runnerUps2026 : '—'}</div>
+        <div class="dm-stat-lbl">Runner-Ups</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val ${f2t2026 > 0 ? 'dm-val-gold' : ''}">${f2t2026 > 0 ? '⚡' + f2t2026 : '—'}</div>
+        <div class="dm-stat-lbl">2F2T Pts</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val">2</div>
+        <div class="dm-stat-lbl">Races</div>
+      </div>`;
+  } else {
+    stats2026El.innerHTML = `<div class="dm-dnc">Not competing in 2026 pro championship points</div>`;
+  }
+
+  // ── 2025 Stats ──
+  const stats2025El = document.getElementById('driver-modal-2025-grid');
+  const s25 = DRIVER_STATS_2025[name] || DRIVER_STATS_2025[name.replace('.','')];
+
+  if (s25) {
+    const champHtml = s25.champion
+      ? `<span class="dm-champ-badge">🏆 Champion</span>`
+      : '';
+    const posStr = s25.pos ? `#${s25.pos}` : '—';
+    const ptsStr = s25.pts ? s25.pts.toLocaleString() : '—';
+    const winsStr = s25.wins != null ? (s25.wins > 0 ? s25.wins : '0') : '—';
+    const winsColor = s25.wins > 0 ? 'dm-val-green' : '';
+
+    stats2025El.innerHTML = `
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val dm-val-gold">${posStr}</div>
+        <div class="dm-stat-lbl">Final Pos.</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val">${ptsStr}</div>
+        <div class="dm-stat-lbl">Points</div>
+      </div>
+      <div class="dm-stat-cell">
+        <div class="dm-stat-val ${winsColor}">${winsStr}</div>
+        <div class="dm-stat-lbl">Wins</div>
+      </div>
+      ${s25.champion ? `<div class="dm-stat-cell dm-stat-wide">${champHtml}</div>` : ''}`;
+  } else {
+    stats2025El.innerHTML = `<div class="dm-dnc">Did not compete in 2025 pro championship</div>`;
+  }
+
+  // ── Career at a glance ──
+  const careerEl = document.getElementById('driver-modal-career-row');
+  // Total wins across both seasons (2025 + 2026)
+  const totalWins2025 = s25?.wins ?? 0;
+  const totalWins2026 = wins2026.wins ?? 0;
+  const careerWins = (typeof totalWins2025 === 'number' ? totalWins2025 : 0) + totalWins2026;
+  const was2025Champ = s25?.champion ? 1 : 0;
+
+  // 2026 season entered (1 if in standings, else 0)
+  const entered2026 = standing2026 ? 'Yes' : 'No';
+  const seasons = (s25 ? 1 : 0) + (standing2026 ? 1 : 0);
+
+  careerEl.innerHTML = `
+    <div class="dm-career-item">
+      <div class="dm-career-val ${careerWins > 0 ? '' : ''}">${careerWins > 0 ? careerWins : '—'}</div>
+      <div class="dm-career-lbl">Career Wins</div>
+    </div>
+    <div class="dm-career-item">
+      <div class="dm-career-val ${was2025Champ ? 'dm-val-gold' : ''}">${was2025Champ ? '🏆 1' : '—'}</div>
+      <div class="dm-career-lbl">Champ.</div>
+    </div>
+    <div class="dm-career-item">
+      <div class="dm-career-val">${seasons}</div>
+      <div class="dm-career-lbl">Seasons</div>
+    </div>
+    <div class="dm-career-item">
+      <div class="dm-career-val">${entered2026}</div>
+      <div class="dm-career-lbl">In 2026</div>
+    </div>`;
+
+  // Open the modal
+  driverModalBackdrop.removeAttribute('hidden');
+  driverModalSheet.removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    driverModalBackdrop.classList.add('visible');
+    driverModalSheet.classList.add('open');
+  });
+  driverModalClose.focus();
+}
+
+function closeDriverModal() {
+  driverModalBackdrop.classList.remove('visible');
+  driverModalSheet.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    driverModalBackdrop.setAttribute('hidden','');
+    driverModalSheet.setAttribute('hidden','');
+  }, 300);
+}
+
+driverModalClose?.addEventListener('click', closeDriverModal);
+driverModalBackdrop?.addEventListener('click', closeDriverModal);
+
+let driverTouchStartY = 0;
+driverModalSheet?.addEventListener('touchstart', e => { driverTouchStartY = e.touches[0].clientY; }, { passive:true });
+driverModalSheet?.addEventListener('touchend', e => { if(e.changedTouches[0].clientY - driverTouchStartY > 80) closeDriverModal(); }, { passive:true });
 
 // ─── MODAL ────────────────────────────────────────────────────────────────────
 const modalBackdrop = document.getElementById('modal-backdrop');
@@ -2628,6 +3053,125 @@ function openBracketModal(raceId, startClass) {
   sheet.removeAttribute('hidden');
   document.body.style.overflow = 'hidden';
   requestAnimationFrame(() => { overlay.classList.add('visible'); sheet.classList.add('open'); });
+}
+
+
+// ─── DRIVER ANALYTICS MODAL ───────────────────────────────────────────────────
+function openDriverModal(driver, classKey) {
+  const photo = getDriverPhoto(driver.name);
+  const stats25 = DRIVER_STATS[driver.name];
+  const stats26 = get2026Stats(driver.name, classKey);
+
+  const classLabels = { tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Motorcycle', pm:'Pro Mod' };
+  const classPills  = { tf:'pill-nitro', fc:'pill-nitro', ps:'pill-prostock', psm:'pill-prostock', pm:'pill-promod' };
+
+  const backdrop = document.getElementById('driver-modal-backdrop');
+  const sheet    = document.getElementById('driver-modal-sheet');
+  if (!backdrop || !sheet) return;
+
+  sheet.innerHTML = `
+    <div class="modal-handle"></div>
+    <div class="modal-scroll">
+      <button class="modal-close" id="driver-modal-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Driver Hero -->
+      <div class="da-hero">
+        ${photo
+          ? `<img class="da-photo" src="${photo}" alt="${driver.name}" onerror="this.style.display='none'">`
+          : `<div class="da-photo da-photo-placeholder"></div>`}
+        <div class="da-hero-info">
+          <div class="da-car-num">#${driver.num}</div>
+          <div class="da-name">${driver.name}</div>
+          <div class="da-team">${driver.team}</div>
+          <span class="wc-class-pill ${classPills[classKey] || 'pill-sport'}">${classLabels[classKey] || classKey}</span>
+        </div>
+      </div>
+
+      <div class="da-body">
+        <!-- 2026 Season -->
+        <div class="da-season-card da-season-26">
+          <div class="da-season-label">2026 Season</div>
+          <div class="da-stats-grid">
+            <div class="da-stat">
+              <div class="da-stat-val">${stats26.pos ? `P${stats26.pos}` : '—'}</div>
+              <div class="da-stat-lbl">Position</div>
+            </div>
+            <div class="da-stat">
+              <div class="da-stat-val">${stats26.pts}</div>
+              <div class="da-stat-lbl">Points</div>
+            </div>
+            <div class="da-stat">
+              <div class="da-stat-val">${stats26.wins}</div>
+              <div class="da-stat-lbl">Wins</div>
+            </div>
+            <div class="da-stat">
+              <div class="da-stat-val">${stats26.runnerUps}</div>
+              <div class="da-stat-lbl">Runner-Ups</div>
+            </div>
+            ${stats26.f2t ? `<div class="da-stat">
+              <div class="da-stat-val" style="color:var(--gold)">⚡${stats26.f2t}</div>
+              <div class="da-stat-lbl">2F2T Pts</div>
+            </div>` : ''}
+          </div>
+        </div>
+
+        <!-- 2025 Season -->
+        <div class="da-season-card da-season-25">
+          <div class="da-season-label">2025 Season</div>
+          ${stats25 ? `
+          <div class="da-stats-grid">
+            <div class="da-stat">
+              <div class="da-stat-val ${stats25.s25pos === 1 ? 'da-champ' : ''}">${stats25.s25pos ? `P${stats25.s25pos}` : '—'}</div>
+              <div class="da-stat-lbl">Final Pos.</div>
+            </div>
+            <div class="da-stat">
+              <div class="da-stat-val">${stats25.s25pts > 0 ? stats25.s25pts.toLocaleString() : '—'}</div>
+              <div class="da-stat-lbl">Final Pts</div>
+            </div>
+            <div class="da-stat">
+              <div class="da-stat-val">${stats25.s25wins}</div>
+              <div class="da-stat-lbl">Wins</div>
+            </div>
+            <div class="da-stat" style="flex:2">
+              <div class="da-stat-val" style="font-size:var(--text-sm)">${stats25.s25label}</div>
+              <div class="da-stat-lbl">Status</div>
+            </div>
+          </div>` : `<div class="da-no-data">No 2025 data available</div>`}
+        </div>
+
+        <!-- Sponsor -->
+        <div class="da-sponsor-row">
+          <span class="da-sponsor-label">Sponsor</span>
+          <span class="da-sponsor-val">${driver.sponsor}</span>
+        </div>
+      </div>
+    </div>`;
+
+  // Wire close
+  document.getElementById('driver-modal-close')?.addEventListener('click', closeDriverModal);
+  backdrop.addEventListener('click', closeDriverModal);
+
+  backdrop.removeAttribute('hidden');
+  sheet.removeAttribute('hidden');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    backdrop.classList.add('visible');
+    sheet.classList.add('open');
+  });
+}
+
+function closeDriverModal() {
+  const backdrop = document.getElementById('driver-modal-backdrop');
+  const sheet    = document.getElementById('driver-modal-sheet');
+  backdrop?.classList.remove('visible');
+  sheet?.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    backdrop?.setAttribute('hidden','');
+    sheet?.setAttribute('hidden','');
+  }, 300);
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
