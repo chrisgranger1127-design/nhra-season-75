@@ -761,6 +761,134 @@ function get2026Stats(driverName, classKey) {
   return { pos: standing?.pos || null, pts: standing?.pts || 0, f2t: standing?.f2t || 0, wins, runnerUps };
 }
 
+
+// ─── PER-RACE STATS ───────────────────────────────────────────────────────────
+// Track each driver's performance race by race for trend analysis
+// qualPos = qualifying position, bestET = best ET of weekend, bestMPH = best MPH
+// elimRound = how far they went: 0=DNQ, 1=R1, 2=R2, 3=Semi, 4=Final, 5=Win
+
+const PER_RACE_STATS = {
+  // TOP FUEL
+  "Doug Kalitta": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:3, bestET:"3.756", bestMPH:"338.34", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:1, bestET:"3.748", bestMPH:"339.20", elimRound:3 },
+  ],
+  "Josh Hart": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:2, bestET:"3.733", bestMPH:"337.83", elimRound:5 },
+    { raceId:2, raceName:"Arizona",         qualPos:2, bestET:"3.741", bestMPH:"336.50", elimRound:3 },
+  ],
+  "Shawn Langdon": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:4, bestET:"3.745", bestMPH:"338.51", elimRound:4 },
+    { raceId:2, raceName:"Arizona",         qualPos:3, bestET:"3.739", bestMPH:"338.92", elimRound:5 },
+  ],
+  "Leah Pruett": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:1, bestET:"3.724", bestMPH:"329.75", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:5, bestET:"3.762", bestMPH:"328.40", elimRound:2 },
+  ],
+  "Maddi Gordon": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:6, bestET:"3.819", bestMPH:"326.56", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:4, bestET:"3.801", bestMPH:"327.14", elimRound:2 },
+  ],
+  "Tony Stewart": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:7, bestET:"3.815", bestMPH:"325.85", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:6, bestET:"3.822", bestMPH:"324.90", elimRound:2 },
+  ],
+  "Antron Brown": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:8, bestET:"3.831", bestMPH:"319.63", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:8, bestET:"3.845", bestMPH:"317.80", elimRound:1 },
+  ],
+  "Tony Schumacher": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:10, bestET:"5.339", bestMPH:"132.82", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:9,  bestET:"3.891", bestMPH:"315.20", elimRound:1 },
+  ],
+  "Billy Torrence": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:5, bestET:"3.774", bestMPH:"334.32", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:7, bestET:"3.836", bestMPH:"320.44", elimRound:1 },
+  ],
+  // FUNNY CAR
+  "Chad Green": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:3, bestET:"3.959", bestMPH:"329.91", elimRound:5 },
+    { raceId:2, raceName:"Arizona",         qualPos:5, bestET:"3.971", bestMPH:"328.10", elimRound:2 },
+  ],
+  "Ron Capps": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:2, bestET:"3.978", bestMPH:"326.48", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:1, bestET:"3.895", bestMPH:"326.48", elimRound:5 },
+  ],
+  "Jordan Vandergriff": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:4, bestET:"3.995", bestMPH:"325.61", elimRound:4 },
+    { raceId:2, raceName:"Arizona",         qualPos:3, bestET:"3.952", bestMPH:"324.91", elimRound:2 },
+  ],
+  "J.R. Todd": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:6, bestET:"4.012", bestMPH:"321.19", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:2, bestET:"3.969", bestMPH:"322.11", elimRound:4 },
+  ],
+  "JR Todd": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:6, bestET:"4.012", bestMPH:"321.19", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:2, bestET:"3.969", bestMPH:"322.11", elimRound:4 },
+  ],
+  "Matt Hagan": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:5, bestET:"4.003", bestMPH:"322.88", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:4, bestET:"3.987", bestMPH:"320.04", elimRound:2 },
+  ],
+  "Alexis DeJoria": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:1, bestET:"3.974", bestMPH:"328.30", elimRound:3 },
+    { raceId:2, raceName:"Arizona",         qualPos:6, bestET:"4.028", bestMPH:"316.80", elimRound:1 },
+  ],
+  "Austin Prock": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:7, bestET:"4.047", bestMPH:"309.14", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:7, bestET:"4.015", bestMPH:"312.86", elimRound:1 },
+  ],
+  "Spencer Hyde": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:8, bestET:"4.052", bestMPH:"316.08", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:10,bestET:"4.061", bestMPH:"314.20", elimRound:1 },
+  ],
+  // PRO STOCK
+  "Dallas Glenn": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:2, bestET:"6.589", bestMPH:"209.17", elimRound:3 },
+    { raceId:2, raceName:"Arizona",         qualPos:1, bestET:"6.574", bestMPH:"209.44", elimRound:5 },
+  ],
+  "Greg Anderson": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:5, bestET:"6.610", bestMPH:"207.34", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:2, bestET:"6.532", bestMPH:"208.26", elimRound:3 },
+  ],
+  "Matt Hartford": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:1, bestET:"6.587", bestMPH:"208.94", elimRound:5 },
+    { raceId:2, raceName:"Arizona",         qualPos:3, bestET:"6.600", bestMPH:"207.55", elimRound:2 },
+  ],
+  "Erica Enders": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:3, bestET:"6.596", bestMPH:"208.68", elimRound:3 },
+    { raceId:2, raceName:"Arizona",         qualPos:5, bestET:"6.607", bestMPH:"207.90", elimRound:1 },
+  ],
+  "Cody Coughlin": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:6, bestET:"6.598", bestMPH:"208.36", elimRound:4 },
+    { raceId:2, raceName:"Arizona",         qualPos:4, bestET:"6.579", bestMPH:"208.62", elimRound:4 },
+  ],
+  "Aaron Stanfield": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:4, bestET:"6.602", bestMPH:"208.46", elimRound:1 },
+    { raceId:2, raceName:"Arizona",         qualPos:6, bestET:"6.618", bestMPH:"207.24", elimRound:2 },
+  ],
+  // PRO STOCK MOTORCYCLE
+  "Richard Gadson": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:1, bestET:"6.753", bestMPH:"200.05", elimRound:5 },
+    { raceId:2, raceName:"Arizona",         qualPos:1, bestET:"6.748", bestMPH:"200.44", elimRound:3 },
+  ],
+  "Gaige Herrera": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:2, bestET:"6.761", bestMPH:"199.80", elimRound:3 },
+    { raceId:2, raceName:"Arizona",         qualPos:2, bestET:"6.754", bestMPH:"200.12", elimRound:2 },
+  ],
+  "Matt Smith": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:3, bestET:"6.779", bestMPH:"199.24", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:3, bestET:"6.771", bestMPH:"199.40", elimRound:2 },
+  ],
+  "John Hall": [
+    { raceId:1, raceName:"Gatornationals",  qualPos:4, bestET:"6.788", bestMPH:"198.90", elimRound:2 },
+    { raceId:2, raceName:"Arizona",         qualPos:4, bestET:"6.780", bestMPH:"199.10", elimRound:1 },
+  ],
+};
+
+const ELIM_ROUND_LABELS = { 0:"DNQ", 1:"R1 Exit", 2:"R2 Exit", 3:"Semifinal", 4:"Final Round", 5:"Winner" };
+const ELIM_ROUND_COLORS = { 0:"var(--text-faint)", 1:"var(--text-faint)", 2:"var(--text-muted)", 3:"var(--gold)", 4:"var(--gold)", 5:"var(--green)" };
+
 // ─── QUALIFYING RESULTS ──────────────────────────────────────────────────────
 // Per-round qualifying data. sessions[Q] = array of {pos, driver, car, et, mph}
 // currentOrder = best combined order after all completed rounds
@@ -3069,6 +3197,101 @@ function openDriverModal(driver, classKey) {
   const sheet    = document.getElementById('driver-modal-sheet');
   if (!backdrop || !sheet) return;
 
+  // Build creative analytics
+  const perRaceData = PER_RACE_STATS[driver.name] || [];
+  let perRaceHtml = '';
+
+  if (perRaceData.length > 0) {
+    const ets  = perRaceData.map(r => parseFloat(r.bestET)).filter(e => !isNaN(e) && e < 10);
+    const mphs = perRaceData.map(r => parseFloat(r.bestMPH)).filter(m => !isNaN(m));
+    const rounds = perRaceData.map(r => r.elimRound);
+
+    // Momentum score: avg round exit weighted toward recency
+    const momentumScore = rounds.reduce((sum, r, i) => sum + r * (i + 1), 0) /
+      rounds.reduce((sum, _, i) => sum + (i + 1), 0);
+    const momentum = momentumScore >= 4 ? { label:'🔥 On Fire', color:'var(--green)' }
+      : momentumScore >= 3  ? { label:'📈 Rising',  color:'var(--gold)'  }
+      : momentumScore >= 2  ? { label:'➡️ Steady',  color:'var(--text-muted)' }
+      :                        { label:'❄️ Cold',    color:'#5591c7'      };
+
+    // ET trend line SVG sparkline
+    const W = 260, H = 48, pad = 8;
+    const minET = Math.min(...ets), maxET = Math.max(...ets);
+    const etRange = (maxET - minET) || 0.05;
+    const pts = ets.map((et, i) => {
+      const x = pad + (i / Math.max(ets.length - 1, 1)) * (W - pad * 2);
+      const y = H - pad - ((maxET - et) / etRange) * (H - pad * 2);
+      return `${x},${y}`;
+    });
+    const sparkline = ets.length > 1
+      ? `<polyline points="${pts.join(' ')}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+         ${pts.map((p, i) => {
+           const [x, y] = p.split(',');
+           const isLow = ets[i] === minET;
+           return `<circle cx="${x}" cy="${y}" r="${isLow ? 5 : 3.5}" fill="${isLow ? 'var(--green)' : 'var(--surface)'}" stroke="${isLow ? 'var(--green)' : 'var(--accent)'}" stroke-width="2"/>`;
+         }).join('')}`
+      : `<circle cx="${W/2}" cy="${H/2}" r="5" fill="var(--accent)"/>`;
+
+    // Round result pills for each race
+    const resultDots = perRaceData.map(r => {
+      const icons = { 0:'✗', 1:'R1', 2:'R2', 3:'SF', 4:'F', 5:'W' };
+      const cols  = { 0:'var(--text-faint)', 1:'var(--text-faint)', 2:'var(--text-muted)', 3:'var(--gold)', 4:'var(--gold)', 5:'var(--green)' };
+      return `<div class="da-race-dot" style="border-color:${cols[r.elimRound]};color:${cols[r.elimRound]}">
+        <div class="da-race-dot-result">${icons[r.elimRound]}</div>
+        <div class="da-race-dot-name">${r.raceName.replace('NHRA ','').replace(' Nationals','').replace(' Nationas','')}</div>
+      </div>`;
+    }).join('');
+
+    // Best / worst stats
+    const bestET  = Math.min(...ets).toFixed(3);
+    const bestMPH = Math.max(...mphs).toFixed(2);
+    const avgQual = (perRaceData.reduce((s,r) => s+r.qualPos, 0) / perRaceData.length).toFixed(1);
+    const deepest = Math.max(...rounds);
+    const deepLabel = ELIM_ROUND_LABELS[deepest];
+
+    perRaceHtml = `
+      <div class="da-trends-card">
+        <div class="da-trends-header">
+          <div class="da-season-label">2026 Trends</div>
+          <div class="da-momentum" style="color:${momentum.color}">${momentum.label}</div>
+        </div>
+
+        <!-- Race result timeline -->
+        <div class="da-race-timeline">${resultDots}</div>
+
+        <!-- ET Sparkline -->
+        <div class="da-sparkline-wrap">
+          <div class="da-sparkline-label">ET Trend <span style="color:var(--green)">● best</span></div>
+          <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${sparkline}</svg>
+          <div class="da-sparkline-range">
+            <span>${maxET.toFixed(3)}s</span>
+            <span style="color:var(--text-faint);font-size:10px">slower → quicker</span>
+            <span style="color:var(--green)">${minET.toFixed(3)}s</span>
+          </div>
+        </div>
+
+        <!-- Key numbers -->
+        <div class="da-key-nums">
+          <div class="da-key-num">
+            <div class="da-key-val" style="color:var(--green)">${bestET}s</div>
+            <div class="da-key-lbl">Best ET</div>
+          </div>
+          <div class="da-key-num">
+            <div class="da-key-val">${bestMPH}</div>
+            <div class="da-key-lbl">Top MPH</div>
+          </div>
+          <div class="da-key-num">
+            <div class="da-key-val">Q${avgQual}</div>
+            <div class="da-key-lbl">Avg Qual</div>
+          </div>
+          <div class="da-key-num">
+            <div class="da-key-val" style="font-size:var(--text-sm)">${deepLabel}</div>
+            <div class="da-key-lbl">Best Finish</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
   sheet.innerHTML = `
     <div class="modal-handle"></div>
     <div class="modal-scroll">
@@ -3140,6 +3363,9 @@ function openDriverModal(driver, classKey) {
             </div>
           </div>` : `<div class="da-no-data">No 2025 data available</div>`}
         </div>
+
+        <!-- Per-Race Stats -->
+        ${perRaceHtml}
 
         <!-- Sponsor -->
         <div class="da-sponsor-row">
