@@ -142,6 +142,41 @@
     <div class="standings-wrap" id="standings-list"></div>
   </div>
 
+  <!-- ══ QUALIFYING VIEW ══ -->
+  <div id="view-qualifying" class="view" hidden>
+    <div class="view-header">
+      <h2 class="view-title">Qualifying</h2>
+    </div>
+
+    <!-- Race selector dropdown -->
+    <div class="qual-race-select-wrap">
+      <select class="qual-race-select" id="qual-race-select">
+        <option value="">Select a Race...</option>
+      </select>
+    </div>
+
+    <!-- Class tabs -->
+    <div class="qual-main-class-tabs" id="qual-main-class-tabs" hidden>
+      <button class="qual-tab active" data-mqclass="tf">Top Fuel</button>
+      <button class="qual-tab" data-mqclass="fc">Funny Car</button>
+      <button class="qual-tab" data-mqclass="ps">Pro Stock</button>
+      <button class="qual-tab" data-mqclass="psm">Pro Stock Moto</button>
+    </div>
+
+    <!-- Round selector -->
+    <div class="qual-round-row" id="qual-main-round-tabs" hidden></div>
+
+    <!-- Results list -->
+    <div class="qual-main-wrap">
+      <div id="qual-main-list"></div>
+      <div class="qual-updated" id="qual-main-updated"></div>
+      <div class="qual-no-race" id="qual-no-race">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <p>Select a race above to view qualifying results</p>
+      </div>
+    </div>
+  </div>
+
   <!-- ══ ENTRY LIST VIEW ══ -->
   <div id="view-entries" class="view" hidden>
     <div class="view-header">
@@ -194,6 +229,12 @@
         <path d="M18 20V10M12 20V4M6 20v-6"/>
       </svg>
       <span>Standings</span>
+    </button>
+    <button class="nav-btn" data-view="qualifying" aria-label="Qualifying">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      <span>Qualifying</span>
     </button>
     <button class="nav-btn" data-view="entries" aria-label="Drivers">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

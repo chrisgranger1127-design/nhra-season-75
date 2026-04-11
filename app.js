@@ -1427,6 +1427,7 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 
     if (view === 'winners')   renderWinnersCircle();
     if (view === 'standings') renderStandings();
+    if (view === 'qualifying') initQualifyingTab();
     if (view === 'entries') {
       renderEntryList();
       // Trigger background refresh every time Entries tab is opened
@@ -2172,10 +2173,151 @@ function initCountdown() {
   setInterval(tick, 1000);
 }
 
+
+// ─── QUALIFYING TAB ───────────────────────────────────────────────────────────
+let activeQualRace   = null;
+let activeQualClass  = 'tf';
+let activeQualRound  = null; // null = current best order
+
+function initQualifyingTab() {
+  const select    = document.getElementById('qual-race-select');
+  const classTabs = document.getElementById('qual-main-class-tabs');
+  const roundTabs = document.getElementById('qual-main-round-tabs');
+  const list      = document.getElementById('qual-main-list');
+  const updated   = document.getElementById('qual-main-updated');
+  const noRace    = document.getElementById('qual-no-race');
+
+  if (!select) return;
+
+  // Populate race dropdown — only races with qualifying data or that are live/upcoming
+  const t = today();
+  RACES.forEach(race => {
+    const status = getRaceStatus(race);
+    const hasData = QUALIFYING[race.id] && Object.values(QUALIFYING[race.id]).some(v => v && v.sessions && Object.values(v.sessions).some(s => s && s.length));
+    if (hasData || status === 'live' || (status === 'upcoming' && parseDate(race.startDate) - t < 7 * 24 * 60 * 60 * 1000)) {
+      const opt = document.createElement('option');
+      opt.value = race.id;
+      opt.textContent = `Race ${race.id} — ${race.name}`;
+      if (status === 'live') opt.textContent += ' 🔴 LIVE';
+      select.appendChild(opt);
+    }
+  });
+
+  // Auto-select the active/next race with data
+  const liveRace = RACES.find(r => getRaceStatus(r) === 'live' && QUALIFYING[r.id]);
+  if (liveRace) select.value = liveRace.id;
+
+  function renderQualTab() {
+    const raceId = parseInt(select.value);
+    const raceQual = QUALIFYING[raceId];
+
+    if (!raceId || !raceQual) {
+      if (classTabs) classTabs.setAttribute('hidden','');
+      if (roundTabs) roundTabs.setAttribute('hidden','');
+      if (list) list.innerHTML = '';
+      if (updated) updated.textContent = '';
+      if (noRace) noRace.removeAttribute('hidden');
+      return;
+    }
+
+    activeQualRace = raceId;
+    if (noRace) noRace.setAttribute('hidden','');
+    if (classTabs) classTabs.removeAttribute('hidden');
+    if (roundTabs) roundTabs.removeAttribute('hidden');
+
+    // Update class tabs active state
+    document.querySelectorAll('#qual-main-class-tabs .qual-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.mqclass === activeQualClass);
+    });
+
+    // Build round tabs
+    const classData = raceQual[activeQualClass];
+    if (roundTabs) {
+      roundTabs.innerHTML = '';
+      const currentBtn = document.createElement('button');
+      currentBtn.className = `qround-tab ${activeQualRound === null ? 'active' : ''}`;
+      currentBtn.textContent = 'Current';
+      currentBtn.addEventListener('click', () => { activeQualRound = null; renderRoundResults(); updateRoundTabActive(); });
+      roundTabs.appendChild(currentBtn);
+
+      [1,2,3,4].forEach(q => {
+        const btn = document.createElement('button');
+        const hasData = classData?.sessions?.[q]?.length > 0;
+        btn.className = `qround-tab ${activeQualRound === q ? 'active' : ''} ${!hasData ? 'qround-pending' : ''}`;
+        btn.textContent = `Q${q}`;
+        if (!hasData) btn.disabled = true;
+        btn.addEventListener('click', () => { if (!hasData) return; activeQualRound = q; renderRoundResults(); updateRoundTabActive(); });
+        roundTabs.appendChild(btn);
+      });
+    }
+
+    renderRoundResults();
+  }
+
+  function updateRoundTabActive() {
+    document.querySelectorAll('#qual-main-round-tabs .qround-tab').forEach((btn, i) => {
+      const isCurrentBtn = i === 0;
+      btn.classList.toggle('active', isCurrentBtn ? activeQualRound === null : parseInt(btn.textContent.replace('Q','')) === activeQualRound);
+    });
+  }
+
+  function renderRoundResults() {
+    const raceQual = QUALIFYING[activeQualRace];
+    if (!list || !raceQual) return;
+    const classData = raceQual[activeQualClass];
+    if (!classData) {
+      list.innerHTML = `<div class="qual-empty">No qualifying data for this class at this event</div>`;
+      if (updated) updated.textContent = '';
+      return;
+    }
+    const sessions = classData.sessions || {};
+    const rows = activeQualRound ? sessions[activeQualRound] : sessions[classData.lastSession];
+    if (updated) updated.textContent = activeQualRound
+      ? `Q${activeQualRound} session · ${classData.updated}`
+      : `Current order after Q${classData.lastSession} · ${classData.updated}`;
+    if (!rows || !rows.length) {
+      list.innerHTML = `<div class="qual-empty">${activeQualRound ? `Q${activeQualRound} not yet run` : 'No results yet'}</div>`;
+      return;
+    }
+    list.innerHTML = rows.map(q => `
+      <div class="qual-row ${q.pos <= 16 ? 'qual-in' : 'qual-out'} ${q.pos <= 8 ? 'qual-top8' : ''} ${q.pos === 1 ? 'qual-leader' : ''}">
+        <div class="qual-pos-wrap">
+          <span class="qual-pos">${q.pos}</span>
+          ${q.pos === 16 ? '<span class="qual-cutline">CUT</span>' : ''}
+          ${q.pos === 9  ? '<span class="qual-cutline" style="background:rgba(245,166,35,0.15);color:var(--gold);border-color:var(--gold)">ALT</span>' : ''}
+        </div>
+        <div class="qual-info">
+          <div class="qual-driver">${q.driver}</div>
+          <div class="qual-car">#${q.car}</div>
+        </div>
+        <div class="qual-times">
+          <div class="qual-et">${q.et}s</div>
+          <div class="qual-mph">${q.mph} mph</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // Wire race select
+  select.addEventListener('change', () => { activeQualRound = null; renderQualTab(); });
+
+  // Wire class tabs
+  document.querySelectorAll('#qual-main-class-tabs .qual-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      activeQualClass = tab.dataset.mqclass;
+      activeQualRound = null;
+      renderQualTab();
+    });
+  });
+
+  // Initial render
+  if (select.value) renderQualTab();
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 updateStats();
 renderSchedule();
 initCountdown();
+initQualifyingTab();
 
 // Kick off background entry list refresh on app load
 // (silent — doesn't block the UI, updates when ready)
