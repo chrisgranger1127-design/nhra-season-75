@@ -1849,6 +1849,8 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     if (view === 'winners')   renderWinnersCircle();
     if (view === 'standings') renderStandings();
     if (view === 'qualifying') initQualifyingTab();
+    if (view === 'f2t') renderF2TTab();
+    if (view === 'brackets') initBracketsTab();
     if (view === 'entries') {
       renderEntryList();
       // Trigger background refresh every time Entries tab is opened
@@ -3421,6 +3423,217 @@ function closeDriverModal() {
     backdrop?.setAttribute('hidden','');
     sheet?.setAttribute('hidden','');
   }, 300);
+}
+
+
+// ─── 2FAST2TASTY TAB ─────────────────────────────────────────────────────────
+const F2T_RESULTS = {
+  tf: [
+    { raceId:1, raceName:"Gatornationals", winner:"Josh Hart",     runnerUp:"Shawn Langdon", quickSemi:"Doug Kalitta" },
+    { raceId:2, raceName:"Arizona Natls",  winner:"Doug Kalitta",  runnerUp:"Shawn Langdon", quickSemi:"Maddi Gordon"  },
+  ],
+  fc: [
+    { raceId:1, raceName:"Gatornationals", winner:"Chad Green",        runnerUp:"Jordan Vandergriff", quickSemi:"Alexis DeJoria"  },
+    { raceId:2, raceName:"Arizona Natls",  winner:"J.R. Todd",         runnerUp:"Ron Capps",          quickSemi:"Alexis DeJoria"  },
+  ],
+  ps: [
+    { raceId:1, raceName:"Gatornationals", winner:"Matt Hartford",  runnerUp:"Greg Anderson", quickSemi:"Erica Enders"   },
+    { raceId:2, raceName:"Arizona Natls",  winner:"Dallas Glenn",   runnerUp:"Cody Coughlin", quickSemi:"Greg Anderson"  },
+  ],
+  psm: [
+    { raceId:1, raceName:"Gatornationals", winner:"Richard Gadson", runnerUp:"Gaige Herrera", quickSemi:"John Hall"      },
+  ],
+};
+
+// 2F2T cumulative points
+const F2T_POINTS = {
+  tf: [
+    { pos:1, name:"Josh Hart",      pts:3, races:["Win R1"] },
+    { pos:2, name:"Doug Kalitta",   pts:3, races:["Win R2"] },
+    { pos:3, name:"Shawn Langdon",  pts:4, races:["RU R1","RU R2"] },
+    { pos:4, name:"Maddi Gordon",   pts:1, races:["QS R2"] },
+    { pos:5, name:"Antron Brown",   pts:1, races:["QS R1"] },
+  ],
+  fc: [
+    { pos:1, name:"Chad Green",         pts:3, races:["Win R1"] },
+    { pos:2, name:"J.R. Todd",          pts:3, races:["Win R2"] },
+    { pos:3, name:"Jordan Vandergriff", pts:2, races:["RU R1"] },
+    { pos:4, name:"Ron Capps",          pts:2, races:["RU R2"] },
+    { pos:5, name:"Alexis DeJoria",     pts:2, races:["QS R1","QS R2"] },
+  ],
+  ps: [
+    { pos:1, name:"Matt Hartford",  pts:4, races:["Win R1","QS R1"] },
+    { pos:2, name:"Dallas Glenn",   pts:3, races:["Win R2"] },
+    { pos:3, name:"Cody Coughlin",  pts:2, races:["RU R2"] },
+    { pos:4, name:"Greg Anderson",  pts:2, races:["RU R1","QS R2"] },
+    { pos:5, name:"Erica Enders",   pts:1, races:["QS R1"] },
+  ],
+  psm: [
+    { pos:1, name:"Richard Gadson", pts:3, races:["Win R1"] },
+    { pos:2, name:"Gaige Herrera",  pts:2, races:["RU R1"] },
+    { pos:3, name:"John Hall",      pts:1, races:["QS R1"] },
+  ],
+};
+
+let activeF2TClass = 'tf';
+
+function renderF2TTab() {
+  const container = document.getElementById('f2t-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const classLabels = { tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Moto' };
+  const classPills  = { tf:'pill-nitro', fc:'pill-nitro', ps:'pill-prostock', psm:'pill-prostock' };
+
+  // Points leaderboard
+  const pts = F2T_POINTS[activeF2TClass] || [];
+  if (pts.length) {
+    const leader = document.createElement('div');
+    leader.className = 'f2t-leader';
+    leader.innerHTML = `
+      <div class="f2t-leader-label">⚡ Points Leader</div>
+      <div class="f2t-leader-name">${pts[0].name}</div>
+      <div class="f2t-leader-pts">${pts[0].pts} <span>pts</span></div>`;
+    container.appendChild(leader);
+
+    pts.slice(1).forEach(d => {
+      const row = document.createElement('div');
+      row.className = 'f2t-row';
+      row.innerHTML = `
+        <div class="f2t-pos">${d.pos}</div>
+        <div class="f2t-name">${d.name}</div>
+        <div class="f2t-races">${d.races.map(r => `<span class="f2t-race-tag">${r}</span>`).join('')}</div>
+        <div class="f2t-pts">${d.pts}</div>`;
+      container.appendChild(row);
+    });
+  }
+
+  // Race-by-race results
+  const results = F2T_RESULTS[activeF2TClass] || [];
+  if (results.length) {
+    const hdr = document.createElement('div');
+    hdr.className = 'f2t-results-hdr';
+    hdr.textContent = 'Race Results';
+    container.appendChild(hdr);
+
+    results.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'f2t-result-card';
+      card.innerHTML = `
+        <div class="f2t-rc-race">${r.raceName}</div>
+        <div class="f2t-rc-row"><span class="f2t-rc-label">🏆 Winner (+3)</span><span class="f2t-rc-val">${r.winner}</span></div>
+        <div class="f2t-rc-row"><span class="f2t-rc-label">🥈 Runner-Up (+2)</span><span class="f2t-rc-val">${r.runnerUp}</span></div>
+        <div class="f2t-rc-row"><span class="f2t-rc-label">⚡ Quick Semi (+1)</span><span class="f2t-rc-val">${r.quickSemi}</span></div>`;
+      container.appendChild(card);
+    });
+  }
+
+  const note = document.createElement('div');
+  note.className = 'data-note';
+  note.innerHTML = 'Bonus points survive the Countdown reset · Awarded at qualifying sessions';
+  container.appendChild(note);
+}
+
+document.querySelectorAll('.f2t-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.f2t-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeF2TClass = tab.dataset.f2tclass;
+    renderF2TTab();
+  });
+});
+
+// ─── BRACKETS TAB ─────────────────────────────────────────────────────────────
+let activeBracketRace = null;
+let activeBracketClass = 'tf';
+
+function initBracketsTab() {
+  const select = document.getElementById('bracket-race-select');
+  const classTabs = document.getElementById('bracket-class-tabs');
+  const list = document.getElementById('bracket-list');
+  const noRace = document.getElementById('bracket-no-race');
+  if (!select) return;
+
+  // Clear and repopulate
+  select.innerHTML = '<option value="">Select a completed race...</option>';
+  Object.keys(BRACKETS).forEach(raceId => {
+    const race = RACES.find(r => r.id === parseInt(raceId));
+    if (race) {
+      const opt = document.createElement('option');
+      opt.value = raceId;
+      opt.textContent = `Race ${race.id} — ${race.name}`;
+      select.appendChild(opt);
+    }
+  });
+
+  function renderBracketTab() {
+    const raceId = parseInt(select.value);
+    const data = BRACKETS[raceId];
+    if (!raceId || !data) {
+      if (classTabs) classTabs.setAttribute('hidden','');
+      if (list) list.innerHTML = '';
+      if (noRace) noRace.removeAttribute('hidden');
+      return;
+    }
+    activeBracketRace = raceId;
+    if (noRace) noRace.setAttribute('hidden','');
+    if (classTabs) classTabs.removeAttribute('hidden');
+
+    // Update class tab visibility
+    document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => {
+      const cls = t.dataset.bclass;
+      t.style.display = data[cls] ? '' : 'none';
+      t.classList.toggle('active', cls === activeBracketClass && data[cls]);
+    });
+    if (!data[activeBracketClass]) {
+      activeBracketClass = Object.keys(data)[0];
+      document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.bclass === activeBracketClass);
+      });
+    }
+
+    renderBracketRounds();
+  }
+
+  function renderBracketRounds() {
+    if (!list || !activeBracketRace) return;
+    const data = BRACKETS[activeBracketRace]?.[activeBracketClass];
+    if (!data) { list.innerHTML = `<div class="qual-empty">No bracket data for this class</div>`; return; }
+
+    list.innerHTML = data.rounds.map(round => `
+      <div class="bracket-round">
+        <div class="bracket-round-label">${round.name}</div>
+        ${round.pairs.map(pair => `
+          <div class="bracket-pair">
+            <div class="bracket-car winner-car">
+              <span class="bracket-flag">🏆</span>
+              <span class="bracket-name">${pair.w}</span>
+              <div class="bracket-run"><span class="bracket-et">${pair.wet}s</span> <span class="bracket-mph">${pair.wmp} mph</span></div>
+            </div>
+            <div class="bracket-car loser-car">
+              <span class="bracket-name">${pair.l}</span>
+              <div class="bracket-run"><span class="bracket-et">${pair.let}s</span> <span class="bracket-mph">${pair.lmp} mph</span></div>
+            </div>
+          </div>`).join('')}
+      </div>`).join('');
+  }
+
+  select.addEventListener('change', () => { activeBracketClass = 'tf'; renderBracketTab(); });
+
+  document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      activeBracketClass = tab.dataset.bclass;
+      renderBracketRounds();
+    });
+  });
+
+  // Auto-select most recent race
+  if (select.options.length > 1) {
+    select.selectedIndex = select.options.length - 1;
+    renderBracketTab();
+  }
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
