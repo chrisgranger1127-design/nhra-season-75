@@ -3716,22 +3716,49 @@ function initBracketsTab() {
     const data = BRACKETS[activeBracketRace]?.[activeBracketClass];
     if (!data) { list.innerHTML = `<div class="qual-empty">No bracket data for this class</div>`; return; }
 
-    list.innerHTML = data.rounds.map(round => `
-      <div class="bracket-round">
-        <div class="bracket-round-label">${round.name}</div>
-        ${round.pairs.map(pair => `
-          <div class="bracket-pair">
-            <div class="bracket-car winner-car">
-              <span class="bracket-flag">🏆</span>
-              <span class="bracket-name">${pair.w}</span>
-              <div class="bracket-run"><span class="bracket-et">${pair.wet}s</span> <span class="bracket-mph">${pair.wmp} mph</span></div>
+    const rounds = data.rounds;
+    const numRounds = rounds.length;
+
+    // Build visual bracket as horizontal columns
+    let html = `<div class="vb-wrap">`;
+
+    rounds.forEach((round, ri) => {
+      const isLast = ri === numRounds - 1;
+      html += `<div class="vb-col ${isLast ? 'vb-final' : ''}">
+        <div class="vb-col-label">${round.name}</div>
+        <div class="vb-matchups">`;
+
+      round.pairs.forEach((pair, pi) => {
+        html += `
+          <div class="vb-matchup">
+            <div class="vb-slot vb-winner">
+              <div class="vb-slot-inner">
+                <span class="vb-trophy">🏆</span>
+                <div class="vb-driver-info">
+                  <span class="vb-name">${pair.w}</span>
+                  <span class="vb-run">${pair.wet}s · ${pair.wmp} mph</span>
+                </div>
+              </div>
             </div>
-            <div class="bracket-car loser-car">
-              <span class="bracket-name">${pair.l}</span>
-              <div class="bracket-run"><span class="bracket-et">${pair.let}s</span> <span class="bracket-mph">${pair.lmp} mph</span></div>
+            <div class="vb-connector"></div>
+            <div class="vb-slot vb-loser">
+              <div class="vb-slot-inner">
+                <span class="vb-trophy vb-trophy-empty"></span>
+                <div class="vb-driver-info">
+                  <span class="vb-name">${pair.l}</span>
+                  <span class="vb-run">${pair.let}s · ${pair.lmp} mph</span>
+                </div>
+              </div>
             </div>
-          </div>`).join('')}
-      </div>`).join('');
+            ${!isLast ? `<div class="vb-line-right"></div>` : ''}
+          </div>`;
+      });
+
+      html += `</div></div>`;
+    });
+
+    html += `</div>`;
+    list.innerHTML = html;
   }
 
   select.addEventListener('change', () => { activeBracketClass = 'tf'; renderBracketTab(); });
