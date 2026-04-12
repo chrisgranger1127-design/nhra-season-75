@@ -2148,19 +2148,13 @@ function renderStandings() {
   const leader = data[0];
   const maxPts = leader.pts;
 
-  // 2F2T info box
-  const f2tBox = document.createElement('div');
-  f2tBox.className = 'f2t-info-box';
-  f2tBox.innerHTML = `⚡ <strong>Mission 2Fast2Tasty</strong> — Bonus points (shown in gold) carry into the Countdown and are not reset. Winner=3pts · Runner-up=2pts · Quickest Semi=1pt`;
-  container.appendChild(f2tBox);
-
   // Leader card
   const leaderEl = document.createElement('div');
   leaderEl.className = 'standings-leader';
   leaderEl.innerHTML = `
     <div class="leader-pos">🏆 Points Leader</div>
     <div class="leader-name">${leader.name}</div>
-    <div class="leader-pts">${leader.pts} <span>pts</span>${leader.f2t ? ` <span style="font-size:var(--text-sm);color:rgba(255,255,255,0.7)">incl. ⚡${leader.f2t} 2F2T</span>` : ''}</div>`;
+    <div class="leader-pts">${leader.pts} <span>pts</span></div>`;
   container.appendChild(leaderEl);
 
   // Rest of field
@@ -2173,9 +2167,7 @@ function renderStandings() {
       <div class="standing-bar-wrap">
         <div class="standing-name">${d.name}</div>
         <div class="standing-bar-track">
-          <div class="standing-bar-fill" style="width:${pct}%">
-              ${d.f2t ? `<div class="standing-bar-f2t" style="width:${Math.round((d.f2t/d.pts)*100)}%"></div>` : ''}
-            </div>
+          <div class="standing-bar-fill" style="width:${pct}%"></div>
         </div>
       </div>
       <div class="standing-pts-col">
@@ -3592,58 +3584,82 @@ let activeF2TClass = 'tf';
 function renderF2TTab() {
   const container = document.getElementById('f2t-list');
   if (!container) return;
-  container.innerHTML = '';
 
-  const classLabels = { tf:'Top Fuel', fc:'Funny Car', ps:'Pro Stock', psm:'Pro Stock Moto' };
-  const classPills  = { tf:'pill-nitro', fc:'pill-nitro', ps:'pill-prostock', psm:'pill-prostock' };
-
-  // Points leaderboard
   const pts = F2T_POINTS[activeF2TClass] || [];
-  if (pts.length) {
-    const leader = document.createElement('div');
-    leader.className = 'f2t-leader';
-    leader.innerHTML = `
-      <div class="f2t-leader-label">⚡ Points Leader</div>
-      <div class="f2t-leader-name">${pts[0].name}</div>
-      <div class="f2t-leader-pts">${pts[0].pts} <span>pts</span></div>`;
-    container.appendChild(leader);
-
-    pts.slice(1).forEach(d => {
-      const row = document.createElement('div');
-      row.className = 'f2t-row';
-      row.innerHTML = `
-        <div class="f2t-pos">${d.pos}</div>
-        <div class="f2t-name">${d.name}</div>
-        <div class="f2t-races">${d.races.map(r => `<span class="f2t-race-tag">${r}</span>`).join('')}</div>
-        <div class="f2t-pts">${d.pts}</div>`;
-      container.appendChild(row);
-    });
-  }
-
-  // Race-by-race results
   const results = F2T_RESULTS[activeF2TClass] || [];
-  if (results.length) {
-    const hdr = document.createElement('div');
-    hdr.className = 'f2t-results-hdr';
-    hdr.textContent = 'Race Results';
-    container.appendChild(hdr);
+  const maxPts = pts[0]?.pts || 1;
 
+  let html = '';
+
+  // Leader hero
+  if (pts[0]) {
+    html += `
+    <div class="f2t-hero">
+      <div class="f2t-hero-label">⚡ Challenge Leader</div>
+      <div class="f2t-hero-name">${pts[0].name}</div>
+      <div class="f2t-hero-pts">${pts[0].pts}<span>pts</span></div>
+      <div class="f2t-hero-tags">${pts[0].races.map(r=>`<span class="f2t-tag">${r}</span>`).join('')}</div>
+    </div>`;
+  }
+
+  // Rest of standings with horizontal bars
+  if (pts.length > 1) {
+    html += `<div class="f2t-standings">`;
+    pts.slice(1).forEach(d => {
+      const pct = Math.round((d.pts / maxPts) * 100);
+      html += `
+      <div class="f2t-row">
+        <div class="f2t-row-top">
+          <span class="f2t-row-pos">${d.pos}</span>
+          <span class="f2t-row-name">${d.name}</span>
+          <span class="f2t-row-pts">⚡ ${d.pts}</span>
+        </div>
+        <div class="f2t-bar-track">
+          <div class="f2t-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="f2t-row-tags">${d.races.map(r=>`<span class="f2t-tag f2t-tag-sm">${r}</span>`).join('')}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Race results
+  if (results.length) {
+    html += `<div class="f2t-section-hdr">Race Results</div>`;
     results.forEach(r => {
-      const card = document.createElement('div');
-      card.className = 'f2t-result-card';
-      card.innerHTML = `
-        <div class="f2t-rc-race">${r.raceName}</div>
-        <div class="f2t-rc-row"><span class="f2t-rc-label">🏆 Winner (+3)</span><span class="f2t-rc-val">${r.winner}</span></div>
-        <div class="f2t-rc-row"><span class="f2t-rc-label">🥈 Runner-Up (+2)</span><span class="f2t-rc-val">${r.runnerUp}</span></div>
-        <div class="f2t-rc-row"><span class="f2t-rc-label">⚡ Quick Semi (+1)</span><span class="f2t-rc-val">${r.quickSemi}</span></div>`;
-      container.appendChild(card);
+      html += `
+      <div class="f2t-race-card">
+        <div class="f2t-race-name">${r.raceName}</div>
+        <div class="f2t-race-rows">
+          <div class="f2t-race-row">
+            <div class="f2t-rc-medal gold">+3</div>
+            <div class="f2t-rc-info">
+              <div class="f2t-rc-title">Winner</div>
+              <div class="f2t-rc-driver">${r.winner}</div>
+            </div>
+          </div>
+          <div class="f2t-race-row">
+            <div class="f2t-rc-medal silver">+2</div>
+            <div class="f2t-rc-info">
+              <div class="f2t-rc-title">Runner-Up</div>
+              <div class="f2t-rc-driver">${r.runnerUp}</div>
+            </div>
+          </div>
+          <div class="f2t-race-row">
+            <div class="f2t-rc-medal bronze">+1</div>
+            <div class="f2t-rc-info">
+              <div class="f2t-rc-title">Quickest Semi</div>
+              <div class="f2t-rc-driver">${r.quickSemi}</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
     });
   }
 
-  const note = document.createElement('div');
-  note.className = 'data-note';
-  note.innerHTML = 'Bonus points survive the Countdown reset · Awarded at qualifying sessions';
-  container.appendChild(note);
+  html += `<div class="data-note" style="padding-bottom:calc(var(--space-20) + var(--safe-bottom))">Bonus points carry through the Countdown reset · Not awarded at every race</div>`;
+
+  container.innerHTML = html;
 }
 
 document.querySelectorAll('.f2t-tab').forEach(tab => {
