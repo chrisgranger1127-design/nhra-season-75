@@ -3703,3 +3703,19 @@ a, button, [role="button"] {
   .bk-stat-value{ font-size:17px; }
   .bk-stat-label{ font-size:9px; }
 }
+
+/* Disabled race pill (race that has no bracket data yet) */
+.bk-race-pill.is-disabled{
+  background:rgba(255,255,255,0.02);
+  border-color:rgba(255,255,255,0.06);
+  color:#5a6271;
+  cursor:not-allowed;
+  opacity:0.65;
+}
+.bk-race-pill.is-disabled:hover{
+  background:rgba(255,255,255,0.02);
+  border-color:rgba(255,255,255,0.06);
+  color:#5a6271;
+  transform:none;
+}
+.bk-race-pill.is-disabled .bk-race-pill-num{ opacity:0.55; }

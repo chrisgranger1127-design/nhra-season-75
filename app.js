@@ -3795,33 +3795,41 @@ function initBracketsTab() {
 
   function _renderRacePills() {
     if (!raceRow) return;
-    const raceIds = Object.keys(BRACKETS)
-      .map(id => parseInt(id, 10))
-      .filter(id => !Number.isNaN(id))
-      .sort((a,b) => a - b);
+    // Render a pill for EVERY race in the season; disable pills without bracket data.
+    const allRaces = (RACES || []).slice().sort((a, b) => a.id - b.id);
 
-    raceRow.innerHTML = raceIds.map(raceId => {
-      const race = RACES.find(r => r.id === raceId);
-      if (!race) return '';
-      const label = race.shortName || race.name || `Race ${race.id}`;
-      const active = raceId === activeBracketRace;
-      return `<button type="button" class="bk-race-pill${active ? ' is-active' : ''}" role="tab" aria-selected="${active}" data-race-id="${raceId}">
+    raceRow.innerHTML = allRaces.map(race => {
+      const hasData = !!BRACKETS[race.id];
+      const label   = race.shortName || race.name || `Race ${race.id}`;
+      const active  = hasData && race.id === activeBracketRace;
+      const cls = ['bk-race-pill'];
+      if (active)     cls.push('is-active');
+      if (!hasData)   cls.push('is-disabled');
+      const aria = !hasData ? 'aria-disabled="true"' : `aria-selected="${active}"`;
+      const title = hasData ? `Race ${race.id} — ${label}` : `Race ${race.id} — ${label} (results not yet available)`;
+      return `<button type="button" class="${cls.join(' ')}" role="tab" ${aria} data-race-id="${race.id}" data-has-data="${hasData}" title="${title}">
         <span class="bk-race-pill-num">R${race.id}</span>
         <span class="bk-race-pill-name">${label}</span>
       </button>`;
     }).join('');
 
+    // Auto-scroll the active pill into view so users see where they are in the season.
+    const activeEl = raceRow.querySelector('.bk-race-pill.is-active');
+    if (activeEl && typeof activeEl.scrollIntoView === 'function') {
+      try { activeEl.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' }); } catch (_) {}
+    }
+
     raceRow.querySelectorAll('.bk-race-pill').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (btn.dataset.hasData !== 'true') return;  // disabled
         const raceId = parseInt(btn.dataset.raceId, 10);
         if (raceId === activeBracketRace) return;
         activeBracketRace = raceId;
         _syncSelect(raceId);
-        // Re-paint pill active state
         raceRow.querySelectorAll('.bk-race-pill').forEach(b => {
-          const on = parseInt(b.dataset.raceId, 10) === activeBracketRace;
+          const on = parseInt(b.dataset.raceId, 10) === activeBracketRace && b.dataset.hasData === 'true';
           b.classList.toggle('is-active', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          if (b.dataset.hasData === 'true') b.setAttribute('aria-selected', on ? 'true' : 'false');
         });
         renderBracketTab();
       });
