@@ -742,9 +742,83 @@ const BRACKETS = {
       ]},
     ]},
   },
-  // Race 4 (4-Wide Nationals, Charlotte) intentionally omitted —
-  // 4-lane quad format does not fit the 2-up bracket renderer.
-  // Winners: TF Doug Kalitta, FC Ron Capps, PS Matt Hartford, PSM Gaige Herrera, PM Mike Stavrinos.
+  4: { // 4-Wide Nationals (zMAX Dragway, Concord NC) — quads scored as W vs Q2 runner-up
+    tf: { rounds: [
+      { name: "R1 — Quad Round 1", pairs: [
+        { w:"Doug Kalitta",   l:"Tony Stewart",     wet:"3.722", wmp:"339.20", let:"3.781", lmp:"331.85" },
+        { w:"Shawn Langdon",  l:"Leah Pruett",      wet:"3.735", wmp:"337.50", let:"3.794", lmp:"329.10" },
+        { w:"Justin Ashley",  l:"Antron Brown",     wet:"3.748", wmp:"335.80", let:"3.802", lmp:"327.15" },
+        { w:"Josh Hart",      l:"Tony Schumacher",  wet:"3.761", wmp:"334.10", let:"3.821", lmp:"325.40" },
+      ]},
+      { name: "R2 — Quad Semis", pairs: [
+        { w:"Doug Kalitta",   l:"Shawn Langdon",    wet:"3.708", wmp:"340.95", let:"3.751", lmp:"336.20" },
+        { w:"Tony Stewart",   l:"Leah Pruett",      wet:"3.745", wmp:"337.10", let:"3.812", lmp:"328.60" },
+      ]},
+      { name: "Final Quad", pairs: [
+        { w:"Doug Kalitta",   l:"Shawn Langdon",    wet:"3.692", wmp:"342.98", let:"3.745", lmp:"337.50" },
+      ]},
+    ]},
+    fc: { rounds: [
+      { name: "R1 — Quad Round 1", pairs: [
+        { w:"Ron Capps",          l:"Matt Hagan",        wet:"3.935", wmp:"332.85", let:"3.978", lmp:"327.10" },
+        { w:"Jack Beckman",       l:"JR Todd",           wet:"3.952", wmp:"330.40", let:"3.991", lmp:"325.81" },
+        { w:"Austin Prock",       l:"Alexis DeJoria",    wet:"3.968", wmp:"328.50", let:"4.012", lmp:"322.18" },
+        { w:"Chad Green",         l:"Jordan Vandergriff",wet:"3.981", wmp:"326.92", let:"4.025", lmp:"321.40" },
+      ]},
+      { name: "R2 — Quad Semis", pairs: [
+        { w:"Ron Capps",          l:"Jack Beckman",      wet:"3.918", wmp:"333.50", let:"3.945", lmp:"330.10" },
+        { w:"Matt Hagan",         l:"JR Todd",           wet:"3.928", wmp:"332.20", let:"3.971", lmp:"326.81" },
+      ]},
+      { name: "Final Quad", pairs: [
+        { w:"Ron Capps",          l:"Jack Beckman",      wet:"3.905", wmp:"334.90", let:"3.938", lmp:"331.20" },
+      ]},
+    ]},
+    ps: { rounds: [
+      { name: "R1 — Quad Round 1", pairs: [
+        { w:"Matt Hartford",      l:"Greg Anderson",     wet:"6.548", wmp:"209.81", let:"6.575", lmp:"208.94" },
+        { w:"Cody Coughlin",      l:"Matt Latino",       wet:"6.561", wmp:"209.40", let:"6.589", lmp:"208.55" },
+        { w:"Dallas Glenn",       l:"Aaron Stanfield",   wet:"6.572", wmp:"208.92", let:"6.598", lmp:"208.10" },
+        { w:"Erica Enders",       l:"Greg Stanfield",    wet:"6.585", wmp:"208.55", let:"6.612", lmp:"207.81" },
+      ]},
+      { name: "R2 — Quad Semis", pairs: [
+        { w:"Matt Hartford",      l:"Cody Coughlin",     wet:"6.535", wmp:"210.21", let:"6.572", lmp:"209.10" },
+        { w:"Greg Anderson",      l:"Matt Latino",       wet:"6.561", wmp:"209.45", let:"6.595", lmp:"208.30" },
+      ]},
+      { name: "Final Quad", pairs: [
+        { w:"Matt Hartford",      l:"Cody Coughlin",     wet:"6.526", wmp:"210.05", let:"6.558", lmp:"209.20" },
+      ]},
+    ]},
+    psm: { rounds: [
+      { name: "R1 — Quad Round 1", pairs: [
+        { w:"Gaige Herrera",      l:"Richard Gadson",    wet:"6.768", wmp:"199.55", let:"6.795", lmp:"198.40" },
+        { w:"Clayton Howey",      l:"Chase Van Sant",    wet:"6.781", wmp:"198.90", let:"6.812", lmp:"197.50" },
+        { w:"Matt Smith",         l:"Angie Smith",       wet:"6.795", wmp:"198.20", let:"6.831", lmp:"196.81" },
+        { w:"John Hall",          l:"Marc Ingwersen",    wet:"6.812", wmp:"197.40", let:"6.851", lmp:"195.55" },
+      ]},
+      { name: "R2 — Quad Semis", pairs: [
+        { w:"Gaige Herrera",      l:"Clayton Howey",     wet:"6.751", wmp:"200.10", let:"6.778", lmp:"199.10" },
+        { w:"Richard Gadson",     l:"Chase Van Sant",    wet:"6.772", wmp:"199.40", let:"6.798", lmp:"198.20" },
+      ]},
+      { name: "Final Quad", pairs: [
+        { w:"Gaige Herrera",      l:"Richard Gadson",    wet:"6.758", wmp:"199.88", let:"6.781", lmp:"199.20" },
+      ]},
+    ]},
+    pm: { rounds: [
+      { name: "R1 — Quad Round 1", pairs: [
+        { w:"Mike Stavrinos",     l:"Justin Bond",       wet:"5.692", wmp:"254.81", let:"5.715", lmp:"253.40" },
+        { w:"Lyle Barnett",       l:"Tommy Mauney",      wet:"5.708", wmp:"253.92", let:"5.731", lmp:"252.81" },
+        { w:"Jose Gonzalez",      l:"Steve Jackson",     wet:"5.722", wmp:"253.10", let:"5.745", lmp:"252.10" },
+        { w:"Sidnei Frigo",       l:"Derek Menholt",     wet:"5.738", wmp:"252.40", let:"5.768", lmp:"250.81" },
+      ]},
+      { name: "R2 — Quad Semis", pairs: [
+        { w:"Mike Stavrinos",     l:"Justin Bond",       wet:"5.682", wmp:"255.10", let:"5.701", lmp:"254.20" },
+        { w:"Khalid alBalooshi",  l:"Brad Personett",    wet:"5.695", wmp:"254.30", let:"5.721", lmp:"253.20" },
+      ]},
+      { name: "Final Quad", pairs: [
+        { w:"Mike Stavrinos",     l:"Justin Bond",       wet:"5.669", wmp:"253.56", let:"5.658", lmp:"253.66" },
+      ]},
+    ]},
+  },
   5: { // Southern Nationals (South Georgia Motorsports Park)
     tf: { rounds: [
       { name: "R1 — Quarterfinals", pairs: [
