@@ -4939,6 +4939,8 @@ function initQualifyingTab() {
   if (!select) return;
 
   // Populate race dropdown — only races with qualifying data or that are live/upcoming
+  // Clear any previously-appended options first (function may be re-invoked on view switch)
+  select.querySelectorAll('option:not([value=""])').forEach(o => o.remove());
   const t = today();
   RACES.forEach(race => {
     const status = getRaceStatus(race);
