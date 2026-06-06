@@ -3863,3 +3863,462 @@ checkAndStartLiveRefresh();
 // Kick off background entry list refresh on app load
 // (silent — doesn't block the UI, updates when ready)
 setTimeout(() => refreshEntryList(), 1500);
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RACE MODE + FAVORITES + SATURDAY SHOWDOWN HERO
+   (additive — does not modify existing renderers)
+   ═══════════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  // ── safe storage (degrades gracefully if localStorage is blocked) ──
+  const STORAGE_KEY = 'nhra2026.favorites.v1';
+  const RM_KEY      = 'nhra2026.raceMode.v1';
+  let memFavs = [];
+  let memRm   = null;
+
+  function readJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if (raw == null) return fallback;
+      return JSON.parse(raw);
+    }catch(e){ return fallback; }
+  }
+  function writeJSON(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){ /* silent */ }
+  }
+
+  function getFavs(){
+    let v = readJSON(STORAGE_KEY, null);
+    if (v == null) v = memFavs;
+    if (!Array.isArray(v)) v = [];
+    memFavs = v;
+    return v;
+  }
+  function setFavs(arr){
+    memFavs = Array.isArray(arr) ? arr : [];
+    writeJSON(STORAGE_KEY, memFavs);
+  }
+  function favKey(name, classKey){ return `${classKey || 'tf'}::${(name||'').trim()}`; }
+  function isFav(name, classKey){
+    const k = favKey(name, classKey);
+    return getFavs().some(f => f.key === k);
+  }
+  function toggleFav(driver, classKey){
+    const k = favKey(driver.name, classKey);
+    const list = getFavs().slice();
+    const i = list.findIndex(f => f.key === k);
+    if (i >= 0) list.splice(i, 1);
+    else list.push({ key:k, name:driver.name, num:driver.num, team:driver.team, classKey:classKey });
+    setFavs(list);
+    renderFavorites();
+    refreshFavStarsForClass(classKey);
+    return i < 0;
+  }
+  function removeFavByKey(k){
+    setFavs(getFavs().filter(f => f.key !== k));
+    renderFavorites();
+    // refresh visible entry-list stars
+    document.querySelectorAll('.fav-star').forEach(btn => {
+      if (btn.dataset.favkey === k){
+        btn.classList.remove('is-fav');
+        btn.setAttribute('aria-pressed','false');
+        btn.textContent = '☆';
+        const row = btn.closest('.entry-row'); if (row) row.classList.remove('is-fav');
+      }
+    });
+  }
+
+  // ── Race Mode state ──
+  function getRmState(){
+    if (memRm != null) return memRm;
+    const v = readJSON(RM_KEY, null);
+    memRm = (v && typeof v === 'object') ? v : { manual:null }; // manual: true/false/null(auto)
+    return memRm;
+  }
+  function setRmState(s){ memRm = s; writeJSON(RM_KEY, s); }
+
+  function activeRace(){
+    try{
+      if (typeof RACES === 'undefined') return null;
+      const t = (typeof today === 'function') ? today() : new Date();
+      return RACES.find(r => {
+        const st = (typeof getRaceStatus === 'function') ? getRaceStatus(r) : null;
+        return st === 'live';
+      }) || null;
+    }catch(e){ return null; }
+  }
+  function nextRace(){
+    try{
+      if (typeof RACES === 'undefined') return null;
+      const t = (typeof today === 'function') ? today() : new Date();
+      return RACES.find(r => {
+        const st = (typeof getRaceStatus === 'function') ? getRaceStatus(r) : null;
+        return st === 'upcoming';
+      }) || null;
+    }catch(e){ return null; }
+  }
+
+  // Figure out current itinerary "now" / "next" session
+  function getItineraryStatus(race){
+    if (!race || !Array.isArray(race.itinerary)) return { now:null, next:null };
+    const now = new Date();
+    let flatSessions = [];
+    race.itinerary.forEach(day => {
+      (day.sessions||[]).forEach(s => {
+        flatSessions.push({ ...s, day: day.day });
+      });
+    });
+    // Without precise parsed timestamps we approximate: find the next "key" session as Up Next.
+    // Now = race is live, so "Now" = race weekend label.
+    let nextSession = flatSessions.find(s => s.key) || flatSessions[0] || null;
+    return { now: race, next: nextSession };
+  }
+
+  // ── Render Race Mode panel ──
+  function renderRaceMode(){
+    const panel = document.getElementById('race-mode');
+    if (!panel) return;
+
+    const live = activeRace();
+    const upcoming = nextRace();
+    const state = getRmState();
+
+    // Auto-show on live weekends, allow manual override
+    let show;
+    if (state.manual === true)       show = true;
+    else if (state.manual === false) show = false;
+    else                              show = !!live;
+
+    // Always show panel if there's a live race (auto) OR user opted in manually.
+    // Hide entirely only when there's no live race and user hasn't opted in.
+    if (!show){
+      panel.setAttribute('hidden','');
+      return;
+    }
+    panel.removeAttribute('hidden');
+
+    const active = !!live;
+    panel.classList.toggle('rm-inactive', !active);
+
+    const eyebrow = document.getElementById('rm-eyebrow');
+    const title   = document.getElementById('rm-title');
+    const nowMain = document.getElementById('rm-now-main');
+    const nowSub  = document.getElementById('rm-now-sub');
+    const nextMain= document.getElementById('rm-next-main');
+    const nextSub = document.getElementById('rm-next-sub');
+    const foot    = document.getElementById('rm-footnote');
+    const togLabel= document.getElementById('rm-toggle-label');
+    const togBtn  = document.getElementById('rm-toggle');
+
+    if (active){
+      const itin = getItineraryStatus(live);
+      eyebrow.textContent = 'RACE MODE · LIVE';
+      title.textContent   = live.name || 'Race Weekend';
+      nowMain.textContent = live.venue || 'On track';
+      nowSub.textContent  = `${live.city || ''}${live.tv ? ' · ' + live.tv : ''}`;
+      if (itin.next){
+        nextMain.textContent = itin.next.event || '—';
+        nextSub.textContent  = `${itin.next.day || ''} · ${itin.next.time || ''}`.replace(/^ · | · $/,'');
+      } else {
+        nextMain.textContent = 'Schedule unavailable';
+        nextSub.textContent  = '—';
+      }
+      foot.textContent = 'Live data refreshes every 5 minutes on race weekends · Source: NHRA.com';
+    } else {
+      eyebrow.textContent = 'RACE MODE · STANDBY';
+      title.textContent   = 'No active race weekend';
+      nowMain.textContent = 'Off-weekend';
+      nowSub.textContent  = 'Race Mode is in standby';
+      if (upcoming){
+        nextMain.textContent = upcoming.name || 'Next race';
+        nextSub.textContent  = `${upcoming.city || ''}${upcoming.startDate ? ' · ' + formatShortDate(upcoming.startDate) : ''}`;
+      } else {
+        nextMain.textContent = 'Season complete';
+        nextSub.textContent  = '—';
+      }
+      foot.textContent = 'Auto-activates when an event is live · You can toggle it on any time';
+    }
+
+    // Toggle label
+    if (togLabel) togLabel.textContent = show ? 'ON' : 'OFF';
+    if (togBtn)   togBtn.setAttribute('aria-pressed', show ? 'true' : 'false');
+  }
+
+  function formatShortDate(iso){
+    try{
+      const [y,m,d] = iso.split('-').map(Number);
+      const dt = new Date(y, m-1, d);
+      return dt.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+    }catch(e){ return iso; }
+  }
+
+  // ── Render Favorites panel ──
+  function renderFavorites(){
+    const panel  = document.getElementById('fav-panel');
+    if (!panel) return;
+    const empty  = document.getElementById('fav-empty');
+    const chips  = document.getElementById('fav-chips');
+    const manage = document.getElementById('fav-manage');
+    const title  = document.getElementById('fav-title');
+
+    const favs = getFavs();
+    if (!favs.length){
+      empty.style.display = '';
+      chips.setAttribute('hidden','');
+      manage.setAttribute('hidden','');
+      title.textContent = 'Follow drivers to personalize your race weekend';
+      return;
+    }
+    empty.style.display = 'none';
+    chips.removeAttribute('hidden');
+    manage.removeAttribute('hidden');
+    title.textContent = `${favs.length} favorite${favs.length === 1 ? '' : 's'} pinned · tap to view profile`;
+
+    chips.innerHTML = '';
+    favs.forEach(f => {
+      const chip = document.createElement('button');
+      chip.className = 'fav-chip';
+      chip.type = 'button';
+      chip.innerHTML = `
+        <span class="fav-chip-name">${escapeHtml(f.name)}${f.num ? ' · #'+escapeHtml(String(f.num)) : ''}</span>
+        <span class="fav-chip-x" role="button" aria-label="Remove favorite">×</span>
+      `;
+      chip.addEventListener('click', (e) => {
+        if (e.target.classList.contains('fav-chip-x')){
+          e.stopPropagation();
+          removeFavByKey(f.key);
+          return;
+        }
+        // open driver modal if possible
+        openFavDriver(f);
+      });
+      chips.appendChild(chip);
+    });
+  }
+
+  function openFavDriver(f){
+    try{
+      if (typeof openDriverModal !== 'function') { jumpToView('entries'); return; }
+      // best-effort lookup of full driver object from entry data
+      if (typeof getEntryData === 'function'){
+        const arr = getEntryData(f.classKey) || [];
+        const full = arr.find(d => d.name === f.name) || { name:f.name, num:f.num||'', team:f.team||'', sponsor:'' };
+        openDriverModal(full, f.classKey);
+      } else {
+        jumpToView('entries');
+      }
+    }catch(e){ jumpToView('entries'); }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ── Refresh fav-stars on the currently-rendered entry list ──
+  function refreshFavStarsForClass(classKey){
+    if (typeof activeEntryClass !== 'undefined' && classKey !== activeEntryClass) return;
+    document.querySelectorAll('#entry-list .entry-row').forEach(row => {
+      const nameEl = row.querySelector('.entry-name');
+      if (!nameEl) return;
+      const name = nameEl.firstChild ? nameEl.firstChild.textContent.trim() : nameEl.textContent.trim();
+      const k = favKey(name, classKey);
+      const star = row.querySelector('.fav-star');
+      const fav = getFavs().some(f => f.key === k);
+      if (star){
+        star.classList.toggle('is-fav', fav);
+        star.textContent = fav ? '★' : '☆';
+        star.setAttribute('aria-pressed', fav ? 'true' : 'false');
+      }
+      row.classList.toggle('is-fav', fav);
+    });
+  }
+
+  // ── Inject Favorite stars into entry rows (only for pro analytics classes) ──
+  function decorateEntryRows(){
+    const list = document.getElementById('entry-list');
+    if (!list) return;
+    const classKey = (typeof activeEntryClass !== 'undefined') ? activeEntryClass : 'tf';
+    const PRO = (typeof ANALYTICS_CLASSES !== 'undefined') ? ANALYTICS_CLASSES : new Set(['tf','fc','ps','psm','pm']);
+    if (!PRO.has(classKey)) return;
+    list.querySelectorAll('.entry-row').forEach(row => {
+      if (row.querySelector('.fav-star')) return; // already decorated
+      const nameEl = row.querySelector('.entry-name');
+      if (!nameEl) return;
+      // Get the raw name (the entry-name has trailing NEW badge possibly)
+      let name = '';
+      for (const node of nameEl.childNodes){
+        if (node.nodeType === 3) name += node.textContent;
+      }
+      name = name.trim();
+      const numEl = row.querySelector('.entry-num');
+      const teamEl = row.querySelector('.entry-team');
+      const k = favKey(name, classKey);
+      const fav = isFav(name, classKey);
+      const star = document.createElement('button');
+      star.type = 'button';
+      star.className = 'fav-star' + (fav ? ' is-fav' : '');
+      star.dataset.favkey = k;
+      star.setAttribute('aria-label', fav ? 'Remove favorite' : 'Add favorite');
+      star.setAttribute('aria-pressed', fav ? 'true' : 'false');
+      star.textContent = fav ? '★' : '☆';
+      star.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const drv = { name, num: numEl ? numEl.textContent.trim() : '', team: teamEl ? teamEl.textContent.trim() : '' };
+        const nowFav = toggleFav(drv, classKey);
+        star.classList.toggle('is-fav', nowFav);
+        star.textContent = nowFav ? '★' : '☆';
+        star.setAttribute('aria-pressed', nowFav ? 'true' : 'false');
+        star.setAttribute('aria-label', nowFav ? 'Remove favorite' : 'Add favorite');
+        row.classList.toggle('is-fav', nowFav);
+      });
+      row.appendChild(star);
+      if (fav) row.classList.add('is-fav');
+    });
+  }
+
+  // Patch renderEntryList so stars are added every time it re-renders
+  if (typeof window.renderEntryList === 'function'){
+    const _origRenderEntryList = window.renderEntryList;
+    window.renderEntryList = function(){
+      _origRenderEntryList.apply(this, arguments);
+      setTimeout(decorateEntryRows, 0);
+    };
+  }
+  // Also catch the case where renderEntryList is in module scope:
+  // Observe entry-list mutations as a fallback.
+  const _entryListEl = document.getElementById('entry-list');
+  if (_entryListEl && 'MutationObserver' in window){
+    new MutationObserver(() => { decorateEntryRows(); })
+      .observe(_entryListEl, { childList:true });
+  }
+
+  // ── Saturday Showdown hero (added at top of 2F2T view) ──
+  function injectSaturdayHero(){
+    const view = document.getElementById('view-f2t');
+    if (!view) return;
+    if (view.querySelector('.sat-hero')) return;
+    const live = activeRace();
+    const upcoming = nextRace();
+    const featuredRace = live || upcoming || null;
+    const header = view.querySelector('.view-header');
+    if (!header) return;
+    const hero = document.createElement('div');
+    hero.className = 'sat-hero';
+    hero.innerHTML = `
+      <div class="sat-hero-eyebrow">⚡ Mission #2Fast2Tasty · Saturday Storyline</div>
+      <div class="sat-hero-title">${featuredRace ? escapeHtml(featuredRace.name) : 'Mission Foods Saturday Challenge'}</div>
+      <div class="sat-hero-sub">Top half of each pro class qualifies into a special Saturday bracket. Bonus points carry through the Countdown reset, so this is the cleanest way to read a driver's late-season momentum.</div>
+      <div class="sat-hero-meta">
+        ${featuredRace && featuredRace.city ? `<span class="sat-hero-chip">📍 ${escapeHtml(featuredRace.city)}</span>` : ''}
+        ${featuredRace && featuredRace.tv ? `<span class="sat-hero-chip">📺 ${escapeHtml(featuredRace.tv)}</span>` : ''}
+        <span class="sat-hero-chip">🏆 +3 winner</span>
+        <span class="sat-hero-chip">🥈 +2 runner-up</span>
+        <span class="sat-hero-chip">⚡ +1 quickest semi</span>
+      </div>
+    `;
+    header.insertAdjacentElement('afterend', hero);
+  }
+
+  // Patch renderF2TTab to keep hero in sync each render
+  if (typeof window.renderF2TTab === 'function'){
+    const _origF2T = window.renderF2TTab;
+    window.renderF2TTab = function(){
+      _origF2T.apply(this, arguments);
+      injectSaturdayHero();
+    };
+  }
+
+  // ── Quick-link / view jumping ──
+  function jumpToView(view){
+    const btn = document.querySelector(`.nav-btn[data-view="${view}"]`);
+    if (btn) btn.click();
+  }
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-rm-jump]');
+    if (!t) return;
+    e.preventDefault();
+    jumpToView(t.getAttribute('data-rm-jump'));
+  });
+
+  // ── Race Mode toggle ──
+  const rmToggle = document.getElementById('rm-toggle');
+  if (rmToggle){
+    rmToggle.addEventListener('click', () => {
+      const live = activeRace();
+      const state = getRmState();
+      // Determine current "show" status
+      let currentlyOn;
+      if (state.manual === true)       currentlyOn = true;
+      else if (state.manual === false) currentlyOn = false;
+      else                              currentlyOn = !!live;
+      // Toggle: explicit manual override
+      const newOn = !currentlyOn;
+      // If turning OFF during a live weekend → manual:false
+      // If turning ON during off-weekend → manual:true
+      // If matching auto behavior, clear manual to null
+      const newManual = (newOn === !!live) ? null : newOn;
+      setRmState({ manual: newManual });
+      // If user turned OFF during a live race, also hide; if turned ON during off-weekend, show.
+      // renderRaceMode handles both based on getRmState().
+      // But renderRaceMode hides the panel only when manual===false AND not live → so we need to also force-show off-weekend toggles.
+      const panel = document.getElementById('race-mode');
+      if (newOn){
+        panel.removeAttribute('hidden');
+      } else {
+        panel.setAttribute('hidden','');
+      }
+      renderRaceMode();
+    });
+  }
+
+  // ── First-paint: ensure panel visible if there is a live race, even on first load ──
+  function initRaceModeVisibility(){
+    const panel = document.getElementById('race-mode');
+    if (!panel) return;
+    const state = getRmState();
+    const live = activeRace();
+    let show;
+    if (state.manual === true)       show = true;
+    else if (state.manual === false) show = false;
+    else                              show = !!live;
+    if (show) panel.removeAttribute('hidden');
+  }
+
+  // ── Init ──
+  function init(){
+    initRaceModeVisibility();
+    renderRaceMode();
+    renderFavorites();
+    // Decorate any already-rendered entry rows
+    decorateEntryRows();
+    // If 2F2T view is currently visible (unlikely on first paint), inject the hero
+    injectSaturdayHero();
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init, { once:true });
+  } else {
+    init();
+  }
+
+  // Re-render Race Mode on view changes back to Schedule
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.view;
+      if (v === 'schedule'){ setTimeout(renderRaceMode, 0); setTimeout(renderFavorites, 0); }
+      if (v === 'entries'){ setTimeout(decorateEntryRows, 50); }
+      if (v === 'f2t'){ setTimeout(injectSaturdayHero, 0); }
+    });
+  });
+
+  // Periodic refresh while panel is visible (every 5 minutes)
+  setInterval(() => {
+    const panel = document.getElementById('race-mode');
+    if (panel && !panel.hasAttribute('hidden')) renderRaceMode();
+  }, 5 * 60 * 1000);
+
+  // Expose helpers for debugging
+  window.NHRA_FAVS = { get: getFavs, set: setFavs, clear: () => { setFavs([]); renderFavorites(); } };
+  window.NHRA_RACEMODE = { render: renderRaceMode, state: getRmState };
+})();

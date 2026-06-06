@@ -109,6 +109,72 @@
 
   <!-- ══ SCHEDULE VIEW ══ -->
   <div id="view-schedule" class="view active-view">
+
+    <!-- ── RACE MODE PANEL (auto-shows on race weekends, toggleable any time) ── -->
+    <section class="race-mode" id="race-mode" aria-label="Race Mode" hidden>
+      <div class="rm-header">
+        <div class="rm-title-wrap">
+          <span class="rm-pulse" id="rm-pulse" aria-hidden="true"></span>
+          <div>
+            <div class="rm-eyebrow" id="rm-eyebrow">RACE MODE</div>
+            <div class="rm-title" id="rm-title">Race Weekend</div>
+          </div>
+        </div>
+        <button class="rm-toggle" id="rm-toggle" aria-pressed="true" aria-label="Toggle Race Mode">
+          <span class="rm-toggle-dot"></span>
+          <span class="rm-toggle-label" id="rm-toggle-label">ON</span>
+        </button>
+      </div>
+
+      <div class="rm-grid">
+        <div class="rm-card rm-now" id="rm-now">
+          <div class="rm-card-label">NOW</div>
+          <div class="rm-card-main" id="rm-now-main">—</div>
+          <div class="rm-card-sub" id="rm-now-sub">—</div>
+        </div>
+        <div class="rm-card rm-next" id="rm-next">
+          <div class="rm-card-label">UP NEXT</div>
+          <div class="rm-card-main" id="rm-next-main">—</div>
+          <div class="rm-card-sub" id="rm-next-sub">—</div>
+        </div>
+      </div>
+
+      <div class="rm-quicklinks" id="rm-quicklinks">
+        <button class="rm-ql" data-rm-jump="qualifying">
+          <span class="rm-ql-icon">⚡</span><span>Qualifying</span>
+        </button>
+        <button class="rm-ql" data-rm-jump="f2t">
+          <span class="rm-ql-icon">🏁</span><span>Saturday Showdown</span>
+        </button>
+        <button class="rm-ql" data-rm-jump="brackets">
+          <span class="rm-ql-icon">🏆</span><span>Brackets</span>
+        </button>
+        <button class="rm-ql" data-rm-jump="entries">
+          <span class="rm-ql-icon">👥</span><span>Drivers</span>
+        </button>
+      </div>
+
+      <div class="rm-footnote" id="rm-footnote">Live data refreshes every 5 minutes on race weekends · Source: NHRA.com</div>
+    </section>
+
+    <!-- ── FAVORITES PANEL ── -->
+    <section class="fav-panel" id="fav-panel" aria-label="Your Favorites">
+      <div class="fav-header">
+        <div>
+          <div class="fav-eyebrow">YOUR FAVORITES <span class="fav-new-badge">NEW</span></div>
+          <div class="fav-title" id="fav-title">Follow drivers to personalize your race weekend</div>
+        </div>
+        <button class="fav-manage" id="fav-manage" hidden>Manage</button>
+      </div>
+      <div class="fav-body" id="fav-body">
+        <div class="fav-empty" id="fav-empty">
+          <p class="fav-empty-text">No favorites yet. Tap the ☆ on any pro driver to pin them here for quick race-day access.</p>
+          <button class="fav-cta" data-rm-jump="entries">Browse Drivers</button>
+        </div>
+        <div class="fav-chips" id="fav-chips" hidden></div>
+      </div>
+    </section>
+
     <div class="filter-bar">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="upcoming">Upcoming</button>
@@ -145,8 +211,8 @@
   <!-- ══ 2FAST2TASTY VIEW ══ -->
   <div id="view-f2t" class="view" hidden>
     <div class="view-header">
-      <h2 class="view-title">⚡ 2Fast2Tasty</h2>
-      <p class="view-sub">Mission Foods Challenge · Bonus points survive the Countdown reset</p>
+      <h2 class="view-title">⚡ Saturday Showdown <span class="update-badge">UPDATED</span></h2>
+      <p class="view-sub">Mission #2Fast2Tasty Challenge · Bonus points awarded every Saturday · Survive the Countdown reset</p>
     </div>
     <div class="f2t-explainer">
       <div class="f2t-exp-row"><span class="f2t-exp-icon">🏆</span><span>Winner = <strong>3 pts</strong></span></div>
@@ -269,9 +335,9 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       <span>Qualifying</span>
     </button>
-    <button class="nav-btn" data-view="f2t" aria-label="2Fast2Tasty">
+    <button class="nav-btn" data-view="f2t" aria-label="Saturday Showdown">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>2F2T</span>
+      <span>Saturday</span>
     </button>
     <button class="nav-btn" data-view="brackets" aria-label="Brackets">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M6 3H4v5a8 8 0 0 0 16 0V3h-2"/></svg>
