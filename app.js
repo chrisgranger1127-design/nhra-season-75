@@ -4511,3 +4511,144 @@ setTimeout(() => refreshEntryList(), 1500);
   window.NHRA_FAVS = { get: getFavs, set: setFavs, clear: () => { setFavs([]); renderFavorites(); } };
   window.NHRA_RACEMODE = { render: renderRaceMode, state: getRmState };
 })();
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SETTINGS MODAL
+   Header gear → modal with: Refresh data, Last updated, Bracket results
+   through Race N, Races completed, App version, Clear local data.
+   ═══════════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  const LAST_REFRESH_KEY = 'nhra2026.lastRefresh.v1';
+  const APP_VERSION = '2026.6.5';
+
+  const overlay   = document.getElementById('settings-overlay');
+  const openBtn   = document.getElementById('open-settings');
+  const closeBtn  = document.getElementById('close-settings');
+  const refreshBtn= document.getElementById('settings-refresh');
+  const clearBtn  = document.getElementById('settings-clear-local');
+  const lastEl    = document.getElementById('settings-last-updated');
+  const thruEl    = document.getElementById('settings-bracket-thru');
+  const doneEl    = document.getElementById('settings-races-done');
+  const verEl     = document.getElementById('settings-version');
+
+  if (!overlay || !openBtn) return;
+
+  function _fmtRelative(ts){
+    if (!ts) return 'never';
+    const diff = Date.now() - ts;
+    if (diff < 60_000)        return 'just now';
+    if (diff < 3_600_000)     return Math.floor(diff/60_000) + 'm ago';
+    if (diff < 86_400_000)    return Math.floor(diff/3_600_000) + 'h ago';
+    const d = new Date(ts);
+    return d.toLocaleString(undefined,{ month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+  }
+
+  function _bracketIds(){
+    try { return Object.keys((typeof BRACKETS !== 'undefined' ? BRACKETS : {})).map(n=>parseInt(n,10)).filter(n=>!isNaN(n)).sort((a,b)=>a-b); }
+    catch(_) { return []; }
+  }
+
+  function _racesCompleted(){
+    // A race is "completed" if its end date is before today.
+    try {
+      if (typeof RACES === 'undefined') return 0;
+      const now = new Date();
+      return RACES.filter(r => {
+        const end = r.endDate || r.end || r.date || r.startDate;
+        if (!end) return false;
+        const d = new Date(end);
+        return !isNaN(d) && d < now;
+      }).length;
+    } catch(_) { return 0; }
+  }
+
+  function populateMeta(){
+    if (verEl) verEl.textContent = APP_VERSION;
+
+    let last = null;
+    try { last = parseInt(localStorage.getItem(LAST_REFRESH_KEY) || '', 10) || null; } catch(_) {}
+    if (lastEl) lastEl.textContent = _fmtRelative(last);
+
+    const ids = _bracketIds();
+    if (thruEl) {
+      if (ids.length === 0) {
+        thruEl.textContent = 'no data yet';
+      } else {
+        const lastId = ids[ids.length - 1];
+        const race = (typeof RACES !== 'undefined') ? RACES.find(r => r.id === lastId) : null;
+        thruEl.textContent = race ? `Race ${lastId} · ${race.shortName || race.name}` : `Race ${lastId}`;
+      }
+    }
+
+    const done = _racesCompleted();
+    const totalRaces = (typeof RACES !== 'undefined') ? RACES.length : 20;
+    if (doneEl) doneEl.textContent = `${done} of ${totalRaces}`;
+  }
+
+  function openSettings(){
+    populateMeta();
+    overlay.removeAttribute('hidden');
+    document.body.classList.add('settings-open');
+    // focus the close button for keyboard users
+    setTimeout(() => closeBtn?.focus(), 0);
+  }
+  function closeSettings(){
+    overlay.setAttribute('hidden','');
+    document.body.classList.remove('settings-open');
+    openBtn.focus();
+  }
+
+  openBtn.addEventListener('click', openSettings);
+  closeBtn?.addEventListener('click', closeSettings);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSettings(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) closeSettings();
+  });
+
+  // ── Refresh data ─────────────────────────────────────────────
+  refreshBtn?.addEventListener('click', async () => {
+    if (refreshBtn.classList.contains('is-loading')) return;
+    refreshBtn.classList.add('is-loading');
+    const label = refreshBtn.querySelector('span');
+    const original = label ? label.textContent : null;
+    if (label) label.textContent = 'Refreshing…';
+
+    try {
+      // 1) Try the in-app entry list refresh (best-effort, silent if missing)
+      if (typeof refreshEntryList === 'function') {
+        try { await refreshEntryList(); } catch(_) {}
+      }
+
+      // 2) Stamp the last-refresh time
+      try { localStorage.setItem(LAST_REFRESH_KEY, String(Date.now())); } catch(_) {}
+
+      // 3) Hard reload with cache-bust so the latest schedule.js/app.js/etc. load
+      const url = new URL(window.location.href);
+      url.searchParams.set('r', String(Date.now()));
+      // Brief delay so the button state is visible
+      setTimeout(() => { window.location.replace(url.toString()); }, 350);
+    } catch (err) {
+      if (label) label.textContent = original || 'Refresh';
+      refreshBtn.classList.remove('is-loading');
+      alert('Refresh failed. Please try again.');
+    }
+  });
+
+  // ── Clear local data ─────────────────────────────────────────
+  clearBtn?.addEventListener('click', () => {
+    if (!confirm('Clear favorites, race-mode toggle, and other local preferences? This cannot be undone.')) return;
+    try {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('nhra2026.')) keys.push(k);
+      }
+      keys.forEach(k => localStorage.removeItem(k));
+    } catch(_) {}
+    const url = new URL(window.location.href);
+    url.searchParams.set('r', String(Date.now()));
+    window.location.replace(url.toString());
+  });
+})();

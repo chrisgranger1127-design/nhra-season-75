@@ -51,6 +51,12 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
+        <button class="btn-icon" id="open-settings" aria-label="Settings" title="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
@@ -325,6 +331,65 @@
     <div class="entry-wrap" id="entry-list"></div>
     <div class="data-note" id="entry-source-note">
       Data sourced from <a href="https://www.nhra.com/drivers" target="_blank" rel="noopener">NHRA.com</a> · Refreshes on open
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="settings-overlay" id="settings-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <div class="settings-panel" role="document">
+      <div class="settings-head">
+        <h2 class="settings-title" id="settings-title">Settings</h2>
+        <button class="settings-close" id="close-settings" aria-label="Close settings">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-label">Data</div>
+
+        <div class="settings-row">
+          <div class="settings-row-text">
+            <div class="settings-row-title">Refresh data</div>
+            <div class="settings-row-sub">Reload the latest schedule, drivers, and results. Last updated: <span id="settings-last-updated">checking…</span></div>
+          </div>
+          <button class="settings-action" id="settings-refresh" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 12a9 9 0 0 1 15.5-6.3L21 8"/><path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-15.5 6.3L3 16"/><path d="M3 21v-5h5"/>
+            </svg>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <div class="settings-meta">
+          <div class="settings-meta-row">
+            <span>Bracket results through</span>
+            <span id="settings-bracket-thru">—</span>
+          </div>
+          <div class="settings-meta-row">
+            <span>Races completed</span>
+            <span id="settings-races-done">—</span>
+          </div>
+          <div class="settings-meta-row">
+            <span>App version</span>
+            <span id="settings-version">2026.6.5</span>
+          </div>
+        </div>
+
+        <p class="settings-note">Refresh pulls the freshest schedule and entry-list data and reloads the app. More 2026 bracket results are added with each release.</p>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-label">App</div>
+
+        <div class="settings-row">
+          <div class="settings-row-text">
+            <div class="settings-row-title">Clear local data</div>
+            <div class="settings-row-sub">Reset favorites, race-mode toggle, and cached preferences.</div>
+          </div>
+          <button class="settings-action settings-action-ghost" id="settings-clear-local" type="button">Clear</button>
+        </div>
+      </div>
     </div>
   </div>
 
