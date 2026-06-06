@@ -200,7 +200,12 @@ const RACES = [
     fullName: "66th annual Lucas Oil NHRA Winternationals",
     venue: "In-N-Out Burger Pomona Dragstrip", city: "Pomona, CA",
     timezone: "America/Los_Angeles", startDate: "2026-04-09", endDate: "2026-04-12",
-    tv: "FS1", phase: "regular", tags: [], winners: null,
+    tv: "FS1", phase: "regular", tags: [],
+    winners: [
+      { cls: "Top Fuel",  driver: "Tony Stewart",  et: "3.745", mph: "332.18", pill: "tf" },
+      { cls: "Funny Car", driver: "Matt Hagan",    et: "3.911", mph: "331.20", pill: "fc" },
+      { cls: "Pro Stock", driver: "Greg Anderson", et: "6.521", mph: "210.41", pill: "ps" },
+    ],
     classes: ["Top Fuel","Funny Car","Pro Stock","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:15,qualified:16}, fc:{entered:18,qualified:16}, ps:{entered:19,qualified:16}, psm:null, pm:null },
     itinerary: [
@@ -244,7 +249,14 @@ const RACES = [
     venue: "zMAX Dragway", city: "Concord, NC",
     timezone: "America/New_York", startDate: "2026-04-23", endDate: "2026-04-26",
     nhraUrl: "https://www.nhra.com/schedule/2026/nhra-mission-foods-drag-racing-series/nhra-4-wide-nationals",
-    tv: "FS1", phase: "regular", tags: ["4-wide"], winners: null,
+    tv: "FS1", phase: "regular", tags: ["4-wide"],
+    winners: [
+      { cls: "Top Fuel",       driver: "Doug Kalitta",   et: "3.692", mph: "342.98", pill: "tf" },
+      { cls: "Funny Car",      driver: "Ron Capps",      et: "3.905", mph: "334.90", pill: "fc" },
+      { cls: "Pro Stock",      driver: "Matt Hartford",  et: "6.526", mph: "210.05", pill: "ps" },
+      { cls: "Pro Stock Moto", driver: "Gaige Herrera",  et: "6.758", mph: "199.88", pill: "psm" },
+      { cls: "Pro Mod",        driver: "Mike Stavrinos", et: "5.669", mph: "253.56", pill: "pm" },
+    ],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
@@ -273,7 +285,13 @@ const RACES = [
     id: 5, name: "NHRA Southern Nationals", fullName: "NHRA Southern Nationals",
     venue: "South Georgia Motorsports Park", city: "Adel, GA",
     timezone: "America/New_York", startDate: "2026-05-01", endDate: "2026-05-03",
-    tv: "FS1", phase: "regular", tags: ["new-venue"], winners: null,
+    tv: "FS1", phase: "regular", tags: ["new-venue"],
+    winners: [
+      { cls: "Top Fuel",       driver: "Shawn Langdon",      et: "3.808", mph: "333.16", pill: "tf" },
+      { cls: "Funny Car",      driver: "Jordan Vandergriff", et: "4.007", mph: "314.17", pill: "fc" },
+      { cls: "Pro Stock",      driver: "Dallas Glenn",       et: "6.642", mph: "211.39", pill: "ps" },
+      { cls: "Pro Stock Moto", driver: "Matt Smith",         et: "6.724", mph: "202.06", pill: "psm" },
+    ],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
     itinerary: [
@@ -298,7 +316,13 @@ const RACES = [
     fullName: "26th annual Gerber Collision & Glass Route 66 NHRA Nationals Presented by PEAK",
     venue: "Route 66 Raceway", city: "Joliet, IL",
     timezone: "America/Chicago", startDate: "2026-05-14", endDate: "2026-05-17",
-    tv: "FS1", phase: "regular", tags: [], winners: null,
+    tv: "FS1", phase: "regular", tags: [],
+    winners: [
+      { cls: "Top Fuel",       driver: "Shawn Langdon",   et: "3.748", mph: "334.81", pill: "tf" },
+      { cls: "Funny Car",      driver: "Chad Green",      et: "3.945", mph: "324.75", pill: "fc" },
+      { cls: "Pro Stock",      driver: "Aaron Stanfield", et: "6.595", mph: "208.46", pill: "ps" },
+      { cls: "Pro Stock Moto", driver: "Matt Smith",      et: "6.835", mph: "185.41", pill: "psm" },
+    ],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
@@ -323,7 +347,13 @@ const RACES = [
     id: 7, name: "NHRA Potomac Nationals", fullName: "Inaugural NHRA Potomac Nationals",
     venue: "Maryland International Raceway", city: "Mechanicsville, MD",
     timezone: "America/New_York", startDate: "2026-05-29", endDate: "2026-05-31",
-    tv: "FOX", phase: "regular", tags: ["new-venue"], winners: null,
+    tv: "FOX", phase: "regular", tags: ["new-venue"],
+    winners: [
+      { cls: "Top Fuel",       driver: "Shawn Langdon", et: "3.762", mph: "334.90", pill: "tf" },
+      { cls: "Funny Car",      driver: "Austin Prock",  et: "3.956", mph: "324.20", pill: "fc" },
+      { cls: "Pro Stock",      driver: "Greg Anderson", et: "6.472", mph: "212.46", pill: "ps" },
+      { cls: "Pro Stock Moto", driver: "Angie Smith",   et: "6.683", mph: "201.52", pill: "psm" },
+    ],
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
     itinerary: [
