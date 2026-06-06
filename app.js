@@ -5495,53 +5495,99 @@ function closeDriverModal() {
 // ─── 2FAST2TASTY TAB ─────────────────────────────────────────────────────────
 const F2T_RESULTS = {
   tf: [
-    { raceId:1, raceName:"Gatornationals", winner:"Josh Hart",     runnerUp:"Shawn Langdon", quickSemi:"Doug Kalitta" },
-    { raceId:2, raceName:"Arizona Natls",  winner:"Doug Kalitta",  runnerUp:"Shawn Langdon", quickSemi:"Maddi Gordon"  },
+    { raceId:1, raceName:"Gatornationals", winner:"Josh Hart", runnerUp:"Shawn Langdon", quickSemi:"Doug Kalitta" },
+    { raceId:2, raceName:"Arizona Nationals", winner:"Doug Kalitta", runnerUp:"Shawn Langdon", quickSemi:"Maddi Gordon" },
+    { raceId:3, raceName:"Winternationals", winner:"Doug Kalitta", runnerUp:"Maddi Gordon", quickSemi:"Josh Hart" },
+    { raceId:4, raceName:"4-Wide Nationals", winner:"Clay Millican", runnerUp:"Doug Kalitta", quickSemi:"Shawn Langdon" },
+    { raceId:5, raceName:"Southern Nationals", winner:"Doug Kalitta", runnerUp:"Leah Pruett", quickSemi:"Shawn Langdon" },
+    { raceId:6, raceName:"Route 66 Nationals", winner:"Shawn Langdon", runnerUp:"Justin Ashley", quickSemi:"Antron Brown" },
+    { raceId:7, raceName:"Potomac Nationals", winner:"Shawn Langdon", runnerUp:"Leah Pruett", quickSemi:"Tony Stewart" },
   ],
   fc: [
-    { raceId:1, raceName:"Gatornationals", winner:"Chad Green",        runnerUp:"Jordan Vandergriff", quickSemi:"Alexis DeJoria"  },
-    { raceId:2, raceName:"Arizona Natls",  winner:"J.R. Todd",         runnerUp:"Ron Capps",          quickSemi:"Alexis DeJoria"  },
+    { raceId:1, raceName:"Gatornationals", winner:"Chad Green", runnerUp:"Jordan Vandergriff", quickSemi:"Alexis DeJoria" },
+    { raceId:2, raceName:"Arizona Nationals", winner:"J.R. Todd", runnerUp:"Ron Capps", quickSemi:"Alexis DeJoria" },
+    { raceId:3, raceName:"Winternationals", winner:"Matt Hagan", runnerUp:"Paul Lee", quickSemi:"J.R. Todd" },
+    { raceId:4, raceName:"4-Wide Nationals", winner:"Jordan Vandergriff", runnerUp:"Ron Capps", quickSemi:"Alexis DeJoria" },
+    { raceId:5, raceName:"Southern Nationals", winner:"Jordan Vandergriff", runnerUp:"J.R. Todd", quickSemi:"Ron Capps" },
+    { raceId:6, raceName:"Route 66 Nationals", winner:"Alexis DeJoria", runnerUp:"Jordan Vandergriff", quickSemi:"J.R. Todd" },
+    { raceId:7, raceName:"Potomac Nationals", winner:"Austin Prock", runnerUp:"Matt Hagan", quickSemi:"Alexis DeJoria" },
   ],
   ps: [
-    { raceId:1, raceName:"Gatornationals", winner:"Matt Hartford",  runnerUp:"Greg Anderson", quickSemi:"Erica Enders"   },
-    { raceId:2, raceName:"Arizona Natls",  winner:"Dallas Glenn",   runnerUp:"Cody Coughlin", quickSemi:"Greg Anderson"  },
+    { raceId:1, raceName:"Gatornationals", winner:"Matt Hartford", runnerUp:"Greg Anderson", quickSemi:"Erica Enders" },
+    { raceId:2, raceName:"Arizona Nationals", winner:"Dallas Glenn", runnerUp:"Cody Coughlin", quickSemi:"Greg Anderson" },
+    { raceId:3, raceName:"Winternationals", winner:"Dallas Glenn", runnerUp:"Aaron Stanfield", quickSemi:"Greg Anderson" },
+    { raceId:4, raceName:"4-Wide Nationals", winner:"Greg Anderson", runnerUp:"Dallas Glenn", quickSemi:"Aaron Stanfield" },
+    { raceId:5, raceName:"Southern Nationals", winner:"Dallas Glenn", runnerUp:"Greg Anderson", quickSemi:"Aaron Stanfield" },
+    { raceId:6, raceName:"Route 66 Nationals", winner:"Erica Enders", runnerUp:"Greg Stanfield", quickSemi:"Aaron Stanfield" },
+    { raceId:7, raceName:"Potomac Nationals", winner:"Aaron Stanfield", runnerUp:"Greg Anderson", quickSemi:"Dallas Glenn" },
   ],
   psm: [
-    { raceId:1, raceName:"Gatornationals", winner:"Richard Gadson", runnerUp:"Gaige Herrera", quickSemi:"John Hall"      },
+    { raceId:1, raceName:"Gatornationals", winner:"Richard Gadson", runnerUp:"Gaige Herrera", quickSemi:"John Hall" },
+    { raceId:4, raceName:"4-Wide Nationals", winner:"Gaige Herrera", runnerUp:"Ryan Oehler", quickSemi:"Richard Gadson" },
+    { raceId:5, raceName:"Southern Nationals", winner:"Matt Smith", runnerUp:"Richard Gadson", quickSemi:"Gaige Herrera" },
+    { raceId:6, raceName:"Route 66 Nationals", winner:"Gaige Herrera", runnerUp:"Angie Smith", quickSemi:"Matt Smith" },
+    { raceId:7, raceName:"Potomac Nationals", winner:"Angie Smith", runnerUp:"Brayden Davis", quickSemi:"Richard Gadson" },
   ],
 };
 
 // 2F2T cumulative points
 const F2T_POINTS = {
   tf: [
-    { pos:1, name:"Josh Hart",      pts:3, races:["Win R1"] },
-    { pos:2, name:"Doug Kalitta",   pts:3, races:["Win R2"] },
-    { pos:3, name:"Shawn Langdon",  pts:4, races:["RU R1","RU R2"] },
-    { pos:4, name:"Maddi Gordon",   pts:1, races:["QS R2"] },
-    { pos:5, name:"Antron Brown",   pts:1, races:["QS R1"] },
+    { pos:1, name:"Doug Kalitta", pts:12, races:["QS R1","Win R2","Win R3","RU R4","Win R5"] },
+    { pos:2, name:"Shawn Langdon", pts:12, races:["RU R1","RU R2","QS R4","QS R5","Win R6","Win R7"] },
+    { pos:3, name:"Josh Hart", pts:4, races:["Win R1","QS R3"] },
+    { pos:4, name:"Leah Pruett", pts:4, races:["RU R5","RU R7"] },
+    { pos:5, name:"Clay Millican", pts:3, races:["Win R4"] },
+    { pos:6, name:"Maddi Gordon", pts:3, races:["QS R2","RU R3"] },
+    { pos:7, name:"Justin Ashley", pts:2, races:["RU R6"] },
+    { pos:8, name:"Antron Brown", pts:1, races:["QS R6"] },
+    { pos:9, name:"Tony Stewart", pts:1, races:["QS R7"] },
   ],
   fc: [
-    { pos:1, name:"Chad Green",         pts:3, races:["Win R1"] },
-    { pos:2, name:"J.R. Todd",          pts:3, races:["Win R2"] },
-    { pos:3, name:"Jordan Vandergriff", pts:2, races:["RU R1"] },
-    { pos:4, name:"Ron Capps",          pts:2, races:["RU R2"] },
-    { pos:5, name:"Alexis DeJoria",     pts:2, races:["QS R1","QS R2"] },
+    { pos:1, name:"Jordan Vandergriff", pts:10, races:["RU R1","Win R4","Win R5","RU R6"] },
+    { pos:2, name:"Alexis DeJoria", pts:7, races:["QS R1","QS R2","QS R4","Win R6","QS R7"] },
+    { pos:3, name:"J.R. Todd", pts:7, races:["Win R2","QS R3","RU R5","QS R6"] },
+    { pos:4, name:"Matt Hagan", pts:5, races:["Win R3","RU R7"] },
+    { pos:5, name:"Ron Capps", pts:5, races:["RU R2","RU R4","QS R5"] },
+    { pos:6, name:"Austin Prock", pts:3, races:["Win R7"] },
+    { pos:7, name:"Chad Green", pts:3, races:["Win R1"] },
+    { pos:8, name:"Paul Lee", pts:2, races:["RU R3"] },
   ],
   ps: [
-    { pos:1, name:"Matt Hartford",  pts:4, races:["Win R1","QS R1"] },
-    { pos:2, name:"Dallas Glenn",   pts:3, races:["Win R2"] },
-    { pos:3, name:"Cody Coughlin",  pts:2, races:["RU R2"] },
-    { pos:4, name:"Greg Anderson",  pts:2, races:["RU R1","QS R2"] },
-    { pos:5, name:"Erica Enders",   pts:1, races:["QS R1"] },
+    { pos:1, name:"Dallas Glenn", pts:12, races:["Win R2","Win R3","RU R4","Win R5","QS R7"] },
+    { pos:2, name:"Greg Anderson", pts:11, races:["RU R1","QS R2","QS R3","Win R4","RU R5","RU R7"] },
+    { pos:3, name:"Aaron Stanfield", pts:8, races:["RU R3","QS R4","QS R5","QS R6","Win R7"] },
+    { pos:4, name:"Erica Enders", pts:4, races:["QS R1","Win R6"] },
+    { pos:5, name:"Matt Hartford", pts:3, races:["Win R1"] },
+    { pos:6, name:"Cody Coughlin", pts:2, races:["RU R2"] },
+    { pos:7, name:"Greg Stanfield", pts:2, races:["RU R6"] },
   ],
   psm: [
-    { pos:1, name:"Richard Gadson", pts:3, races:["Win R1"] },
-    { pos:2, name:"Gaige Herrera",  pts:2, races:["RU R1"] },
-    { pos:3, name:"John Hall",      pts:1, races:["QS R1"] },
+    { pos:1, name:"Gaige Herrera", pts:9, races:["RU R1","Win R4","QS R5","Win R6"] },
+    { pos:2, name:"Richard Gadson", pts:7, races:["Win R1","QS R4","RU R5","QS R7"] },
+    { pos:3, name:"Angie Smith", pts:5, races:["RU R6","Win R7"] },
+    { pos:4, name:"Matt Smith", pts:4, races:["Win R5","QS R6"] },
+    { pos:5, name:"Brayden Davis", pts:2, races:["RU R7"] },
+    { pos:6, name:"Ryan Oehler", pts:2, races:["RU R4"] },
+    { pos:7, name:"John Hall", pts:1, races:["QS R1"] },
   ],
 };
 
+
 let activeF2TClass = 'tf';
+
+// Build a per-driver result map keyed by race number for the form line.
+// Returns { raceId -> 'W' | 'RU' | 'QS' | null }
+function _f2tDriverForm(driverName, results, totalRaces) {
+  const form = {};
+  for (let i = 1; i <= totalRaces; i++) form[i] = null;
+  results.forEach(r => {
+    if (r.winner    === driverName) form[r.raceId] = 'W';
+    else if (r.runnerUp  === driverName) form[r.raceId] = 'RU';
+    else if (r.quickSemi === driverName) form[r.raceId] = 'QS';
+  });
+  return form;
+}
 
 function renderF2TTab() {
   const container = document.getElementById('f2t-list');
@@ -5551,24 +5597,72 @@ function renderF2TTab() {
   const results = F2T_RESULTS[activeF2TClass] || [];
   const maxPts = pts[0]?.pts || 1;
 
+  // Total races covered (max raceId in any class) -> for the form-line columns
+  const allResults = [].concat(F2T_RESULTS.tf, F2T_RESULTS.fc, F2T_RESULTS.ps, F2T_RESULTS.psm);
+  const totalRaces = allResults.reduce((m, r) => Math.max(m, r.raceId), 0);
+
+  // Class-specific totals strip
+  const wins = {}, rus = {}, qss = {};
+  results.forEach(r => {
+    wins[r.winner] = (wins[r.winner] || 0) + 1;
+    rus[r.runnerUp] = (rus[r.runnerUp] || 0) + 1;
+    qss[r.quickSemi] = (qss[r.quickSemi] || 0) + 1;
+  });
+  const totalPts = pts.reduce((s, d) => s + d.pts, 0);
+
   let html = '';
+
+  // Season summary strip
+  html += `
+  <div class="f2t-summary">
+    <div class="f2t-sum-cell">
+      <div class="f2t-sum-val">${results.length}</div>
+      <div class="f2t-sum-lbl">Races Run</div>
+    </div>
+    <div class="f2t-sum-cell">
+      <div class="f2t-sum-val">${totalPts}</div>
+      <div class="f2t-sum-lbl">Pts Awarded</div>
+    </div>
+    <div class="f2t-sum-cell">
+      <div class="f2t-sum-val">${Object.keys(wins).length}</div>
+      <div class="f2t-sum-lbl">Diff Winners</div>
+    </div>
+  </div>`;
+
+  if (!results.length) {
+    html += `<div class="empty-state" style="padding:var(--space-20)">No Mission #2Fast2Tasty Challenges run in this class yet this season.</div>`;
+    container.innerHTML = html;
+    return;
+  }
 
   // Leader hero
   if (pts[0]) {
+    const form = _f2tDriverForm(pts[0].name, results, totalRaces);
     html += `
     <div class="f2t-hero">
       <div class="f2t-hero-label">⚡ Challenge Leader</div>
       <div class="f2t-hero-name">${pts[0].name}</div>
       <div class="f2t-hero-pts">${pts[0].pts}<span>pts</span></div>
-      <div class="f2t-hero-tags">${pts[0].races.map(r=>`<span class="f2t-tag">${r}</span>`).join('')}</div>
+      <div class="f2t-form-line">
+        ${Array.from({length: totalRaces}, (_, i) => {
+          const k = i + 1; const v = form[k];
+          const cls = v === 'W' ? 'w' : v === 'RU' ? 'ru' : v === 'QS' ? 'qs' : 'na';
+          const lbl = v || '·';
+          return `<span class="f2t-form-cell ${cls}" title="Race ${k}"><span class="f2t-form-r">R${k}</span><span class="f2t-form-v">${lbl}</span></span>`;
+        }).join('')}
+      </div>
     </div>`;
   }
 
-  // Rest of standings with horizontal bars
-  if (pts.length > 1) {
+  // Standings (full table now — every scorer)
+  if (pts.length) {
+    html += `<div class="f2t-section-hdr">Season Standings</div>`;
     html += `<div class="f2t-standings">`;
-    pts.slice(1).forEach(d => {
+    pts.forEach((d, idx) => {
+      // skip the #1 driver (already shown in hero) to avoid duplication
+      if (idx === 0) return;
       const pct = Math.round((d.pts / maxPts) * 100);
+      const form = _f2tDriverForm(d.name, results, totalRaces);
       html += `
       <div class="f2t-row">
         <div class="f2t-row-top">
@@ -5579,19 +5673,29 @@ function renderF2TTab() {
         <div class="f2t-bar-track">
           <div class="f2t-bar-fill" style="width:${pct}%"></div>
         </div>
-        <div class="f2t-row-tags">${d.races.map(r=>`<span class="f2t-tag f2t-tag-sm">${r}</span>`).join('')}</div>
+        <div class="f2t-form-line f2t-form-line-sm">
+          ${Array.from({length: totalRaces}, (_, i) => {
+            const k = i + 1; const v = form[k];
+            const cls = v === 'W' ? 'w' : v === 'RU' ? 'ru' : v === 'QS' ? 'qs' : 'na';
+            const lbl = v || '·';
+            return `<span class="f2t-form-cell ${cls}" title="Race ${k}"><span class="f2t-form-r">R${k}</span><span class="f2t-form-v">${lbl}</span></span>`;
+          }).join('')}
+        </div>
       </div>`;
     });
     html += `</div>`;
   }
 
-  // Race results
+  // Race-by-race results
   if (results.length) {
-    html += `<div class="f2t-section-hdr">Race Results</div>`;
+    html += `<div class="f2t-section-hdr">Race-by-Race</div>`;
     results.forEach(r => {
       html += `
       <div class="f2t-race-card">
-        <div class="f2t-race-name">${r.raceName}</div>
+        <div class="f2t-race-head">
+          <span class="f2t-race-num">R${r.raceId}</span>
+          <span class="f2t-race-name">${r.raceName}</span>
+        </div>
         <div class="f2t-race-rows">
           <div class="f2t-race-row">
             <div class="f2t-rc-medal gold">+3</div>
@@ -5619,7 +5723,7 @@ function renderF2TTab() {
     });
   }
 
-  html += `<div class="data-note" style="padding-bottom:calc(var(--space-20) + var(--safe-bottom))">Bonus points carry through the Countdown reset · Not awarded at every race</div>`;
+  html += `<div class="data-note" style="padding-bottom:calc(var(--space-20) + var(--safe-bottom))">Bonus points carry through the Countdown reset · Not run at every race</div>`;
 
   container.innerHTML = html;
 }

@@ -3959,3 +3959,322 @@ body.settings-open{ overflow:hidden; }
   background:linear-gradient(135deg, #FF2E33 0%, #C8161A 100%);
   color:#fff;
 }
+
+/* ─── SATURDAY SHOWDOWN (2F2T) ──────────────────────────────────────────────── */
+.f2t-explainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.f2t-exp-row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+}
+.f2t-exp-row strong { color: var(--text); font-weight: 700; }
+.f2t-exp-icon { font-size: 14px; }
+
+.f2t-class-tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.f2t-tab {
+  flex: 1;
+  min-width: max-content;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  white-space: nowrap;
+}
+.f2t-tab:hover { color: var(--text); }
+.f2t-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.f2t-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+}
+.f2t-sum-cell {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  text-align: center;
+}
+.f2t-sum-val {
+  font-family: var(--font-display, inherit);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+.f2t-sum-lbl {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.f2t-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin: 0 0 var(--space-4);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.f2t-hero::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 140px;
+  height: 140px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.f2t-hero-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.9;
+  margin-bottom: var(--space-1);
+}
+.f2t-hero-name {
+  font-family: var(--font-display, inherit);
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: var(--space-2);
+}
+.f2t-hero-pts {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display, inherit);
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.f2t-hero-pts span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* form line — small per-race result chips */
+.f2t-form-line {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(38px, 1fr));
+  gap: 4px;
+  margin-top: var(--space-3);
+}
+.f2t-form-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 2px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.1;
+  min-height: 38px;
+}
+.f2t-form-r { font-size: 0.55rem; opacity: 0.65; }
+.f2t-form-v { font-size: 0.72rem; }
+.f2t-form-cell.w  { background: rgba(245,166,35,0.95); color: #1a1a1a; }
+.f2t-form-cell.ru { background: rgba(255,255,255,0.65); color: #1a1a1a; }
+.f2t-form-cell.qs { background: rgba(255,255,255,0.35); color: #fff; }
+.f2t-form-cell.na { opacity: 0.45; }
+
+/* form line outside the hero — needs different background colors */
+.f2t-form-line-sm .f2t-form-cell {
+  background: var(--surface-3);
+  color: var(--text-faint);
+  min-height: 34px;
+  font-size: 0.6rem;
+}
+.f2t-form-line-sm .f2t-form-cell .f2t-form-r { font-size: 0.5rem; }
+.f2t-form-line-sm .f2t-form-cell .f2t-form-v { font-size: 0.7rem; }
+.f2t-form-line-sm .f2t-form-cell.w  { background: var(--gold); color: #1a1a1a; }
+.f2t-form-line-sm .f2t-form-cell.ru { background: var(--text-muted); color: var(--bg); }
+.f2t-form-line-sm .f2t-form-cell.qs { background: var(--surface-2); color: var(--text); border:1px solid var(--border); }
+
+.f2t-section-hdr {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: var(--space-5) 0 var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--divider);
+}
+
+.f2t-standings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.f2t-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+.f2t-row-top {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: 6px;
+}
+.f2t-row-pos {
+  font-family: var(--font-display, inherit);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-faint);
+  min-width: 22px;
+}
+.f2t-row-name {
+  flex: 1;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.f2t-row-pts {
+  font-family: var(--font-display, inherit);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--gold);
+}
+.f2t-bar-track {
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+.f2t-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: var(--radius-full);
+  transition: width .25s ease;
+}
+
+.f2t-race-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.f2t-race-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--divider);
+}
+.f2t-race-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-family: var(--font-display, inherit);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.f2t-race-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+}
+.f2t-race-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.f2t-race-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.f2t-rc-medal {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, inherit);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+.f2t-rc-medal.gold   { background: linear-gradient(135deg, #F5C75A, #F5A623); }
+.f2t-rc-medal.silver { background: linear-gradient(135deg, #E8E8E8, #B5B5B5); }
+.f2t-rc-medal.bronze { background: linear-gradient(135deg, #D29066, #A05A2A); color: #fff; }
+.f2t-rc-info { flex: 1; min-width: 0; }
+.f2t-rc-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.f2t-rc-driver {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text);
+}
