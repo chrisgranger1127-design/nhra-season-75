@@ -2902,29 +2902,54 @@ let touchStartY = 0;
 modalSheet.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive:true });
 modalSheet.addEventListener('touchend', e => { if(e.changedTouches[0].clientY - touchStartY > 80) closeModal(); }, { passive:true });
 
-// ─── THEME TOGGLE ─────────────────────────────────────────────────────────────
-(function() {
+// ─── THEME (Light / Dark / System) ─────────────────────────────────────────────────────
+window.NHRA_THEME = window.NHRA_THEME || (function() {
+  const KEY = 'nhra2026.theme.v1';
   const html = document.documentElement;
-  const btn  = document.querySelector('[data-theme-toggle]');
-  const icon = document.getElementById('theme-icon');
-  let theme = html.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-  html.setAttribute('data-theme', theme);
-  updateIcon(theme);
-  btn?.addEventListener('click', () => {
-    theme = theme === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', theme);
-    updateIcon(theme);
-  });
-  function updateIcon(t) {
-    if (!icon) return;
-    if (t==='dark') {
-      icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
-      btn?.setAttribute('aria-label','Switch to light mode');
-    } else {
-      icon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
-      btn?.setAttribute('aria-label','Switch to dark mode');
-    }
+  const mq = matchMedia('(prefers-color-scheme:dark)');
+
+  function getPref() {
+    try { return localStorage.getItem(KEY) || 'system'; } catch(_) { return 'system'; }
   }
+  function setPref(pref) {
+    try { localStorage.setItem(KEY, pref); } catch(_) {}
+    apply(pref);
+    paintSeg();
+  }
+  function effective(pref) {
+    if (pref === 'light' || pref === 'dark') return pref;
+    return mq.matches ? 'dark' : 'light';
+  }
+  function apply(pref) {
+    html.setAttribute('data-theme', effective(pref));
+  }
+  function paintSeg() {
+    const pref = getPref();
+    document.querySelectorAll('#settings-theme-seg .settings-seg-btn').forEach(b => {
+      const on = b.dataset.themeSet === pref;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+  }
+  function wire() {
+    document.querySelectorAll('#settings-theme-seg .settings-seg-btn').forEach(b => {
+      b.onclick = () => setPref(b.dataset.themeSet);
+    });
+    paintSeg();
+  }
+
+  // Apply persisted pref on load, follow system if pref is 'system'
+  apply(getPref());
+  try { mq.addEventListener('change', () => { if (getPref() === 'system') apply('system'); }); } catch(_) {}
+
+  // Wire as soon as DOM is parsed
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wire);
+  } else {
+    wire();
+  }
+
+  return { setPref, getPref, paintSeg, wire };
 })();
 
 // ─── PWA INSTALL ──────────────────────────────────────────────────────────────
@@ -4589,6 +4614,8 @@ setTimeout(() => refreshEntryList(), 1500);
 
   function openSettings(){
     populateMeta();
+    // Ensure theme segmented control reflects current pref
+    try { window.NHRA_THEME?.wire(); } catch(_) {}
     overlay.removeAttribute('hidden');
     document.body.classList.add('settings-open');
     // focus the close button for keyboard users
