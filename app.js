@@ -3723,50 +3723,144 @@ document.querySelectorAll('.f2t-tab').forEach(tab => {
 });
 
 // ─── BRACKETS TAB ─────────────────────────────────────────────────────────────
+// Redesigned: champion hero + true visual bracket tree (QF / SF / Final columns)
+// + per-event stat strip (quickest ET, fastest MPH, closest margin).
 let activeBracketRace = null;
 let activeBracketClass = 'tf';
 
-let _bracketsInited = false;
-function initBracketsTab() {
-  const select = document.getElementById('bracket-race-select');
-  const classTabs = document.getElementById('bracket-class-tabs');
-  const list = document.getElementById('bracket-list');
-  const noRace = document.getElementById('bracket-no-race');
-  if (!select) return;
+const BK_CLASS_LABEL = {
+  tf:  'Top Fuel',
+  fc:  'Funny Car',
+  ps:  'Pro Stock',
+  psm: 'Pro Stock Motorcycle',
+  pm:  'Pro Mod',
+};
 
-  // Only populate options once
-  if (!_bracketsInited) {
-    select.innerHTML = '<option value="">Select a completed race...</option>';
-    Object.keys(BRACKETS).forEach(raceId => {
-      const race = RACES.find(r => r.id === parseInt(raceId));
-      if (race) {
-        const opt = document.createElement('option');
-        opt.value = raceId;
-        opt.textContent = `Race ${race.id} — ${race.name}`;
-        select.appendChild(opt);
+function _bkFmtET(et)   { return (et == null || et === '') ? '—' : `${et}s`; }
+function _bkFmtMPH(mph) { return (mph == null || mph === '') ? '—' : `${mph} mph`; }
+function _bkNum(v)      { const n = parseFloat(v); return Number.isFinite(n) ? n : null; }
+
+// Walk all rounds in a class and pull out the headline stats.
+function _bkComputeStats(classData) {
+  let qET = null,  qDriver = '';
+  let fMPH = null, fDriver = '';
+  let closest = null, closeRound = '', closeW = '', closeL = '';
+
+  (classData.rounds || []).forEach(round => {
+    (round.pairs || []).forEach(pair => {
+      const wET = _bkNum(pair.wet), lET = _bkNum(pair.let);
+      const wMP = _bkNum(pair.wmp), lMP = _bkNum(pair.lmp);
+
+      // Quickest ET across both lanes
+      if (wET != null && (qET == null || wET < qET)) { qET = wET; qDriver = pair.w; }
+      if (lET != null && (qET == null || lET < qET)) { qET = lET; qDriver = pair.l; }
+
+      // Fastest MPH across both lanes
+      if (wMP != null && (fMPH == null || wMP > fMPH)) { fMPH = wMP; fDriver = pair.w; }
+      if (lMP != null && (fMPH == null || lMP > fMPH)) { fMPH = lMP; fDriver = pair.l; }
+
+      // Closest margin (winning ET vs losing ET)
+      if (wET != null && lET != null) {
+        const margin = Math.abs(lET - wET);
+        if (closest == null || margin < closest) {
+          closest = margin;
+          closeRound = round.name || '';
+          closeW = pair.w; closeL = pair.l;
+        }
       }
     });
+  });
+
+  return {
+    quickestET:  qET   != null ? { value: qET.toFixed(3), driver: qDriver } : null,
+    fastestMPH:  fMPH  != null ? { value: fMPH.toFixed(2), driver: fDriver } : null,
+    closest:     closest != null ? { margin: closest.toFixed(3), round: closeRound, w: closeW, l: closeL } : null,
+  };
+}
+
+let _bracketsInited = false;
+function initBracketsTab() {
+  const select    = document.getElementById('bracket-race-select');
+  const raceRow   = document.getElementById('bk-race-row');
+  const classTabs = document.getElementById('bracket-class-tabs');
+  const list      = document.getElementById('bracket-list');
+  const noRace    = document.getElementById('bracket-no-race');
+  if (!list) return;
+
+  // Helper: keep the hidden fallback <select> in sync for back-compat.
+  function _syncSelect(raceId) {
+    if (!select) return;
+    select.value = raceId ? String(raceId) : '';
+  }
+
+  function _renderRacePills() {
+    if (!raceRow) return;
+    const raceIds = Object.keys(BRACKETS)
+      .map(id => parseInt(id, 10))
+      .filter(id => !Number.isNaN(id))
+      .sort((a,b) => a - b);
+
+    raceRow.innerHTML = raceIds.map(raceId => {
+      const race = RACES.find(r => r.id === raceId);
+      if (!race) return '';
+      const label = race.shortName || race.name || `Race ${race.id}`;
+      const active = raceId === activeBracketRace;
+      return `<button type="button" class="bk-race-pill${active ? ' is-active' : ''}" role="tab" aria-selected="${active}" data-race-id="${raceId}">
+        <span class="bk-race-pill-num">R${race.id}</span>
+        <span class="bk-race-pill-name">${label}</span>
+      </button>`;
+    }).join('');
+
+    raceRow.querySelectorAll('.bk-race-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const raceId = parseInt(btn.dataset.raceId, 10);
+        if (raceId === activeBracketRace) return;
+        activeBracketRace = raceId;
+        _syncSelect(raceId);
+        // Re-paint pill active state
+        raceRow.querySelectorAll('.bk-race-pill').forEach(b => {
+          const on = parseInt(b.dataset.raceId, 10) === activeBracketRace;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        renderBracketTab();
+      });
+    });
+  }
+
+  // Populate hidden select once for back-compat
+  if (!_bracketsInited) {
+    if (select) {
+      select.innerHTML = '<option value="">Select a completed race...</option>';
+      Object.keys(BRACKETS).forEach(raceId => {
+        const race = RACES.find(r => r.id === parseInt(raceId));
+        if (race) {
+          const opt = document.createElement('option');
+          opt.value = raceId;
+          opt.textContent = `Race ${race.id} — ${race.name}`;
+          select.appendChild(opt);
+        }
+      });
+    }
     _bracketsInited = true;
   }
 
   function renderBracketTab() {
-    const raceId = parseInt(select.value);
-    const data = BRACKETS[raceId];
-    if (!raceId || !data) {
-      if (classTabs) classTabs.setAttribute('hidden','');
+    const data = BRACKETS[activeBracketRace];
+    if (!activeBracketRace || !data) {
+      if (classTabs) classTabs.setAttribute('hidden', '');
       if (list) list.innerHTML = '';
       if (noRace) noRace.removeAttribute('hidden');
       return;
     }
-    activeBracketRace = raceId;
-    if (noRace) noRace.setAttribute('hidden','');
+    if (noRace) noRace.setAttribute('hidden', '');
     if (classTabs) classTabs.removeAttribute('hidden');
 
-    // Update class tab visibility
+    // Class tab visibility + active state
     document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => {
       const cls = t.dataset.bclass;
       t.style.display = data[cls] ? '' : 'none';
-      t.classList.toggle('active', cls === activeBracketClass && data[cls]);
+      t.classList.toggle('active', cls === activeBracketClass && !!data[cls]);
     });
     if (!data[activeBracketClass]) {
       activeBracketClass = Object.keys(data)[0];
@@ -3780,69 +3874,129 @@ function initBracketsTab() {
 
   function renderBracketRounds() {
     if (!list || !activeBracketRace) return;
-    const data = BRACKETS[activeBracketRace]?.[activeBracketClass];
-    if (!data) { list.innerHTML = `<div class="qual-empty">No bracket data for this class</div>`; return; }
+    const classData = BRACKETS[activeBracketRace]?.[activeBracketClass];
+    if (!classData) {
+      list.innerHTML = `<div class="qual-empty">No bracket data for this class</div>`;
+      return;
+    }
+    const race = RACES.find(r => r.id === activeBracketRace) || { name: '', id: activeBracketRace };
+    const rounds = classData.rounds || [];
+    const finalRound = rounds[rounds.length - 1];
+    const champPair  = finalRound?.pairs?.[0];
+    const champion   = champPair?.w || '—';
+    const runnerUp   = champPair?.l || '—';
+    const champET    = champPair?.wet || '';
+    const champMPH   = champPair?.wmp || '';
 
-    const rounds = data.rounds;
-    const roundNames = { 0:'Quarterfinals', 1:'Semifinals', 2:'Final' };
+    const stats = _bkComputeStats(classData);
 
-    let html = `<div class="tb-bracket">`;
+    // Column headers — derive from round names but normalize the labels
+    const columnLabel = (name, i, total) => {
+      if (i === total - 1) return 'Final';
+      if (i === total - 2) return 'Semifinals';
+      if (i === 0 && total >= 3) return 'Quarterfinals';
+      return (name || '').replace(/^R\d+\s*—\s*/, '') || `Round ${i + 1}`;
+    };
+
+    // ── Champion hero ──────────────────────────────────────────────
+    const hero = `
+      <div class="bk-champion" role="region" aria-label="Event winner">
+        <div class="bk-champion-lights" aria-hidden="true">
+          <span class="bk-light bk-light-amber"></span>
+          <span class="bk-light bk-light-amber"></span>
+          <span class="bk-light bk-light-amber"></span>
+          <span class="bk-light bk-light-green is-on"></span>
+        </div>
+        <div class="bk-champion-body">
+          <div class="bk-champion-eyebrow">🏆 Event Winner · ${BK_CLASS_LABEL[activeBracketClass] || ''}</div>
+          <div class="bk-champion-name">${champion}</div>
+          <div class="bk-champion-meta">
+            <span class="bk-champion-race">${race.name || `Race ${race.id}`}</span>
+            <span class="bk-champion-dot">·</span>
+            <span class="bk-champion-run">${_bkFmtET(champET)} &nbsp;/&nbsp; ${_bkFmtMPH(champMPH)}</span>
+          </div>
+          <div class="bk-champion-runnerup">def. ${runnerUp} in the final</div>
+        </div>
+      </div>`;
+
+    // ── Bracket tree ───────────────────────────────────────────────
+    let tree = `<div class="bk-tree-scroll"><div class="bk-tree" data-cols="${rounds.length}">`;
 
     rounds.forEach((round, ri) => {
       const isFinal = ri === rounds.length - 1;
-      const isSemi  = ri === rounds.length - 2;
-
-      html += `<div class="tb-round">
-        <div class="tb-round-hdr ${isFinal ? 'tb-final-hdr' : ''}">${round.name}</div>`;
-
-      round.pairs.forEach((pair, pi) => {
-        html += `
-        <div class="tb-matchup ${isFinal ? 'tb-final-matchup' : ''}">
-          <div class="tb-car tb-win">
-            <div class="tb-car-left">
-              <span class="tb-medal">W</span>
-              <div>
-                <div class="tb-car-name">${pair.w}</div>
-                <div class="tb-car-run">${pair.wet}s &nbsp; ${pair.wmp} mph</div>
-              </div>
-            </div>
+      const col = `
+        <div class="bk-column${isFinal ? ' is-final-col' : ''}">
+          <div class="bk-column-hdr">${columnLabel(round.name, ri, rounds.length)}</div>
+          <div class="bk-column-body">
+            ${round.pairs.map((pair, pi) => {
+              const wET  = _bkFmtET(pair.wet);
+              const wMP  = _bkFmtMPH(pair.wmp);
+              const lET  = _bkFmtET(pair.let);
+              const lMP  = _bkFmtMPH(pair.lmp);
+              const margin = (_bkNum(pair.let) != null && _bkNum(pair.wet) != null)
+                ? (_bkNum(pair.let) - _bkNum(pair.wet)).toFixed(3) : null;
+              return `
+              <div class="bk-match${isFinal ? ' is-final' : ''}" data-round="${ri}" data-pair="${pi}" tabindex="0">
+                <div class="bk-runner is-win">
+                  <span class="bk-runner-badge">W</span>
+                  <span class="bk-runner-name">${pair.w}</span>
+                  <span class="bk-runner-run">${wET} <span class="bk-runner-mph">${wMP}</span></span>
+                </div>
+                <div class="bk-runner is-lose">
+                  <span class="bk-runner-badge">L</span>
+                  <span class="bk-runner-name">${pair.l}</span>
+                  <span class="bk-runner-run">${lET} <span class="bk-runner-mph">${lMP}</span></span>
+                </div>
+                <div class="bk-match-foot">
+                  ${isFinal
+                    ? `<span class="bk-match-cue bk-match-cue-champ">🏆 Wins Event</span>`
+                    : `<span class="bk-match-cue">advances →</span>`}
+                  ${margin ? `<span class="bk-match-margin">+${margin}s</span>` : ''}
+                </div>
+                ${!isFinal ? `<div class="bk-connector" aria-hidden="true"></div>` : ''}
+              </div>`;
+            }).join('')}
           </div>
-          <div class="tb-vs">lost to</div>
-          <div class="tb-car tb-lose">
-            <div class="tb-car-left">
-              <span class="tb-medal tb-medal-l">L</span>
-              <div>
-                <div class="tb-car-name">${pair.l}</div>
-                <div class="tb-car-run">${pair.let}s &nbsp; ${pair.lmp} mph</div>
-              </div>
-            </div>
-          </div>
-          ${!isFinal ? `<div class="tb-advances">advances →</div>` : `<div class="tb-advances tb-champ">🏆 Event Winner</div>`}
         </div>`;
-      });
-
-      html += `</div>`;
+      tree += col;
     });
+    tree += `</div></div>`;
 
-    html += `</div>`;
-    list.innerHTML = html;
+    // ── Stat strip ─────────────────────────────────────────────────
+    const statStrip = `
+      <div class="bk-stat-strip" role="region" aria-label="Event stats">
+        <div class="bk-stat">
+          <div class="bk-stat-label">Quickest ET</div>
+          <div class="bk-stat-value">${stats.quickestET ? `${stats.quickestET.value}s` : '—'}</div>
+          <div class="bk-stat-meta">${stats.quickestET ? stats.quickestET.driver : ''}</div>
+        </div>
+        <div class="bk-stat">
+          <div class="bk-stat-label">Fastest MPH</div>
+          <div class="bk-stat-value">${stats.fastestMPH ? `${stats.fastestMPH.value}` : '—'}</div>
+          <div class="bk-stat-meta">${stats.fastestMPH ? stats.fastestMPH.driver : ''}</div>
+        </div>
+        <div class="bk-stat">
+          <div class="bk-stat-label">Closest Margin</div>
+          <div class="bk-stat-value">${stats.closest ? `+${stats.closest.margin}s` : '—'}</div>
+          <div class="bk-stat-meta">${stats.closest ? `${stats.closest.w} def. ${stats.closest.l}` : ''}</div>
+        </div>
+      </div>`;
+
+    list.innerHTML = hero + tree + statStrip;
+
+    // Tap-to-inspect: toggle is-open on a match card for an inline detail tray.
+    list.querySelectorAll('.bk-match').forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('is-open'));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('is-open');
+        }
+      });
+    });
   }
 
-  select.addEventListener('change', () => { activeBracketClass = 'tf'; renderBracketTab(); });
-
-  document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeBracketClass = tab.dataset.bclass;
-      renderBracketRounds();
-    });
-  });
-
-  // Wire select change
-  select.onchange = renderBracketTab;
-
-  // Wire class tabs
+  // Wire class tabs (idempotent via .onclick)
   document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(tab => {
     tab.onclick = () => {
       document.querySelectorAll('#bracket-class-tabs .qual-tab').forEach(t => t.classList.remove('active'));
@@ -3852,9 +4006,28 @@ function initBracketsTab() {
     };
   });
 
-  // Auto-select most recent race
-  if (select.options.length > 1) {
-    select.selectedIndex = select.options.length - 1;
+  // Hidden select still works for back-compat
+  if (select) {
+    select.onchange = () => {
+      const raceId = parseInt(select.value, 10);
+      if (!raceId) return;
+      activeBracketRace = raceId;
+      _renderRacePills();
+      renderBracketTab();
+    };
+  }
+
+  // Initial pill row + auto-select most recent race
+  const raceIds = Object.keys(BRACKETS)
+    .map(id => parseInt(id, 10))
+    .filter(id => !Number.isNaN(id))
+    .sort((a,b) => a - b);
+  if (raceIds.length) {
+    if (!activeBracketRace || !BRACKETS[activeBracketRace]) {
+      activeBracketRace = raceIds[raceIds.length - 1];
+    }
+    _syncSelect(activeBracketRace);
+    _renderRacePills();
     renderBracketTab();
   }
 }

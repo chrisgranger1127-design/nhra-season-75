@@ -231,22 +231,29 @@
   <!-- ══ BRACKETS VIEW ══ -->
   <div id="view-brackets" class="view" hidden>
     <div class="view-header">
-      <h2 class="view-title">🏁 Race Day Brackets</h2>
-      <p class="view-sub">Round-by-round elimination results</p>
+      <h2 class="view-title">🏁 Race Day Brackets <span class="update-badge">REDESIGNED</span></h2>
+      <p class="view-sub">Visual elimination tree · Round-by-round results from each completed event</p>
     </div>
-    <div class="bracket-race-select-wrap">
-      <select class="qual-race-select" id="bracket-race-select">
-        <option value="">Select a Race...</option>
-      </select>
-    </div>
-    <div class="bracket-class-tabs" id="bracket-class-tabs" hidden>
+
+    <!-- Race pill selector (replaces dropdown) -->
+    <div class="bk-race-row" id="bk-race-row" role="tablist" aria-label="Select race"></div>
+    <select class="qual-race-select bk-race-select-fallback" id="bracket-race-select" aria-hidden="true" hidden>
+      <option value="">Select a Race...</option>
+    </select>
+
+    <!-- Class tabs -->
+    <div class="bracket-class-tabs bk-class-tabs" id="bracket-class-tabs" hidden>
       <button class="qual-tab active" data-bclass="tf">Top Fuel</button>
       <button class="qual-tab" data-bclass="fc">Funny Car</button>
       <button class="qual-tab" data-bclass="ps">Pro Stock</button>
       <button class="qual-tab" data-bclass="psm">Pro Stock Moto</button>
       <button class="qual-tab" data-bclass="pm">Pro Mod</button>
     </div>
-    <div class="bracket-wrap" id="bracket-list"></div>
+
+    <!-- Bracket render target -->
+    <div class="bracket-wrap bk-wrap" id="bracket-list"></div>
+
+    <!-- Empty state -->
     <div class="qual-no-race" id="bracket-no-race">
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><path d="M8 21h8M12 17v4M6 3H4v5a8 8 0 0 0 16 0V3h-2"/></svg>
       <p>Select a completed race above</p>
