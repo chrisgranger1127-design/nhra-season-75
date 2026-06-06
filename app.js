@@ -695,6 +695,242 @@ const BRACKETS = {
       ]},
     ]},
   },
+  3: { // Winternationals (Pomona)
+    tf: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Tony Stewart",   l:"Antron Brown",    wet:"3.745", wmp:"332.18", let:"3.821", lmp:"322.04" },
+        { w:"Doug Kalitta",   l:"Tony Schumacher", wet:"3.762", wmp:"330.55", let:"3.853", lmp:"317.42" },
+        { w:"Shawn Langdon",  l:"Justin Ashley",   wet:"3.778", wmp:"329.10", let:"3.844", lmp:"320.61" },
+        { w:"Josh Hart",      l:"Clay Millican",   wet:"3.795", wmp:"327.82", let:"3.911", lmp:"310.55" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Tony Stewart",   l:"Doug Kalitta",    wet:"3.751", wmp:"331.45", let:"3.788", lmp:"326.71" },
+        { w:"Shawn Langdon",  l:"Josh Hart",       wet:"3.772", wmp:"330.07", let:"3.812", lmp:"323.50" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Tony Stewart",   l:"Shawn Langdon",   wet:"3.745", wmp:"332.18", let:"3.796", lmp:"325.92" },
+      ]},
+    ]},
+    fc: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Matt Hagan",        l:"Spencer Hyde",      wet:"3.911", wmp:"331.20", let:"4.022", lmp:"315.50" },
+        { w:"Ron Capps",         l:"Alexis DeJoria",    wet:"3.928", wmp:"329.91", let:"3.998", lmp:"320.07" },
+        { w:"Austin Prock",      l:"Paul Lee",          wet:"3.945", wmp:"327.51", let:"4.067", lmp:"312.92" },
+        { w:"JR Todd",           l:"Chad Green",        wet:"3.952", wmp:"326.40", let:"3.989", lmp:"322.81" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Matt Hagan",        l:"Ron Capps",         wet:"3.918", wmp:"330.55", let:"3.942", lmp:"328.06" },
+        { w:"Ron Capps",         l:"Austin Prock",      wet:"3.925", wmp:"330.10", let:"3.971", lmp:"324.50" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Matt Hagan",        l:"Ron Capps",         wet:"3.911", wmp:"331.20", let:"3.919", lmp:"330.88" },
+      ]},
+    ]},
+    ps: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Greg Anderson",  l:"Matt Latino",      wet:"6.521", wmp:"210.41", let:"6.612", lmp:"207.18" },
+        { w:"Dallas Glenn",   l:"Aaron Stanfield",  wet:"6.548", wmp:"209.62", let:"6.591", lmp:"208.30" },
+        { w:"Matt Hartford",  l:"Erica Enders",     wet:"6.561", wmp:"209.10", let:"6.605", lmp:"207.95" },
+        { w:"Troy Coughlin Jr",l:"Greg Stanfield",   wet:"6.572", wmp:"208.81", let:"6.618", lmp:"207.30" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Greg Anderson",  l:"Dallas Glenn",     wet:"6.521", wmp:"210.41", let:"6.557", lmp:"209.20" },
+        { w:"Matt Hartford",  l:"Troy Coughlin Jr", wet:"6.561", wmp:"209.10", let:"6.589", lmp:"208.55" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Greg Anderson",  l:"Matt Hartford",    wet:"6.521", wmp:"210.41", let:"6.572", lmp:"208.94" },
+      ]},
+    ]},
+  },
+  // Race 4 (4-Wide Nationals, Charlotte) intentionally omitted —
+  // 4-lane quad format does not fit the 2-up bracket renderer.
+  // Winners: TF Doug Kalitta, FC Ron Capps, PS Matt Hartford, PSM Gaige Herrera, PM Mike Stavrinos.
+  5: { // Southern Nationals (South Georgia Motorsports Park)
+    tf: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Shawn Langdon",  l:"Antron Brown",    wet:"3.792", wmp:"334.40", let:"3.871", lmp:"320.05" },
+        { w:"Doug Kalitta",   l:"Tony Stewart",    wet:"3.820", wmp:"328.91", let:"3.882", lmp:"319.60" },
+        { w:"Leah Pruett",    l:"Tony Schumacher", wet:"3.838", wmp:"325.10", let:"3.954", lmp:"310.45" },
+        { w:"Justin Ashley",  l:"Josh Hart",       wet:"3.851", wmp:"323.04", let:"3.892", lmp:"317.88" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Shawn Langdon",  l:"Leah Pruett",     wet:"3.795", wmp:"333.92", let:"3.871", lmp:"320.04" },
+        { w:"Doug Kalitta",   l:"Justin Ashley",   wet:"3.832", wmp:"326.40", let:"3.881", lmp:"319.71" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Shawn Langdon",  l:"Doug Kalitta",    wet:"3.808", wmp:"333.16", let:"3.954", lmp:"314.61" },
+      ]},
+    ]},
+    fc: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"JR Todd",            l:"Paul Lee",         wet:"3.972", wmp:"322.50", let:"4.082", lmp:"308.42" },
+        { w:"Jordan Vandergriff", l:"Spencer Hyde",     wet:"3.985", wmp:"320.81", let:"4.077", lmp:"309.10" },
+        { w:"Matt Hagan",         l:"Alexis DeJoria",   wet:"3.998", wmp:"318.92", let:"4.045", lmp:"312.81" },
+        { w:"Ron Capps",          l:"Chad Green",       wet:"4.012", wmp:"317.10", let:"4.061", lmp:"311.55" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"JR Todd",            l:"Matt Hagan",       wet:"3.989", wmp:"321.42", let:"4.028", lmp:"315.30" },
+        { w:"Jordan Vandergriff", l:"Ron Capps",        wet:"3.997", wmp:"318.50", let:"4.044", lmp:"313.10" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Jordan Vandergriff", l:"JR Todd",          wet:"4.007", wmp:"314.17", let:"4.052", lmp:"310.55" },
+      ]},
+    ]},
+    ps: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Dallas Glenn",       l:"Erica Enders",     wet:"6.598", wmp:"211.92", let:"6.642", lmp:"210.04" },
+        { w:"Troy Coughlin Jr",   l:"Aaron Stanfield",  wet:"6.612", wmp:"211.10", let:"6.639", lmp:"210.55" },
+        { w:"Greg Anderson",      l:"Matt Latino",      wet:"6.621", wmp:"210.81", let:"6.655", lmp:"209.78" },
+        { w:"Matt Hartford",      l:"Greg Stanfield",   wet:"6.629", wmp:"210.49", let:"6.661", lmp:"209.40" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Dallas Glenn",       l:"Greg Anderson",    wet:"6.612", wmp:"211.55", let:"6.644", lmp:"210.18" },
+        { w:"Troy Coughlin Jr",   l:"Matt Hartford",    wet:"6.625", wmp:"210.92", let:"6.651", lmp:"209.81" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Dallas Glenn",       l:"Troy Coughlin Jr", wet:"6.642", wmp:"211.39", let:"6.678", lmp:"209.95" },
+      ]},
+    ]},
+    psm: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Matt Smith",         l:"Chase Van Sant",   wet:"6.711", wmp:"202.40", let:"6.832", lmp:"196.55" },
+        { w:"Richard Gadson",     l:"John Hall",        wet:"6.728", wmp:"201.81", let:"6.811", lmp:"197.30" },
+        { w:"Gaige Herrera",      l:"Marc Ingwersen",   wet:"6.742", wmp:"200.94", let:"6.851", lmp:"195.81" },
+        { w:"Angie Smith",        l:"Clayton Howey",    wet:"6.755", wmp:"200.40", let:"6.798", lmp:"198.55" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Matt Smith",         l:"Gaige Herrera",    wet:"6.718", wmp:"202.10", let:"6.745", lmp:"200.81" },
+        { w:"Richard Gadson",     l:"Angie Smith",      wet:"6.731", wmp:"201.55", let:"6.762", lmp:"199.92" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Matt Smith",         l:"Richard Gadson",   wet:"6.724", wmp:"202.06", let:"6.748", lmp:"200.81" },
+      ]},
+    ]},
+  },
+  6: { // Route 66 Nationals (Joliet)
+    tf: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Shawn Langdon",  l:"Shawn Reed",      wet:"3.739", wmp:"335.40", let:"4.210", lmp:"242.50" },
+        { w:"Antron Brown",   l:"T.J. Zizzo",      wet:"3.777", wmp:"331.20", let:"3.798", lmp:"328.92" },
+        { w:"Josh Hart",      l:"Justin Ashley",   wet:"3.790", wmp:"330.10", let:"3.785", lmp:"331.45" },
+        { w:"Doug Kalitta",   l:"Tony Schumacher", wet:"3.785", wmp:"330.55", let:"3.812", lmp:"325.18" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Shawn Langdon",  l:"Doug Kalitta",    wet:"3.752", wmp:"334.20", let:"3.798", lmp:"328.61" },
+        { w:"Antron Brown",   l:"Josh Hart",       wet:"3.790", wmp:"330.40", let:"3.823", lmp:"325.55" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Shawn Langdon",  l:"Antron Brown",    wet:"3.748", wmp:"334.81", let:"3.802", lmp:"327.50" },
+      ]},
+    ]},
+    fc: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Chad Green",         l:"Jordan Vandergriff",wet:"3.943", wmp:"326.40", let:"3.952", lmp:"325.18" },
+        { w:"Alexis DeJoria",     l:"Spencer Hyde",     wet:"3.947", wmp:"325.92", let:"4.512", lmp:"180.55" },
+        { w:"Ron Capps",          l:"Bob Tasca III",    wet:"3.934", wmp:"330.31", let:"4.042", lmp:"312.81" },
+        { w:"Matt Hagan",         l:"Blake Alexander",  wet:"3.950", wmp:"325.40", let:"4.071", lmp:"311.10" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Chad Green",         l:"Ron Capps",        wet:"3.945", wmp:"326.10", let:"3.978", lmp:"322.81" },
+        { w:"Alexis DeJoria",     l:"Matt Hagan",       wet:"3.988", wmp:"323.10", let:"4.006", lmp:"320.40" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Chad Green",         l:"Alexis DeJoria",   wet:"3.945", wmp:"324.75", let:"4.012", lmp:"319.81" },
+      ]},
+    ]},
+    ps: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Aaron Stanfield",    l:"Greg Stanfield",   wet:"6.578", wmp:"209.20", let:"6.612", lmp:"208.10" },
+        { w:"Greg Anderson",      l:"Cody Anderson",    wet:"6.561", wmp:"210.04", let:"6.629", lmp:"207.81" },
+        { w:"Matt Latino",        l:"Erica Enders",     wet:"6.589", wmp:"208.81", let:"6.617", lmp:"207.92" },
+        { w:"Dallas Glenn",       l:"Matt Hartford",    wet:"6.572", wmp:"209.42", let:"6.601", lmp:"208.55" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Aaron Stanfield",    l:"Dallas Glenn",     wet:"6.585", wmp:"208.95", let:"6.598", lmp:"208.40" },
+        { w:"Greg Anderson",      l:"Matt Latino",      wet:"6.572", wmp:"209.50", let:"6.611", lmp:"208.18" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Aaron Stanfield",    l:"Greg Anderson",    wet:"6.595", wmp:"208.46", let:"",      lmp:""       },
+      ]},
+    ]},
+    psm: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Matt Smith",         l:"Jianna Evaristo",  wet:"6.795", wmp:"195.40", let:"6.892", lmp:"191.50" },
+        { w:"Gaige Herrera",      l:"Chase Van Sant",   wet:"6.811", wmp:"194.81", let:"6.872", lmp:"192.10" },
+        { w:"Brayden Davis",      l:"Marc Ingwersen",   wet:"6.822", wmp:"194.10", let:"6.881", lmp:"191.55" },
+        { w:"Angie Smith",        l:"Clayton Howey",    wet:"6.804", wmp:"194.92", let:"6.838", lmp:"192.81" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Matt Smith",         l:"Gaige Herrera",    wet:"6.812", wmp:"194.55", let:"6.831", lmp:"193.40" },
+        { w:"Angie Smith",        l:"Brayden Davis",    wet:"6.825", wmp:"193.81", let:"6.842", lmp:"192.50" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Matt Smith",         l:"Angie Smith",      wet:"6.835", wmp:"185.41", let:"",      lmp:""       },
+      ]},
+    ]},
+  },
+  7: { // Potomac Nationals (Maryland International Raceway)
+    tf: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Shawn Langdon",  l:"BYE",             wet:"3.718", wmp:"338.00", let:"",      lmp:""       },
+        { w:"Doug Kalitta",   l:"Tony Schumacher", wet:"3.762", wmp:"334.40", let:"4.872", lmp:"190.05" },
+        { w:"Will Smith",     l:"Billy Torrence",  wet:"3.776", wmp:"332.10", let:"3.795", lmp:"330.55" },
+        { w:"Clay Millican",  l:"Josh Hart",       wet:"3.820", wmp:"328.95", let:"4.118", lmp:"282.40" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Shawn Langdon",  l:"Will Smith",      wet:"3.748", wmp:"335.92", let:"3.788", lmp:"330.10" },
+        { w:"Doug Kalitta",   l:"Clay Millican",   wet:"3.798", wmp:"331.20", let:"3.851", lmp:"324.81" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Shawn Langdon",  l:"Doug Kalitta",    wet:"3.762", wmp:"334.90", let:"3.762", lmp:"334.88" },
+      ]},
+    ]},
+    fc: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Austin Prock",       l:"Matt Hagan",       wet:"3.951", wmp:"324.80", let:"3.998", lmp:"320.04" },
+        { w:"Jack Beckman",       l:"Joe Morrison",     wet:"3.939", wmp:"325.92", let:"4.182", lmp:"302.10" },
+        { w:"Jordan Vandergriff", l:"Tim Wilkerson",    wet:"3.988", wmp:"321.10", let:"4.045", lmp:"312.81" },
+        { w:"Ron Capps",          l:"Cruz Pedregon",    wet:"3.972", wmp:"322.81", let:"4.012", lmp:"318.10" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Austin Prock",       l:"Ron Capps",        wet:"3.948", wmp:"325.10", let:"3.985", lmp:"321.40" },
+        { w:"Jack Beckman",       l:"Jordan Vandergriff",wet:"3.930", wmp:"326.55", let:"3.978", lmp:"322.10" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Austin Prock",       l:"Jack Beckman",     wet:"3.956", wmp:"324.20", let:"4.022", lmp:"317.81" },
+      ]},
+    ]},
+    ps: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Greg Anderson",      l:"Brandon Miller",   wet:"6.476", wmp:"212.10", let:"6.598", lmp:"208.40" },
+        { w:"Dallas Glenn",       l:"Eric Tucker",      wet:"6.473", wmp:"212.30", let:"6.611", lmp:"207.81" },
+        { w:"Aaron Stanfield",    l:"Cody Anderson",    wet:"6.510", wmp:"211.40", let:"6.582", lmp:"209.10" },
+        { w:"Troy Coughlin Jr",   l:"Matt Latino",      wet:"6.522", wmp:"210.81", let:"6.999", lmp:"160.20" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Greg Anderson",      l:"Deric Kramer",     wet:"6.464", wmp:"212.55", let:"6.521", lmp:"210.81" },
+        { w:"Dallas Glenn",       l:"Troy Coughlin Jr", wet:"6.488", wmp:"211.92", let:"6.530", lmp:"210.40" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Greg Anderson",      l:"Dallas Glenn",     wet:"6.472", wmp:"212.46", let:"6.501", lmp:"211.55" },
+      ]},
+    ]},
+    psm: { rounds: [
+      { name: "R1 — Quarterfinals", pairs: [
+        { w:"Angie Smith",        l:"BYE",              wet:"6.701", wmp:"200.50", let:"",      lmp:""       },
+        { w:"Ryan Oehler",        l:"Marc Ingwersen",   wet:"6.712", wmp:"200.10", let:"6.785", lmp:"197.40" },
+        { w:"Brayden Davis",      l:"Gaige Herrera",    wet:"6.728", wmp:"199.55", let:"6.755", lmp:"198.40" },
+        { w:"Clayton Howey",      l:"Matt Smith",       wet:"6.741", wmp:"198.92", let:"6.812", lmp:"196.10" },
+      ]},
+      { name: "R2 — Semifinals", pairs: [
+        { w:"Angie Smith",        l:"Brayden Davis",    wet:"6.692", wmp:"200.81", let:"6.740", lmp:"199.10" },
+        { w:"Ryan Oehler",        l:"Clayton Howey",    wet:"6.715", wmp:"200.04", let:"6.752", lmp:"198.55" },
+      ]},
+      { name: "Final", pairs: [
+        { w:"Angie Smith",        l:"Ryan Oehler",      wet:"6.683", wmp:"201.52", let:"6.721", lmp:"200.10" },
+      ]},
+    ]},
+  },
 };
 
 
