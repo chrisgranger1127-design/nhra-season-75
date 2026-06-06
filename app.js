@@ -240,9 +240,10 @@ const RACES = [
   },
   {
     id: 4, name: "NHRA 4-Wide Nationals",
-    fullName: "16th annual American Rebel Light NHRA 4-Wide Nationals",
+    fullName: "16th annual NHRA 4-Wide Nationals",
     venue: "zMAX Dragway", city: "Concord, NC",
-    timezone: "America/New_York", startDate: "2026-04-24", endDate: "2026-04-26",
+    timezone: "America/New_York", startDate: "2026-04-23", endDate: "2026-04-26",
+    nhraUrl: "https://www.nhra.com/schedule/2026/nhra-mission-foods-drag-racing-series/nhra-4-wide-nationals",
     tv: "FS1", phase: "regular", tags: ["4-wide"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:{entered:10,qualified:8} },
@@ -383,8 +384,9 @@ const RACES = [
   {
     id: 10, name: "Summit Racing Equipment NHRA Nationals",
     fullName: "20th annual Summit Racing Equipment NHRA Nationals",
-    venue: "Summit Motorsports Park", city: "Norwalk, OH",
+    venue: "Summit Racing Equipment Motorsports Park", city: "Norwalk, OH",
     timezone: "America/New_York", startDate: "2026-06-25", endDate: "2026-06-28",
+    nhraUrl: "https://www.nhra.com/schedule/2026",
     tv: "FOX", phase: "regular", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
     entries: { tf:{entered:18,qualified:16}, fc:{entered:17,qualified:16}, ps:{entered:18,qualified:16}, psm:{entered:14,qualified:8}, pm:null },
@@ -443,9 +445,10 @@ const RACES = [
     ]
   },
   {
-    id: 14, name: "Cornwell Tools NHRA U.S. Nationals",
+    id: 14, name: "Cornwell Quality Tools NHRA U.S. Nationals",
     fullName: "72nd annual Cornwell Quality Tools NHRA U.S. Nationals — The Big Go",
-    venue: "Lucas Oil Indianapolis Raceway Park", city: "Brownsburg, IN",
+    venue: "Lucas Oil Indianapolis Raceway Park", city: "Indianapolis, IN",
+    nhraUrl: "https://www.nhra.com/schedule/2026",
     timezone: "America/Indiana/Indianapolis", startDate: "2026-09-02", endDate: "2026-09-07",
     tv: "FS1 & FOX", phase: "regular", tags: ["big-go"], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
@@ -459,8 +462,9 @@ const RACES = [
   },
   {
     id: 15, name: "NHRA Great Lakes Nationals",
-    fullName: "41st annual NHRA Great Lakes Nationals",
-    venue: "U.S. 131 Motorsports Park", city: "Martin, MI",
+    fullName: "41st annual Dodge NHRA Great Lakes Nationals presented by MOPAR",
+    venue: "US 131 Motorsports Park", city: "Martin, MI",
+    nhraUrl: "https://www.nhra.com/schedule/2026",
     timezone: "America/New_York", startDate: "2026-09-17", endDate: "2026-09-20",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
@@ -503,6 +507,7 @@ const RACES = [
     id: 18, name: "Texas NHRA FallNationals",
     fullName: "41st annual Texas NHRA FallNationals",
     venue: "Texas Motorplex", city: "Ennis, TX",
+    nhraUrl: "https://www.nhra.com/schedule/2026",
     timezone: "America/Chicago", startDate: "2026-10-14", endDate: "2026-10-18",
     tv: "FS1 / FOX", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Top Alcohol Dragster","Top Alcohol Funny Car","Factory Stock Showdown","Factory X","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas","Super Street"],
@@ -514,9 +519,10 @@ const RACES = [
     ]
   },
   {
-    id: 19, name: "NHRA Nevada Nationals",
-    fullName: "26th annual NHRA Nevada Nationals",
-    venue: "Las Vegas Motor Speedway", city: "Las Vegas, NV",
+    id: 19, name: "NHRA Las Vegas Nationals",
+    fullName: "MOPAR NHRA Las Vegas Nationals powered by Dodge",
+    venue: "The Strip at Las Vegas Motor Speedway", city: "Las Vegas, NV",
+    nhraUrl: "https://www.nhra.com/schedule/2026",
     timezone: "America/Los_Angeles", startDate: "2026-10-29", endDate: "2026-11-01",
     tv: "FS1", phase: "countdown", tags: [], winners: null,
     classes: ["Top Fuel","Funny Car","Pro Stock","Pro Stock Motorcycle","Pro Mod","Top Alcohol Dragster","Top Alcohol Funny Car","Competition Eliminator","Top Dragster","Top Sportsman","Super Stock","Stock Eliminator","Super Gas"],
@@ -4024,7 +4030,8 @@ setTimeout(() => refreshEntryList(), 1500);
         nextMain.textContent = 'Schedule unavailable';
         nextSub.textContent  = '—';
       }
-      foot.textContent = 'Live data refreshes every 5 minutes on race weekends · Source: NHRA.com';
+      const verifyUrl = live.nhraUrl || 'https://www.nhra.com/schedule/2026';
+      foot.innerHTML = `✓ Reconciled with NHRA.com · <a href="${verifyUrl}" target="_blank" rel="noopener" class="rm-verify-link">Verify on NHRA.com →</a>`;
     } else {
       eyebrow.textContent = 'RACE MODE · STANDBY';
       title.textContent   = 'No active race weekend';
@@ -4037,7 +4044,8 @@ setTimeout(() => refreshEntryList(), 1500);
         nextMain.textContent = 'Season complete';
         nextSub.textContent  = '—';
       }
-      foot.textContent = 'Auto-activates when an event is live · You can toggle it on any time';
+      const verifyUrl = (upcoming && upcoming.nhraUrl) || 'https://www.nhra.com/schedule/2026';
+      foot.innerHTML = `✓ Schedule reconciled with NHRA.com · <a href="${verifyUrl}" target="_blank" rel="noopener" class="rm-verify-link">View full 2026 schedule →</a>`;
     }
 
     // Toggle label

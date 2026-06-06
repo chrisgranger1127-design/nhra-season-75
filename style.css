@@ -3281,3 +3281,14 @@ a, button, [role="button"] {
 
 /* ─── Make sure new sections don't overlap bottom nav on small screens ─── */
 .race-mode + .fav-panel{ margin-top:6px; }
+
+/* Reconciliation verify link in Race Mode footnote */
+.rm-verify-link{
+  color:#fff;
+  text-decoration:underline;
+  text-decoration-color: rgba(232,22,26,0.6);
+  text-underline-offset: 2px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.rm-verify-link:hover{ color:#FF6B6F; text-decoration-color:#FF6B6F; }
